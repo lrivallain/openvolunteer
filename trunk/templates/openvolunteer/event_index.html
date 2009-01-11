@@ -1,0 +1,104 @@
+{% extends "openvolunteer/base.html" %}
+
+{% block title %}OpenVolunteer | Chercher un(des) événement(s){% endblock %}
+
+{% block content %}
+    <div class="OV_search_form">
+        <form method="get" action="/openvolunteer/event/?">
+            <fieldset>
+                <input type="text" name="q" size="40" maxlength="255" value="{{ terms }}"/>
+                <input class="submit" type="submit" value="Rechercher"/><br />
+                <span>Les recherches peuvent être effectuées sur la <u>dénomination</u>, la <u>date</u> où le <u>lieu</u> des événements.</span>
+            </fieldset>
+        </form>
+    </div>
+    <div class="OV_search_results_area">
+        {% if results %}
+            <h3>Les résultats de votre recherche:</h3>
+            <table>
+                <tr>
+                    <th>dénomination</th>
+                    <th>Date</th>
+                    <th>Lieu</th>
+                </tr>
+                {% for result in results %}
+                    <tr>
+                        <td>{{ result.title }}</td>
+                        <td>{{ result.date|date:"l d F Y" }}</td>
+                        <td>{{ result.place }}</td>
+                        <td style="border-bottom:0px;">&nbsp;
+                            <a href="{{ result.get_absolute_url }}" 
+                               title="Consulter la fiche détaillée de l'événement {{ result }}" 
+                               class="OV_search_results_more">
+                               Fiche détaillée
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <div class="OV_search_results_area_error">
+                {% if terms %}
+                    <p>Le(s) terme(s) de recherche spécifié(s) – {{ terms }} – ne correspond(ent) à aucun document.</p>
+                    <p>Suggestions :
+                        <ul>
+                            <li>Vérifiez l’orthographe des termes de recherche.</li>
+                            <li>Essayez d'autres mots.</li>
+                            <li>Utilisez des mots plus généraux.</li>
+                        </ul>
+                    </p>
+                {% endif %}
+            </div>
+        {% endif %}
+        
+        {% if events %}
+        <h3>Les 10 derniers événements inscrits:</h3>
+            <table>
+                <tr>
+                    <th>dénomination</th>
+                    <th>Date</th>
+                    <th>Lieu</th>
+                </tr>
+                {% for event in events %}
+                    <tr>
+                        <td>{{ event.title }}</td>
+                        <td>{{ event.date|date:"l d F Y" }}</td>
+                        <td>{{ event.place }}</td>
+                        <td class="OV_search_results_more">
+                            <a href="{{ event.get_absolute_url }}" 
+                               title="Consulter la fiche détaillée de l'événement {{ event }}">
+                               Fiche détaillée
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block navigation %}
+    <ul>
+        <li>
+            <a href="/admin/openvolunteer/event/add/" title="Ajouter un événement">
+                Ajouter un événement
+            </a>
+        </li>
+        <li>
+            <a href="/openvolunteer/list/" title="Générer une liste">
+                Générer une liste
+            </a>
+        </li>
+        <li>
+        <li>
+            <a href="/openvolunteer/volunteer/" title="Accéder aux bénévoles">
+                Accéder aux bénévoles
+            </a>
+        </li>
+        <li>
+            <a href="/openvolunteer/answer/" title="Accéder aux réponses">
+                Accéder aux réponses
+            </a>
+        </li>
+    </ul>
+{% endblock %}

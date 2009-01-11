@@ -1,0 +1,95 @@
+{% extends "openvolunteer/base.html" %}
+
+{% block title %}OpenVolunteer | Fiche détaillée d'un bénévole{% endblock %}
+
+{% block content %}
+    {% if error_message %}
+        <p class="OV_error_message">{{ error_message }}</p>
+        <p class="OV_error_message"><a href="javascript:history.back();">< Revenir à la page précédente</a></p>
+    {% else %}
+        <div class="OV_volunteer_details">
+            {% if volunteer.avatar %}
+                <div class="OV_volunteer_details_photo"><img src="{{ volunteer.get_photo_url }}" alt="Photo de {{ volunteer }}"></div>
+            {% endif %}
+            <div class="OV_volunteer_details_table">
+                <table>
+                    <tr>
+                        <th>Nom</th>
+                        <td>{{ volunteer.name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Prénom</th>
+                        <td>{{ volunteer.firstname }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>{{ volunteer.email }}</td>
+                    </tr>
+                    <tr>
+                        <th>Téléphone fixe</th>
+                        <td>{{ volunteer.phone_home }}</td>
+                    </tr>
+                    <tr>
+                        <th>Téléphone mobile</th>
+                        <td>{{ volunteer.phone_mobile }}</td>
+                    </tr>
+                    <tr>
+                        <th>Adresse</th>
+                        <td>{{ volunteer.address }}</td>
+                    </tr>
+                    <tr>
+                        <th>Date de naissance</th>
+                        <td>{{ volunteer.birthday|date:"d F Y" }}</td>
+                    </tr>
+                    <tr>
+                        <th>Première inscription</th>
+                        <td>{{ volunteer.inscription_date|date:"d F Y" }}</td>
+                    </tr>
+                    <tr>
+                        <th>Membre du CA?</th>
+                        <td>
+                            {% if volunteer.ca_member %}
+                                <img src="/openvolunteer/media/icons/yes.png" alt="oui" class="OV_search_results_icon" />
+                            {% else %}
+                                <img src="/openvolunteer/media/icons/no.png" alt="non" class="OV_search_results_icon" />
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Commentaires</th>
+                        <td style="text-align:center;"><textarea readonly>{{ volunteer.comments }}</textarea></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block navigation %}
+    <ul>
+        <li>
+            <a href="mailto:{{ volunteer.email }}" 
+               title="Envoyer un mail à {{ volunteer }}">
+               Envoyer un email
+            </a>
+        </li>
+        <li>
+            <a href="/openvolunteer/vcard/home/{{ volunteer.id }}" 
+               title="Télécharger la vcard de {{ volunteer }} (téléphone fixe)">
+               Vcard avec le numéro le téléphone fixe 
+            </a>
+        </li>
+        <li>
+            <a href="/openvolunteer/vcard/mobile/{{ volunteer.id }}" 
+               title="Télécharger la vcard de {{ volunteer }} (téléphone mobile)">
+               Vcard avec le numéro le téléphone mobile
+            </a>
+        </li>
+        <li>
+            <a href="/admin/openvolunteer/volunteer/{{ volunteer.id }}" 
+               title="Modifier les informations de {{ volunteer }}">
+               Modifier les informations
+            </a>
+        </li>
+    </ul>
+{% endblock %}
