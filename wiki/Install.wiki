@@ -1,0 +1,34 @@
+#summary This page is a draft way to setup !OpenVolunteer on an apache2 web server by using mod_python.
+#labels Phase-Deploy,Phase-Design
+#sidebar HowTo install
+
+<wiki:toc max_depth="3" />
+
+= Introduction =
+This page is a draft way to setup !OpenVolunteer on an apache2 web server by using mod_python. It describes the prerequisite of setup, configuration of application and configuration of web server.
+
+There is no instruction to setup Django, but you can found more details for this step in  [http://docs.djangoproject.com/en/dev/intro/install/ this page] on the official django web site.
+
+= Get openvolunteer =
+== Prerequisites ==
+ * Python v2.5
+  * _[http://www.python.org/download/releases/2.5.4/ download Python v2.5]_
+ * Django v1.0 installation
+  * _[http://www.djangoproject.com/download/1.0/tarball/ download Django_v1.0]_
+  * _[http://docs.djangoproject.com/en/dev/intro/install/ setup documentation]_
+ * Vobject 0.8.1b
+  * _[http://vobject.skyhouseconsulting.com/vobject-0.8.1b.tar.gz download vobject 0.8.1b]_
+  * run {{{ python setup.py install }}} to setup
+
+== Install it ==
+_Not yet available. Please consider the draft status of this page..._
+== Configure it ==
+_Not yet available. Please consider the draft status of this page..._
+== Test it ==
+_Not yet available. Please consider the draft status of this page..._
+
+= Deployment =
+== Apache Prerequisites ==
+_Not yet available. Please consider the draft status of this page..._
+== Configuration ==
+_Not yet available. Please consider the draft status of this page..._
