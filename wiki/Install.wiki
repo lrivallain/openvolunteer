@@ -13,9 +13,10 @@ There is no instruction to setup Django, but you can found more details for this
 == Prerequisites ==
  * Python v2.5
   * _[http://www.python.org/download/releases/2.5.4/ download Python v2.5]_
- * Django v1.0 installation
+ * Django v1.0 installation *with admin interface* enabled
   * _[http://www.djangoproject.com/download/1.0/tarball/ download Django_v1.0]_
   * _[http://docs.djangoproject.com/en/dev/intro/install/ setup documentation]_
+  * _[http://docs.djangoproject.com/en/dev/ref/contrib/admin/#ref-contrib-admin HowTo enable admin interface]_
  * Vobject 0.8.1b
   * _[http://vobject.skyhouseconsulting.com/vobject-0.8.1b.tar.gz download vobject 0.8.1b]_
   * run {{{ python setup.py install }}} to setup
@@ -27,11 +28,18 @@ There is no instruction to setup Django, but you can found more details for this
  # Move openvolunteer folder to django project folder by:
   {{{ mv openvolunteer /path/to/project/ }}}
  # In the project settings file (settings.py), add {{{ 'openvoluteer', }}} to  {{{ INSTALLED_APPS }}}.
+ # In the project url file (urls.py), add the following line to urlpatterns (according to project name):
+  {{{ (r'^openvolunteer/', include('project.openvolunteer.urls')), }}}
 
 == Configure it ==
-_Not yet available. Please consider the draft status of this page..._
+ # In {{{ openvolunteer }}} folder, open the {{{ ovsettings.py }}} file.
+ # Change the folowing line according to the used file system path:
+  {{{ INSTALLED_APPS = "/path/to/project/openvolunteer" }}}
+
 == Test it ==
-_Not yet available. Please consider the draft status of this page..._
+ # From project folder, launch the django development server:
+  {{{ python manage.py runserver }}}
+ # Open the http://127.0.0.1:8000/openvolunteer/ link in a web browser.
 
 = Deployment =
 == Apache Prerequisites ==
