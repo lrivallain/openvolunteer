@@ -31,5 +31,9 @@ urlpatterns = patterns('demo.openvolunteer.views',
 
 urlpatterns += patterns('',
     # Provide MEDIA data to application
-    (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': APPLICATION_PATH + '/media'}), #APPLICATION_PATH + '/media'}),
+    #  -- deprecated with MEDIA_ROOT use --
+    #(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': APPLICATION_PATH + '/media'}), #APPLICATION_PATH + '/media'}),
+    
+    # Provide access to css files
+    (r'^files/(?P<path>.*)$', 'django.views.static.serve', {'document_root': APPLICATION_PATH + '/static-files'}),
 )

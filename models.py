@@ -1,12 +1,13 @@
 #-*- coding: utf-8 -*-
-from ovsettings import *
+# -- deprecated with MEDIA_ROOT use --
+#from ovsettings import *
 from django.db import models
 from django.utils.dates import *
 
 def avatar_upload(instance, filename):
     '''create a file with volunteer name to a better oarganization'''
     type = filename.split('.')[len(filename.split('.'))-1]
-    path = APPLICATION_PATH + '/media/avatars/'
+    path = MEDIA_ROOT + '/openvolunteer/avatars/'
     file = "%s%s" % (instance.firstname, instance.name)
     return path + file + '.' + type
 
@@ -33,12 +34,12 @@ class Volunteer(models.Model):
         
     def get_photo_url(self):
         filename = self.avatar.path.split('/')[len(self.avatar.path.split('/'))-1]
-        return "/openvolunteer/media/avatars/%s" % filename
+        return "/media/openvolunteer/avatars/%s" % filename
 
 def affiche_upload(instance, filename):
     '''create a file with event title to a better oarganization'''
     type = filename.split('.')[len(filename.split('.'))-1]
-    path = APPLICATION_PATH + '/media/affiches/'
+    path = MEDIA_ROOT + '/openvolunteer/affiches/'
     file = instance.stripped_title
     return path + file + '.' + type
 
@@ -57,7 +58,7 @@ class Event(models.Model):
         return "/openvolunteer/event/%d" % self.id
     def get_affiche_url(self):
         filename = self.affiche.path.split('/')[len(self.affiche.path.split('/'))-1]
-        return "/openvolunteer/media/affiches/%s" % filename
+        return "/media/openvolunteer/affiches/%s" % filename
 
 
 class Job(models.Model):
