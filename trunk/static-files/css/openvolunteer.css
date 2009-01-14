@@ -61,7 +61,16 @@ body {
     clear:both;
     background:#DDDDDD;
     border-top:1px solid #AAAAAA;
+    /* IE6 fix to have a working behavior of footer */
+    position:absolute;
+    bottom:0px;
 }
+
+html>body .OV_footer {
+    /* Position fixed for all browsers able to use it */
+    position: fixed;
+}
+
 
 a {
     text-decoration:none;
