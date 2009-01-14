@@ -12,15 +12,16 @@ There is no instruction to setup Django, but you can found more details for this
 = Get openvolunteer =
 == Prerequisites ==
  * Python v2.5
-  * _[http://www.python.org/download/releases/2.5.4/ download Python v2.5]_
- * Django v1.0 installation *with admin interface* and *static file access* enabled
-  * _[http://www.djangoproject.com/download/1.0/tarball/ download Django_v1.0]_
-  * _[http://docs.djangoproject.com/en/dev/intro/install/ setup documentation]_
+  * _[http://www.python.org/download/releases/2.5.4/ Download Python v2.5]_
+ * Django v1.0 installation *with admin interface*, *authentication* and *static file access* enabled
+  * _[http://www.djangoproject.com/download/1.0/tarball/ Download Django_v1.0]_
+  * _[http://docs.djangoproject.com/en/dev/intro/install/ Setup documentation]_
   * _[http://docs.djangoproject.com/en/dev/ref/contrib/admin/#ref-contrib-admin HowTo enable admin interface]_
-  * _[http://docs.djangoproject.com/en/dev/ref/settings/?from=olddocs#media-root HowTo Configure static file access]_
+  * _[http://docs.djangoproject.com/en/dev/ref/settings/?from=olddocs#media-root HowTo configure static file access]_
+  * _[http://docs.djangoproject.com/en/dev/topics/auth/#topics-auth HowTo setup authentication]_
  * Vobject 0.8.1b
-  * _[http://vobject.skyhouseconsulting.com/vobject-0.8.1b.tar.gz download vobject 0.8.1b]_
-  * run {{{ python setup.py install }}} to setup
+  * _[http://vobject.skyhouseconsulting.com/vobject-0.8.1b.tar.gz Download vobject 0.8.1b]_
+  * Run {{{ python setup.py install }}} to setup
 
 == Install it ==
  # Get the tarball of !OpenVolunteer in [http://code.google.com/p/openvolunteer/downloads/list download section]
