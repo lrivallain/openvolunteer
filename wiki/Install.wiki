@@ -24,7 +24,7 @@ There is no instruction to setup Django, but you can found more details for this
   * Run {{{ python setup.py install }}} to setup
 
 == Install it ==
- # Get the tarball of !OpenVolunteer in [http://code.google.com/p/openvolunteer/downloads/list download section]
+ # Get the last tarball of !OpenVolunteer in [http://openvolunteer.googlecode.com/files/openvolunteer_v0.1.tar.gz download section]
  # Extract the content of this tarball by:
   {{{ tar -xzf openvolunteer_v0.1.tar.gz }}}
  # Move openvolunteer folder to django project folder by:
