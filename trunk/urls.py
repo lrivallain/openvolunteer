@@ -9,7 +9,10 @@ urlpatterns = patterns('demo.openvolunteer.views',
     # VOLUNTEERS views, search tool and vcard generation
     (r'^volunteer/$','volunteer_index'),
     (r'^volunteer/(?P<volunteer_id>\d+)/$', 'volunteer_details'),
-    (r'^vcard/(?P<vcard_type>\D{3,})/(?P<volunteer_id>\d+)/$', 'volunteer_vcard'),
+    (r'^volunteer/vcard/(?P<vcard_type>\D{3,})/(?P<volunteer_id>\d+)/$', 'volunteer_vcard'),
+    # LISTS generators
+    (r'^volunteer/list/$','list_volunteer_index'),
+    (r'^volunteer/csv/$','csv_generator'),
     
     # EVENTS views and search tool
     (r'^event/$', 'event_index'),
@@ -25,8 +28,8 @@ urlpatterns = patterns('demo.openvolunteer.views',
     (r'^job/(?P<selected_job>\D{3,})/$','job_index'),
     
     # LISTS generators
-    (r'^list/volunteer/$','list_volunteer_index'),
-    (r'^list/volunteer/csv/$','csv_generator'),
+    (r'^list/$','list_volunteer_index'),
+    (r'^list/csv/$','csv_generator'),
 )
 
 urlpatterns += patterns('',
