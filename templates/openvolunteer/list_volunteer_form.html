@@ -3,7 +3,7 @@
 {% block title %}OpenVolunteer | Accueil{% endblock %}
 
 {% block content %}
-        <form method="post" action="/openvolunteer/list/volunteer/" class="OV_search_form">
+        <form method="post" action="/openvolunteer/volunteer/list/" class="OV_search_form">
             <table width="100%">
                 <tr>
                     <th>
@@ -29,7 +29,7 @@
                         </ul>
                     </td>
                 </tr>
-                <tr>
+                <!--<tr>
                     <th>
                         Appliquer un filtre manuel sur le <u>nom</u> ou le <u>prénom</u>:
                     </th>
@@ -37,7 +37,7 @@
                         <input type="text" name="filter_name" size="40" maxlength="255" value="{{ terms }}" />
                     </td>
                 </tr>
-                <!--<tr>
+                <tr>
                     <td>
                         <input type="checkbox" name="display_address"/>&nbsp; Adresse
                         <input type="checkbox" name="display_mail"/>&nbsp; Email
@@ -111,11 +111,12 @@
     <ul>
         {% if volunteers %}
             <li><a href="mailto:{% for result in volunteers %}{% if result.email %}{{ result.email }},{% endif %}{% endfor %}" title="Envoyer un mail aux personnes de cette liste">Envoyer un mail aux personnes de cette liste</a></li>
-            <li><a href="./csv/" title="Exporter les données pour Excel ou OpenOffice.org">Export CSV des données</a></li>
+            <!-- Not yet available -->
+            <s><li><a href="/openvolunteer/volunteer/csv/" title="Exporter les données pour Excel ou OpenOffice.org">Export CSV des données</a></li></s>
         {% endif %}
-        <li><a href="./volunteer/" title="">Chercher un bénévole</a></li>
-        <li><a href="./event/" title="">Chercher un événement</a></li>
-        <li><a href="./answer/" title="">Chercher une réponse de participation</a></li>
-        <li><a href="./job/" title="">Accéder à la liste des "postes"</a></li>
+        <li><a href="/openvolunteer/volunteer/" title="">Chercher un bénévole</a></li>
+        <li><a href="/openvolunteer/event/" title="">Chercher un événement</a></li>
+        <li><a href="/openvolunteer/answer/" title="">Chercher une réponse de participation</a></li>
+        <li><a href="/openvolunteer/job/" title="">Accéder à la liste des "postes"</a></li>
     </ul>
 {% endblock %}
