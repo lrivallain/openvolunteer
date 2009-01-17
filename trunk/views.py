@@ -202,11 +202,11 @@ def event_tocontact(request, event_id):
     try:
         volunteers = []
         not_contacted = []
-        
+
         answers = Answer.objects.filter(event=event).all()
         for answer in answers:
             volunteers.append(answer.volunteer)
-        
+
         all_volunteers = Volunteer.objects.all()
         for volunteer in all_volunteers:
             if volunteer not in volunteers:
@@ -237,13 +237,13 @@ def answer_index(request):
                                       context_instance=RequestContext(request))
         event = Event.objects.get(id=query_event)
         answers = Answer.objects.filter(event=event).all()
-        
-        # if volunteer fied is not empty, filter the result to get 
+
+        # if volunteer fied is not empty, filter the result to get
         #   only correspondant volunteers.
         if query_volunteer != "" and query_volunteer != " ":
             # to do... so do nothing for the moment
             query_volunteer = ""
-    
+
     # If there is no 'v' or 'e' value, return empty results
     except:
         event = ""
@@ -277,4 +277,64 @@ def job_index(request, selected_job=""):
                               {'jobs': jobs, 'selected_job': job},
                               context_instance=RequestContext(request))
 
-from ovtests import *
+
+#RESULTS_STORAGE = []
+@login_required(redirect_field_name='next')
+def list_volunteer_index(request):
+    """Display a form to generate a filtered list of volunteers"""
+    if request.method == 'GET':
+        return render_to_response('openvolunteer/list_volunteer_form.html',{},context_instance=RequestContext(request))
+    elif request.method == 'POST':
+        volunteers = Volunteer.objects.all()
+        try:
+            filter = request.REQUEST["filter_address"]
+            volunteers = volunteers.exclude(address="")
+        except:
+            pass
+        try:
+            filter = request.REQUEST["filter_phone"]
+            volunteers = volunteers.exclude(phone_home="")
+        except:
+            pass
+        try:
+            filter = request.REQUEST["filter_mobile"]
+            volunteers = volunteers.exclude(phone_mobile="")
+        except:
+            pass
+        try:
+            filter = request.REQUEST["filter_email"]
+            volunteers = volunteers.exclude(email="")
+        except:
+            pass
+        try:
+            filter = request.REQUEST["filter_ca"]
+            volunteers = volunteers.exclude(ca_member="")
+        except:
+            pass
+        try:
+            filter = request.REQUEST["filter_old"]
+            print filter
+            if (filter == 'on'):
+                limit = datetime.date.today()
+                limit = limit.replace(limit.year-18)
+                # to be tested and checked!!!!!!!!
+                volunteers = volunteers.exclude(birthday__gt=limit)
+        except:
+            pass
+        try:
+            filter = request.REQUEST["filter_name"]
+            search_terms=filter.split(' ')
+            print search_terms
+            for term in search_terms:
+                print term
+                # search volunteers corresponding to search term
+                volunteers = volunteers.filter(Q(name__icontains = term)|
+                                               Q(firstname__icontains = term)).all()
+        except:
+            pass
+        #global RESULTS_STORAGE
+        #RESULTS_STORAGE = volunteers
+        #print RESULTS_STORAGE
+        return render_to_response('openvolunteer/list_volunteer_form.html',
+                              {'volunteers': volunteers},
+                              context_instance=RequestContext(request))
