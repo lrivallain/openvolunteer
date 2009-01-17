@@ -29,25 +29,6 @@
                         </ul>
                     </td>
                 </tr>
-                <!--<tr>
-                    <th>
-                        Appliquer un filtre manuel sur le <u>nom</u> ou le <u>prénom</u>:
-                    </th>
-                    <td colspan="2">
-                        <input type="text" name="filter_name" size="40" maxlength="255" value="{{ terms }}" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="display_address"/>&nbsp; Adresse
-                        <input type="checkbox" name="display_mail"/>&nbsp; Email
-                        <input type="checkbox" name="display_phone1"/>&nbsp; Téléphone fixe
-                        <input type="checkbox" name="display_phone2"/>&nbsp; Téléphone mobile
-                        <input type="checkbox" name="display_ca"/>&nbsp; Appartenance au CA?
-                        <input type="checkbox" name="display_birth"/>&nbsp; Date de naissance
-                        <input type="checkbox" name="display_inscr"/>&nbsp; Date d'inscription
-                    </td>
-                </tr>-->
                 <tr>
                     <td colspan="5">
                         <br />
@@ -111,8 +92,6 @@
     <ul>
         {% if volunteers %}
             <li><a href="mailto:{% for result in volunteers %}{% if result.email %}{{ result.email }},{% endif %}{% endfor %}" title="Envoyer un mail aux personnes de cette liste">Envoyer un mail aux personnes de cette liste</a></li>
-            <!-- Not yet available -->
-            <s><li><a href="/openvolunteer/volunteer/csv/" title="Exporter les données pour Excel ou OpenOffice.org">Export CSV des données</a></li></s>
         {% endif %}
         <li><a href="/openvolunteer/volunteer/" title="">Chercher un bénévole</a></li>
         <li><a href="/openvolunteer/event/" title="">Chercher un événement</a></li>
