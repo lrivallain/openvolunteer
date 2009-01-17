@@ -1,0 +1,89 @@
+{% extends "openvolunteer/base.html" %}
+
+{% block title %}OpenVolunteer | Fiche détaillée d'un événement{% endblock %}
+
+{% block content %}
+    {% if error_message %}
+        <p class="OV_error_message">{{ error_message }}</p>
+        <p class="OV_error_message"><a href="javascript:history.back();"> Revenir à la page précédente</a></p>
+    {% else %}
+        <div class="OV_event_details">
+            <div class="OV_event_details_photo"><img src="{{ event.get_affiche_url }}" alt="Affiche de l'événement"></div>
+            <div class="OV_event_details_table">
+                <table>
+                    <tr>
+                        <th>Dénomination</th>
+                        <td>{{ event.title }}</td>
+                    </tr>
+                    <tr>
+                        <th>Date</th>
+                        <td>{{ event.date|date:"l d F Y" }}</td>
+                    </tr>
+                    <tr>
+                        <th>Lieu</th>
+                        <td>{{ event.place }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        {% if needs %}
+            <div class="OV_search_results_area" style="text-align:center;">
+                <h2 style="clear:both;">Récapitulatif des besoins</h2>
+                <table style="width:500px;text-align:center;margin-left:auto;margin-right:auto;">
+                    <tr>
+                        <th>Poste</th>
+                        <th>Nombre de bénévoles</th>
+                        <th>Besoin</th>
+                        <th>Poste rempli ?</th>
+                    </tr>
+                    {% for need in needs %}
+                        <tr>
+                            <td><a href="{{ need.job.get_absolute_url }}" title="Accéder à la fiche du poste {{ need.job }}">{{ need.job }}</a></td>
+                            <td>{{ need.get_completed_nb }}</td>
+                            <td>{{ need.number }}</td>
+                            <td>
+                                {% if need.get_completed_status  %}
+                                    <img src="/openvolunteer/files/icons/yes.png" alt="oui" class="OV_search_results_icon" />
+                                {% else %}
+                                    <img src="/openvolunteer/files/icons/no.png" alt="non" class="OV_search_results_icon" />
+                                {% endif %}
+                            </td>
+                            <td class="OV_search_results_more">
+                                <a href="/admin/openvolunteer/need/{{need.id}}" title="Modifier les valeurs de ce besoin">Modifier ce besoin</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        {% endif %}
+    {% endif %}
+{% endblock %}
+
+{% block navigation %}
+    <ul>
+        <li>
+            <a href="/admin/openvolunteer/event/{{ event.id }}" 
+               title="Modifier les informations de {{ volunter }}">
+               Modifier les informations
+            </a>
+        </li>
+        <li>
+            <a href="/openvolunteer/answers/event/{{ event.id }}" 
+               title="Obtenir la liste des bénévoles présents à cet événement">
+               Obtenir la liste des bénévoles présents
+            </a>
+        </li>
+        <li>
+            <a href="/openvolunteer/answers/nocontact/event/{{ event.id }}" 
+               title="Obtenir la liste des bénévoles non contactés pour cet événement">
+               Obtenir la liste des bénévoles non contactés
+            </a>
+        </li>
+        <li>
+            <a href="/openvolunteer/answer/?v=&e={{ event.id }}"
+               title="Obtenir la liste des réponses pour cet événement">
+               Obtenir la liste des réponses
+            </a>
+        </li>
+    </ul>
+{% endblock %}
