@@ -37,6 +37,14 @@ There is no instruction to setup Django, but you can found more details for this
  # In {{{ openvolunteer }}} folder, open the {{{ ovsettings.py }}} file.
  # Change the folowing line according to the used file system path:
   {{{ APPLICATION_PATH = "/path/to/project/openvolunteer" }}}
+ # In: 
+  # {{{ admin.py }}}
+  # {{{ urls.py }}}
+  # {{{ views.py }}}
+ change:
+  {{{ from demo.openvolunteer.models import * }}}
+ to:
+  {{{ from project.openvolunteer.models import * }}}
 
 == Test it ==
  # From project folder, launch the django development server:
