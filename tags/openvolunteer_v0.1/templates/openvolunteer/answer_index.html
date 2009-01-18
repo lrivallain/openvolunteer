@@ -1,0 +1,142 @@
+{% extends "openvolunteer/base.html" %}
+
+{% block title %}OpenVolunteer | Chercher un(des) événement(s){% endblock %}
+
+{% block content %}
+    <div class="OV_search_form">
+        <form method="get" action="/openvolunteer/answer/">
+            <fieldset>
+                <!--<p>
+                    <input type="text" name="v" readonly size="40" maxlength="255" value="{{ terms }}"/>
+                </p>-->
+                <p>
+                    <select name="e">
+                        {% for event in events %}
+                            <option value="{{ event.id }}">{{ event.title }} ({{ event.date|date:"d F Y" }})</option>
+                        {% endfor %}
+                    </select><br />
+                <p>
+                    <input type="hidden" name="v" value=""/>
+                    <input class="submit" type="submit" value="Rechercher"/>
+                </p>
+                <!--<span>Les recherches peuvent être effectuées sur le <u>nom</u>, le <u>prénom</u> où les <u>coordonées</u> des bénévoles.</span>-->
+            </fieldset>
+        </form>
+    </div>
+    <div class="OV_search_results_area">
+        {% if event %}
+            <div class="OV_answsers_event">
+                <h2><a href="{{ event.get_absolute_url }}" title="{{ event.title }}">{{ event.title }}</a></h2>
+            ({{ event.date|date:"l d F Y" }} | {{ event.place }})</p>
+            </div>
+        {% endif %}
+        
+        {% if results %}
+        <h3>Liste des bénévoles contactés pour cet événement:</h3>
+        <table>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Téléphone fixe</th>
+                <th>Mobile</th>
+                <th>CA ?</th>
+                <th>Poste</th>
+            </tr>
+            {% for result in results %}
+                <tr {% if result.presence %}class="OV_search_results_ok"{% endif %}>
+                    <td>{{ result.volunteer.name }}</td>
+                    <td>{{ result.volunteer.firstname }}</td>
+                    <td>
+                        {% if result.volunteer.email %}
+                            {{ result.volunteer.email }}&nbsp;
+                            <a href="mailto:{{ result.volunteer.email }}" title="Envoyer un email">
+                                <img src="/openvolunteer/files/icons/email.png" alt="mail" class="OV_search_results_icon">
+                            </a>
+                        {% endif %}
+                    </td>
+                    <td>{{ result.volunteer.phone_home }}</td>
+                    <td>{{ result.volunteer.phone_mobile }}</td>
+                    <td style="text-align:center;">
+                        {% if result.volunteer.ca_member %}
+                            <img src="/openvolunteer/files/icons/yes.png" alt="oui" class="OV_search_results_icon" />
+                        {% else %}
+                            <img src="/openvolunteer/files/icons/no.png" alt="non" class="OV_search_results_icon" />
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% ifnotequal result.job.title "none" %}
+                            <a href="{{ result.job.get_absolute_url }}" title="Afficher la fiche du poste">{{ result.job }}</a>
+                        {% endifnotequal %}
+                    </td>
+                    <td class="OV_search_results_more">
+                        <a href="{{ result.volunteer.get_absolute_url }}" 
+                           title="Consulter la fiche détaillée de {{ result.volunteer }}">
+                           Fiche détaillée
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        <div class="OV_legend">
+            <div class="OV_legend_positive"><div></div>&nbsp;: Réponses positives</div>
+            <div class="OV_legend_negative"><div></div>&nbsp;: Réponses négatives</div>
+        </div>
+        {% else %}
+            <div class="OV_search_results_area_error">
+                {% if terms %}
+                    <p>Le(s) terme(s) de recherche spécifié(s) – {{ terms }} – ne correspond(ent) à aucun document.</p>
+                    <p>Suggestions :
+                        <ul>
+                            <li>Vérifiez l’orthographe des termes de recherche.</li>
+                            <li>Essayez d'autres mots.</li>
+                            <li>Utilisez des mots plus généraux.</li>
+                        </ul>
+                    </p>
+                {% else %}
+                    <h3>Obtenir la liste de toutes les réponses (positives et négatives) pour un évènement.</h3>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block navigation %}
+    <ul>
+        <li>
+            <a href="/admin/openvolunteer/answer/add/" title="Ajouter une réponse">
+                Ajouter une réponse
+            </a>
+        </li>
+        <li>
+            <a href="/openvolunteer/volunteer/" title="Accéder aux bénévoles">
+                Accéder aux bénévoles
+            </a>
+        </li>
+        <li>
+            <a href="/openvolunteer/event/" title="Accéder aux événements">
+                Accéder aux événements
+            </a>
+        </li>
+        {% if event %}
+            <li>
+                <a href="/admin/openvolunteer/event/{{ event.id }}" 
+                   title="Modifier les informations de {{ volunter }}">
+                   Modifier les informations de cet événement
+                </a>
+            </li>
+            <li>
+                <a href="/openvolunteer/answers/event/{{ event.id }}" 
+                   title="Obtenir la liste des bénévoles présents à cet événement">
+                   Obtenir la liste des bénévoles présents à cet événement
+                </a>
+            </li>
+            <li>
+                <a href="/openvolunteer/answers/nocontact/event/{{ event.id }}" 
+                   title="Obtenir la liste des bénévoles non contactés pour cet événement">
+                   Obtenir la liste des bénévoles non contactés pour cet événement
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+{% endblock %}
