@@ -24,12 +24,13 @@
 """
 
 from django.db import models
+from django.conf import settings
 from django.utils.dates import *
 
 def avatar_upload(instance, filename):
     '''create a file with volunteer name to a better oarganization'''
     type = filename.split('.')[len(filename.split('.'))-1]
-    path = MEDIA_ROOT + '/openvolunteer/avatars/'
+    path = settings.MEDIA_ROOT + '/openvolunteer/avatars/'
     file = "%s%s" % (instance.firstname, instance.name)
     return path + file + '.' + type
 
@@ -61,7 +62,7 @@ class Volunteer(models.Model):
 def affiche_upload(instance, filename):
     '''create a file with event title to a better oarganization'''
     type = filename.split('.')[len(filename.split('.'))-1]
-    path = MEDIA_ROOT + '/openvolunteer/affiches/'
+    path = settings.MEDIA_ROOT + '/openvolunteer/affiches/'
     file = instance.stripped_title
     return path + file + '.' + type
 
