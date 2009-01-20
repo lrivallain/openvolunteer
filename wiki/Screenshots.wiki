@@ -1,0 +1,26 @@
+#summary Multiple views provided by openvolunteer
+#labels Phase-Design
+#sidebar See screenshots
+
+<wiki:toc max_depth="3" />
+
+= Welcome page =
+http://lh4.ggpht.com/_J5MBiYAzx0E/SXXBD_ZXmqI/AAAAAAAAAGc/Voj4Xw-v6GM/s912/OpenVolunteer_Screenshot1.png
+
+= Volunteers management =
+== Volunteers search form ==
+http://lh3.ggpht.com/_J5MBiYAzx0E/SXXBD8oueHI/AAAAAAAAAGU/zvORBVkK7ow/s912/OpenVolunteer_Screenshot2.png
+== Volunteer details ==
+http://lh6.ggpht.com/_J5MBiYAzx0E/SXXBD16RP1I/AAAAAAAAAGk/4VtkUHta23s/s912/OpenVolunteer_Screenshot3.png
+
+= Events management = 
+== Events search form ==
+http://lh4.ggpht.com/_J5MBiYAzx0E/SXXBEF125FI/AAAAAAAAAG0/a6zz3-XFh00/s912/OpenVolunteer_Screenshot5.png
+== Events details ==
+http://lh4.ggpht.com/_J5MBiYAzx0E/SXXBEAbCznI/AAAAAAAAAGs/x8f-AcKsc2Y/s912/OpenVolunteer_Screenshot4.png
+
+= Answers management =
+http://lh4.ggpht.com/_J5MBiYAzx0E/SXXBMjIoacI/AAAAAAAAAHA/U7aaA1WnP2A/s912/OpenVolunteer_Screenshot6.png
+
+= List generator =
+http://lh5.ggpht.com/_J5MBiYAzx0E/SXXBMnzxmsI/AAAAAAAAAHI/Oa2vyacQggU/s912/OpenVolunteer_Screenshot7.png
