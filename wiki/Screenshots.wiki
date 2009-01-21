@@ -1,5 +1,5 @@
 #summary Multiple views provided by openvolunteer
-#labels Phase-Design
+#labels Phase-Design,Featured
 #sidebar See screenshots
 
 <wiki:toc max_depth="3" />
