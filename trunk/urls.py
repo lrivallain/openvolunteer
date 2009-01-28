@@ -52,7 +52,7 @@ urlpatterns = patterns('demo.openvolunteer.views',
     
     # LISTS generators
     (r'^list/$','list_volunteer_index'),
-    (r'^list/csv/$','csv_generator'),
+    #(r'^list/csv/$','csv_generator'),
 )
 
 urlpatterns += patterns('',

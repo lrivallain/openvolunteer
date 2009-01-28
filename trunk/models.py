@@ -102,10 +102,10 @@ class Answer(models.Model):
     event = models.ForeignKey(Event)
     volunteer = models.ForeignKey(Volunteer)
     presence = models.BooleanField('Sera présent comme bénévole?',blank=True)
-    job = models.ForeignKey(Job,blank=True)
+    job = models.ForeignKey(Job,null=True,blank=True)
     comments = models.TextField(blank=True)
-    date = models.DateField(help_text='Date de la réponse',blank=True)
-    last_request = models.DateField(help_text='Dernière relance',blank=True)
+    date = models.DateField(help_text='Date de la réponse',null=True,blank=True)
+    last_request = models.DateField(help_text='Dernière relance',null=True,blank=True)
 
 
 class Need(models.Model):
