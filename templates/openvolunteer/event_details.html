@@ -8,7 +8,11 @@
         <p class="OV_error_message"><a href="javascript:history.back();"> Revenir à la page précédente</a></p>
     {% else %}
         <div class="OV_event_details">
-            <div class="OV_event_details_photo"><img src="{{ event.get_affiche_url }}" alt="Affiche de l'événement"></div>
+            <div class="OV_event_details_photo">
+                {%  if event.affiche %}
+                    <img src="{{ event.get_affiche_url }}" alt="Affiche de l'événement">
+                {% endif %}
+            </div>
             <div class="OV_event_details_table">
                 <table>
                     <tr>
