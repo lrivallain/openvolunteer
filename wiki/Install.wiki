@@ -25,7 +25,7 @@ There is no instruction to setup Django, but you can found more details for this
 
 == Install it ==
  # Make a Directory for your Django projects:
-  {{{eg: mkdir ~/django/projects}}}
+  {{{eg: mkdir ~/django/projects; cd ~/django/projects}}}
  # Create a project :
   _debian_ :
   {{{django-admin startproject MyProject}}}
