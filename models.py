@@ -37,15 +37,18 @@ def avatar_upload(instance, filename):
 # Create your models here.
 class Volunteer(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100)
-    firstname = models.CharField(max_length=100)
-    email = models.EmailField(blank=True)
-    phone_home = models.CharField(max_length=20,blank=True)
-    phone_mobile = models.CharField(max_length=20,blank=True)
-    address = models.TextField(blank=True)
-    birthday = models.DateField(null=True, blank=True)
-    avatar = models.FileField(upload_to=avatar_upload,blank=True)
-    inscription_date = models.DateField(help_text='Première inscription dans ce fichier le:',null=True, blank=True)
+    name = models.CharField(max_length=100, help_text='Nom (Une majuscule puis des minuscules)')
+    firstname = models.CharField(max_length=100, help_text='Prénom (Une majuscule puis des minuscules)')
+    email = models.EmailField(blank=True, help_text='Adresse email (yyyyyy@monfai.fr)')
+    phone_home = models.CharField(max_length=20,blank=True,
+                                  help_text='Téléphone fixe: 2 chiffres par deux chiffres, séparés par des espaces')
+    phone_mobile = models.CharField(max_length=20,blank=True,
+                                    help_text='Téléphone mobile: 2 chiffres par deux chiffres, séparés par des espaces')
+    address = models.TextField(blank=True, help_text='Adresse')
+    birthday = models.DateField(null=True, blank=True, help_text='Date de naissance (utiliser le calendrier)')
+    avatar = models.FileField(upload_to=avatar_upload,blank=True,help_text='Photo d\'identité')
+    inscription_date = models.DateField(null=True, blank=True,
+                                        help_text='Date de la première inscription dans ce fichier.')
     comments = models.TextField(blank=True)
     ca_member = models.BooleanField('Membre du CA courant?',blank=True)
 
@@ -68,13 +71,12 @@ def affiche_upload(instance, filename):
 
 class Event(models.Model):
     id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100,help_text='Nom de l\'événement')
     stripped_title = models.SlugField(db_index=True, max_length=255,
-                                      help_text='Titre sans espaces et caractères spéciaux afin de com poser une url.')
-    date = models.DateField()
-    place = models.CharField(max_length=100,blank=True)
-    volunteers = models.ManyToManyField(Volunteer,blank=True)
-    affiche = models.FileField(upload_to=affiche_upload,blank=True)
+                                      help_text='Titre sans espaces et caractères spéciaux afin de composer une url.')
+    date = models.DateField(help_text='Date de l\'événement')
+    place = models.CharField(max_length=100,blank=True,help_text='Lieu de l\'événement')
+    affiche = models.FileField(upload_to=affiche_upload,blank=True,help_text='Affiche de l\'événement')
     def __unicode__(self):
         return self.title
     def get_absolute_url(self):
@@ -86,11 +88,11 @@ class Event(models.Model):
 
 class Job(models.Model):
     id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100,help_text='Nom du poste')
     stripped_title = models.SlugField(db_index=True, max_length=255,
                                       help_text='Titre sans espaces et caractères spéciaux afin de com poser une url.')
     description = models.TextField(blank=True)
-    boss = models.ManyToManyField(Volunteer, help_text='Responsables de commission', blank=True)
+    boss = models.ManyToManyField(Volunteer,help_text='Responsables de commission',blank=True)
     def __unicode__(self):
         return self.title
     def get_absolute_url(self):
@@ -99,20 +101,20 @@ class Job(models.Model):
 
 class Answer(models.Model):
     id = models.AutoField(primary_key=True)
-    event = models.ForeignKey(Event)
-    volunteer = models.ForeignKey(Volunteer)
+    event = models.ForeignKey(Event,help_text='Évènement')
+    volunteer = models.ForeignKey(Volunteer,help_text='Cliquez sur l\'icone pour chercher le bénévole')
     presence = models.BooleanField('Sera présent comme bénévole?',blank=True)
-    job = models.ForeignKey(Job,null=True,blank=True)
-    comments = models.TextField(blank=True)
+    job = models.ForeignKey(Job,null=True,blank=True,help_text='Poste')
+    comments = models.TextField(blank=True,help_text='Commentaires')
     date = models.DateField(help_text='Date de la réponse',null=True,blank=True)
     last_request = models.DateField(help_text='Dernière relance',null=True,blank=True)
 
 
 class Need(models.Model):
     id = models.AutoField(primary_key=True)
-    number = models.IntegerField()
-    event = models.ForeignKey(Event)
-    job = models.ForeignKey(Job)
+    number = models.IntegerField(help_text='Nombre de personnes nécessaire à ce poste')
+    event = models.ForeignKey(Event,help_text='Évènement')
+    job = models.ForeignKey(Job,help_text='Poste')
        
     def __unicode__(self):
         return u"%s %s" % (self.event, self.job)
