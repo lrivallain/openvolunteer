@@ -65,9 +65,9 @@
                         {% endif %}
                     </td>
                     <td>
-                        {% ifnotequal result.job.title "none" %}
+                        {% if result.job %}
                             <a href="{{ result.job.get_absolute_url }}" title="Afficher la fiche du poste">{{ result.job }}</a>
-                        {% endifnotequal %}
+                        {% endif %}
                     </td>
                     <td class="OV_search_results_more">
                         <a href="{{ result.volunteer.get_absolute_url }}" 
