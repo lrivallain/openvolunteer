@@ -24,7 +24,7 @@
 """
 import vobject
 
-def _vcard_string(person, vcard_type):
+def _vcard_string(person):
     """
     Helper function for vcard views. Accepts a 'person' object 
     with certain attributes (firstname, lastname, email, phone, id)
@@ -43,19 +43,13 @@ def _vcard_string(person, vcard_type):
     vcard.email.type_param = 'INTERNET'
     vcard.email.value = person.email
     
-    if (vcard_type == "home"):
-        vcard.add('tel')
-        vcard.tel.type_param = 'HOME'
-        vcard.tel.value = person.phone_home
-    elif (vcard_type == "mobile"):
-        vcard.add('tel')
-        vcard.tel.type_param = 'CELL'
-        vcard.tel.value = person.phone_mobile
-    else:
-        return ""
+    t1 = vcard.add('tel')
+    t1.type_param = 'HOME'
+    t1.value = person.phone_home
     
-    vcard.add('address')
-    vcard.address.value = person.address
+    t2 = vcard.add('tel')
+    t2.type_param = 'CELL'
+    t2.value = person.phone_mobile
     
     output = vcard.serialize()
     return output

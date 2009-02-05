@@ -93,16 +93,16 @@ def volunteer_details(request, volunteer_id):
 
 from  ovvcard import _vcard_string
 @login_required(redirect_field_name='next')
-def volunteer_vcard(request,vcard_type, volunteer_id):
+def volunteer_vcard(request, volunteer_id):
     """View function for returning single vcard"""
     volunteer = Volunteer.objects.get(id=volunteer_id)
-    output = _vcard_string(volunteer, vcard_type)
+    output = _vcard_string(volunteer)
     if (output != ""):
         filename = "%s-%s.vcf" % (volunteer.firstname, volunteer.name)
         response = HttpResponse(output, mimetype="text/x-vCard")
         response['Content-Disposition'] = 'attachment; filename=%s' % filename
     else:
-        response = HttpResponseNotFound('<h1>Type de téléphone invalide!</h1>')
+        response = HttpResponseNotFound('<h1>La génération de la Vcard a échoué!</h1>')
     return response
 
 
