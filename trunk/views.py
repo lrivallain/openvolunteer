@@ -91,6 +91,7 @@ def volunteer_details(request, volunteer_id):
                               context_instance=RequestContext(request))
 
 
+from django.template import defaultfilters
 from  ovvcard import _vcard_string
 @login_required(redirect_field_name='next')
 def volunteer_vcard(request, volunteer_id):
@@ -98,7 +99,10 @@ def volunteer_vcard(request, volunteer_id):
     volunteer = Volunteer.objects.get(id=volunteer_id)
     output = _vcard_string(volunteer)
     if (output != ""):
-        filename = "%s-%s.vcf" % (volunteer.firstname, volunteer.name)
+        # slugify filename to avoid some unicode issues
+        filename = "%s-%s" % (volunteer.firstname, volunteer.name)
+        filename = "%s.vcf" % defaultfilters.slugify(filename)
+
         response = HttpResponse(output, mimetype="text/x-vCard")
         response['Content-Disposition'] = 'attachment; filename=%s' % filename
     else:
