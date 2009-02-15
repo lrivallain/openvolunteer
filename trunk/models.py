@@ -26,6 +26,7 @@
 from django.db import models
 from django.conf import settings
 from django.utils.dates import *
+from bigint import BigIntegerField
 
 def avatar_upload(instance, filename):
     '''create a file with volunteer name to a better oarganization'''
@@ -46,6 +47,8 @@ class Volunteer(models.Model):
                                     help_text='Téléphone mobile: 2 chiffres par deux chiffres, séparés par des espaces')
     address = models.TextField(blank=True, help_text='Adresse')
     birthday = models.DateField(null=True, blank=True, help_text='Date de naissance (utiliser le calendrier)')
+    birth_place = models.CharField(max_length=100, help_text='Lieu de naissance',blank=True)
+    social_security_number = BigIntegerField(help_text='Numéro de sécurité sociale (15 chiffres)', blank=True)
     avatar = models.FileField(upload_to=avatar_upload,blank=True,help_text='Photo d\'identité')
     inscription_date = models.DateField(null=True, blank=True,
                                         help_text='Date de la première inscription dans ce fichier.')
