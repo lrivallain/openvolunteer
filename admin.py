@@ -27,13 +27,14 @@ from django.contrib import admin
 
 class VolunteerAdmin(admin.ModelAdmin):
     fieldsets = (
-        ('Informations personnelles', {'fields': ('name','firstname','birthday')}),
+        ('Informations personnelles', {'fields': ('name','firstname','birthday','birth_place','social_security_number')}),
         ('Coordonnées', {'fields': ('phone_home','phone_mobile','email','address')}),
         ('Divers', {'fields': ('avatar','inscription_date','ca_member','comments')}),
     )
     list_display = ('name','firstname','email','phone_home','phone_mobile','ca_member')
     search_fields = ['name','firstname','email','phone_home','phone_mobile','ca_member']
     list_filter = ['ca_member']
+    ordering = ('name','firstname')
 
 
 class EventAdmin(admin.ModelAdmin):
@@ -43,6 +44,7 @@ class EventAdmin(admin.ModelAdmin):
     date_hierarchy = 'date'
     prepopulated_fields = {"stripped_title": ("title",)}
     search_fields = ['title','date']
+    ordering = ('-date',)
 
 
 class JobAdmin(admin.ModelAdmin):
@@ -52,8 +54,13 @@ class JobAdmin(admin.ModelAdmin):
     prepopulated_fields = {"stripped_title": ("title",)}
     search_fields = ['title','boss']
     
+## Some tests 
+#from django import forms
+#class MyCustomForm(forms.ModelForm):
+#    volunteer = forms.ModelChoiceField(queryset=Volunteer.objects.order_by('name','firstname'))
 
 class AnswerAdmin(admin.ModelAdmin):
+    #form = MyCustomForm
     fieldsets = (
         ('Qui? Où? Quand?', {'fields': ('event','volunteer','job')}),
         ('Contacts', {'fields': ('presence','date','last_request')}),
@@ -62,6 +69,13 @@ class AnswerAdmin(admin.ModelAdmin):
     list_display = ('event','volunteer','presence','job')
     list_filter = ['event']
     search_fields = ['event','volunteer']
+    raw_id_field = ('volunteer',)
+
+    #def formfield_for_foreignkey(self, db_field, request, **kwargs):
+    #    if db_field.name == "volunteer":
+    #        kwargs["queryset"] = Volunteer.objects.order_by('name','firstname')
+    #        return db_field.formfield(**kwargs)
+    #    return super(AnswerAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
 class NeedAdmin(admin.ModelAdmin):
     fields = ('event','job','number')
