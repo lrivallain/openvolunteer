@@ -42,6 +42,17 @@
                         <td>{{ volunteer.birthday|date:"d F Y" }}</td>
                     </tr>
                     <tr>
+                        <th>Lieu de naissance</th>
+                        <td>{{ volunteer.birth_place }}</td>
+                    </tr>
+                    <tr>
+                        <th>Numéro de sécu</th>
+                        <td>{% if volunteer.social_security_number %}
+                                {{ volunteer.social_security_number }}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
                         <th>Première inscription</th>
                         <td>{{ volunteer.inscription_date|date:"d F Y" }}</td>
                     </tr>
