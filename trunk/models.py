@@ -31,8 +31,14 @@ from bigint import BigIntegerField
 def avatar_upload(instance, filename):
     '''create a file with volunteer name to a better oarganization'''
     type = filename.split('.')[len(filename.split('.'))-1]
+
+    # slugify name and firstname to avoid unicode problem
+    from django.template import defaultfilters
+    slug_firstname = defaultfilters.slugify(instance.firstname)
+    slug_name = defaultfilters.slugify(instance.name)
+
     path = settings.MEDIA_ROOT + '/openvolunteer/avatars/'
-    file = "%s%s" % (instance.firstname, instance.name)
+    file = "%s%s" % (slug_firstname, slug_name)
     return path + file + '.' + type
 
 # Create your models here.
