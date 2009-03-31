@@ -27,19 +27,23 @@ from django.db import models
 from django.conf import settings
 from django.utils.dates import *
 from bigint import BigIntegerField
+from django.template import defaultfilters
 
 def avatar_upload(instance, filename):
     '''create a file with volunteer name to a better oarganization'''
     type = filename.split('.')[len(filename.split('.'))-1]
 
     # slugify name and firstname to avoid unicode problem
-    from django.template import defaultfilters
     slug_firstname = defaultfilters.slugify(instance.firstname)
     slug_name = defaultfilters.slugify(instance.name)
 
     path = settings.MEDIA_ROOT + '/openvolunteer/avatars/'
     file = "%s%s" % (slug_firstname, slug_name)
-    return path + file + '.' + type
+    complete_filename = path + file + '.' + type
+    import os
+    if os.path.exists(complete_filename):
+        os.remove(complete_filename)
+    return complete_filename
 
 # Create your models here.
 class Volunteer(models.Model):
@@ -70,6 +74,16 @@ class Volunteer(models.Model):
     def get_photo_url(self):
         filename = self.avatar.path.split('/')[len(self.avatar.path.split('/'))-1]
         return "/media/openvolunteer/avatars/%s" % filename
+
+    def save(self):
+        super(Volunteer, self).save()
+        if self.avatar:
+            import Image
+            im = Image.open(self.avatar.name)
+            size = 300, 300
+            im.thumbnail(size, Image.ANTIALIAS)
+            im.save(self.avatar.name)
+
 
 def affiche_upload(instance, filename):
     '''create a file with event title to a better oarganization'''
