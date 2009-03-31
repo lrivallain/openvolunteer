@@ -67,6 +67,9 @@
                Fiche de l'événement
             </a>
         </li>
+        {% if answers %}
+            <li><a href="mailto:{% for answer in answers %}{% if answer.volunteer.email %}{{ answer.volunteer.email }},{% endif %}{% endfor %}" title="Envoyer un mail aux bénévoles présents">Envoyer un mail aux bénévoles présents</a></li>
+        {% endif %}
         <li>
             <a href="/openvolunteer/answers/nocontact/event/{{ event.id }}" 
                title="Obtenir la liste des bénévoles non contactés pour cet événement">
