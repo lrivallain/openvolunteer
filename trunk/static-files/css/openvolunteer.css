@@ -423,8 +423,10 @@ a:hover {
 }
 
 
-.OV_search_form input[type=submit] {
+.OV_search_form input[type=submit], .OV_search_form input[type=button] {
     border:1px solid #234F32;
+    border-bottom:2px solid #234F32;
+    border-right:2px solid #234F32;
     color:#234F32;
     background:#DDDDDD;
 }
@@ -435,6 +437,13 @@ a:hover {
     background:#DDDDDD;
 }
 
-.OV_search_form input[type=submit]:hover {
+.OV_search_form input[type=submit]:hover, .OV_search_form input[type=button]:hover {
     background:#E0FFB8;
 }
+
+.OV_search_form input[type=submit]:active, .OV_search_form input[type=button]:active {
+    margin-left:1px;
+    margin-top:1px;
+    border:1px solid #234F32;
+}
+
