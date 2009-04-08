@@ -30,7 +30,13 @@ from bigint import BigIntegerField
 from django.template import defaultfilters
 
 def avatar_upload(instance, filename):
-    '''create a file with volunteer name to a better oarganization'''
+    """ 
+    Upload the avatar to a file with volunteer name for a better 
+    organization
+
+    instance : (object) - current volunteer
+    filename : (string) - the title of uploaded file to get extension
+    """
     type = filename.split('.')[len(filename.split('.'))-1]
 
     # slugify name and firstname to avoid unicode problem
@@ -47,6 +53,11 @@ def avatar_upload(instance, filename):
 
 # Create your models here.
 class Volunteer(models.Model):
+    """
+    A volunteer is a personn linked to organization. Lot of 
+    informations are needed to contact him.
+    """
+
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, help_text='Nom (Une majuscule puis des minuscules)')
     firstname = models.CharField(max_length=100, help_text='Prénom (Une majuscule puis des minuscules)')
@@ -86,13 +97,23 @@ class Volunteer(models.Model):
 
 
 def affiche_upload(instance, filename):
-    '''create a file with event title to a better oarganization'''
+    """ 
+    Upload the event poster to a file with event title for a better 
+    organization
+
+    instance : (object) - current volunteer
+    filename : (string) - the title of uploaded file to get extension
+    """
+    
     type = filename.split('.')[len(filename.split('.'))-1]
     path = settings.MEDIA_ROOT + '/openvolunteer/affiches/'
     file = instance.stripped_title
     return path + file + '.' + type
 
 class Event(models.Model):
+    """
+    An event is just an event with date and place.
+    """
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=100,help_text='Nom de l\'événement')
     stripped_title = models.SlugField(db_index=True, max_length=255,
@@ -110,6 +131,10 @@ class Event(models.Model):
 
 
 class Job(models.Model):
+    """
+    A job is a for a volunteer a work to to during an event. Manager
+    can add a description an link a job to a responsible.
+    """
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=100,help_text='Nom du poste')
     stripped_title = models.SlugField(db_index=True, max_length=255,
@@ -123,6 +148,12 @@ class Job(models.Model):
 
 
 class Answer(models.Model):
+    """
+    An answer is the result of a request made by volunteer manager
+    to see who will be present at an event. It's possible to assign
+    a volunteer to a job in case of positive answer.
+    """
+
     id = models.AutoField(primary_key=True)
     event = models.ForeignKey(Event,help_text='Évènement')
     volunteer = models.ForeignKey(Volunteer,help_text='Cliquez sur l\'icone pour chercher le bénévole')
@@ -134,6 +165,11 @@ class Answer(models.Model):
 
 
 class Need(models.Model):
+    """
+    A need is a number of volunteers wanted to complete a job for
+    a specific event.
+    """
+
     id = models.AutoField(primary_key=True)
     number = models.IntegerField(help_text='Nombre de personnes nécessaire à ce poste')
     event = models.ForeignKey(Event,help_text='Évènement')

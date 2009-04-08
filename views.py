@@ -32,7 +32,10 @@ import datetime
 
 @login_required(redirect_field_name='next')
 def index(request):
-    """Open volunteers home page - Display links to main pages"""
+    """
+    Open volunteers home page - Display links to main parts
+    of interface
+    """
     volunteers = Volunteer.objects.all().order_by('?')[:10]
     events = Event.objects.all().order_by('-date')[:10]
     answers = Answer.objects.all().order_by('-date')[:10]
@@ -47,7 +50,9 @@ def index(request):
 
 @login_required(redirect_field_name='next')
 def volunteer_index(request):
-    """Display a search form (and a list of volunteers)"""
+    """
+    Display a search form (and a list of volunteers)
+    """
     try:
         query = request.GET["q"]
         # if search request is empty or only contains a space, return
@@ -78,7 +83,9 @@ def volunteer_index(request):
 
 @login_required(redirect_field_name='next')
 def volunteer_details(request, volunteer_id):
-    """Display volunteer details and link to modify them"""
+    """
+    Display volunteer details and link to modify them
+    """
     try:
         volunteer = Volunteer.objects.get(id=volunteer_id)
         error_message = ''
@@ -95,7 +102,9 @@ from django.template import defaultfilters
 from  ovvcard import _vcard_string
 @login_required(redirect_field_name='next')
 def volunteer_vcard(request, volunteer_id):
-    """View function for returning single vcard"""
+    """
+    View function for returning single vcard
+    """
     volunteer = Volunteer.objects.get(id=volunteer_id)
     output = _vcard_string(volunteer)
     if (output != ""):
@@ -112,7 +121,9 @@ def volunteer_vcard(request, volunteer_id):
 
 @login_required(redirect_field_name='next')
 def event_index(request):
-    """Display a search form (and a list of volunteers)"""
+    """
+    Display a search form (and a list of events)
+    """
     events = []
     try:
         query = request.GET["q"]
@@ -144,7 +155,9 @@ def event_index(request):
 
 @login_required(redirect_field_name='next')
 def event_details(request, event_id):
-    """Display event details and link to modify them"""
+    """
+    Display event details and link to modify them
+    """
     try:
         event = Event.objects.get(id=event_id)
         needs = Need.objects.filter(event=event).all()
@@ -162,7 +175,9 @@ def event_details(request, event_id):
 
 @login_required(redirect_field_name='next')
 def event_volunteers(request, event_id):
-    """Display volunteers for an event"""
+    """
+    Display volunteers for an event with positive answer
+    """
     try:
         event = Event.objects.get(id=event_id)
         error_message = ''
@@ -190,7 +205,9 @@ def event_volunteers(request, event_id):
 
 @login_required(redirect_field_name='next')
 def event_tocontact(request, event_id):
-    """Display not contacted volunteers for an event"""
+    """
+    Display not contacted volunteers for an event
+    """
     try:
         event = Event.objects.get(id=event_id)
         error_message = ''
@@ -228,7 +245,9 @@ def event_tocontact(request, event_id):
 
 @login_required(redirect_field_name='next')
 def answer_index(request):
-    """Display answers search form or results"""
+    """
+    Display answers search form or results
+    """
     try:
         query_volunteer = request.GET["v"]
         query_event = request.GET["e"]
@@ -260,6 +279,9 @@ def answer_index(request):
 
 from random import randrange
 def myRandomizer(QuerySet):
+    """
+    A simple randomizer of QuerySet
+    """
     random_list = len(QuerySet)
     for i in range(random_list):
         item1, item2 = randrange(random_list), randrange(random_list)
@@ -269,7 +291,9 @@ def myRandomizer(QuerySet):
 
 @login_required(redirect_field_name='next')
 def job_index(request, selected_job=""):
-    """Display index for job informations"""
+    """
+    Display index for job informations
+    """
     jobs = Job.objects.exclude(title="none").all()
     try:
         job = Job.objects.get(stripped_title=selected_job)
@@ -282,10 +306,11 @@ def job_index(request, selected_job=""):
                               context_instance=RequestContext(request))
 
 
-#RESULTS_STORAGE = []
 @login_required(redirect_field_name='next')
 def list_volunteer_index(request):
-    """Display a form to generate a filtered list of volunteers"""
+    """
+    Display a form to generate a filtered list of volunteers
+    """
     if request.method == 'GET':
         return render_to_response('openvolunteer/list_volunteer_form.html',{},context_instance=RequestContext(request))
     elif request.method == 'POST':
@@ -321,7 +346,6 @@ def list_volunteer_index(request):
             if (filter == 'on'):
                 limit = datetime.date.today()
                 limit = limit.replace(limit.year-18)
-                # to be tested and checked!!!!!!!!
                 volunteers = volunteers.exclude(birthday__gt=limit)
         except:
             pass
@@ -336,9 +360,6 @@ def list_volunteer_index(request):
                                                Q(firstname__icontains = term)).all()
         except:
             pass
-        #global RESULTS_STORAGE
-        #RESULTS_STORAGE = volunteers
-        #print RESULTS_STORAGE
         return render_to_response('openvolunteer/list_volunteer_form.html',
                               {'volunteers': volunteers},
                               context_instance=RequestContext(request))
