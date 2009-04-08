@@ -27,10 +27,10 @@ import vobject
 def _vcard_string(person):
     """
     Helper function for vcard views. Accepts a 'person' object 
-    with certain attributes (firstname, lastname, email, phone, id)
+    with certain attributes (name, firstname, email, phone numbers)
     and returns a string containing serialized vCard data.
     """
-    # vobject API is a bit verbose...
+
     vcard = vobject.vCard()
     
     vcard.add('n')

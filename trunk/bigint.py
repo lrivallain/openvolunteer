@@ -1,10 +1,13 @@
-"""module openvolunteer.bigint_patch
+"""
+Module openvolunteer.bigint
 
 A fix for the rather well-known ticket #399 in the django project.
 
 Create and link to auto-incrementing primary keys of type bigint without
 having to reload the model instance after saving it to get the ID set in
 the instance.
+
+By: Florian Leitner
 """
 
 from django.core import exceptions
@@ -13,11 +16,10 @@ from django.db import connection
 from django.db.models import fields
 from django.utils.translation import ugettext as _
 
-__version__ = "1.0"
-__author__ = "Florian Leitner"
-
 class BigIntegerField(fields.IntegerField):
-    
+    """
+    Provide a way to use bigint in django.
+    """    
     def db_type(self):
         if settings.DATABASE_ENGINE == 'mysql':
             return "bigint"

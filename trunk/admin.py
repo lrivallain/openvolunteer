@@ -26,6 +26,11 @@ from demo.openvolunteer.models import *
 from django.contrib import admin
 
 class VolunteerAdmin(admin.ModelAdmin):
+    """ 
+    Provide informations to create django.contrib.admin
+    forms for the management of volunteers.
+    """
+
     fieldsets = (
         ('Informations personnelles', {'fields': ('name','firstname','birthday','birth_place','social_security_number')}),
         ('Coordonnées', {'fields': ('phone_home','phone_mobile','email','address')}),
@@ -38,6 +43,11 @@ class VolunteerAdmin(admin.ModelAdmin):
 
 
 class EventAdmin(admin.ModelAdmin):
+    """ 
+    Provide informations to create django.contrib.admin
+    forms for the management of events.
+    """
+
     fields = ('title','stripped_title','date','place','affiche')
     list_display = ('title','date','place')
     list_filter = ['date']
@@ -48,19 +58,23 @@ class EventAdmin(admin.ModelAdmin):
 
 
 class JobAdmin(admin.ModelAdmin):
+    """ 
+    Provide informations to create django.contrib.admin
+    forms for the management of jobs.
+    """
+
     fields = ('title','stripped_title','description','boss')
     list_display = ('title',)
     list_filter = ['boss']
     prepopulated_fields = {"stripped_title": ("title",)}
     search_fields = ['title','boss']
     
-## Some tests 
-#from django import forms
-#class MyCustomForm(forms.ModelForm):
-#    volunteer = forms.ModelChoiceField(queryset=Volunteer.objects.order_by('name','firstname'))
-
 class AnswerAdmin(admin.ModelAdmin):
-    #form = MyCustomForm
+    """ 
+    Provide informations to create django.contrib.admin
+    forms for the management of answers.
+    """
+
     fieldsets = (
         ('Qui? Où? Quand?', {'fields': ('event','volunteer','job')}),
         ('Contacts', {'fields': ('presence','date','last_request')}),
@@ -71,13 +85,12 @@ class AnswerAdmin(admin.ModelAdmin):
     search_fields = ['event','volunteer']
     raw_id_field = ('volunteer',)
 
-    #def formfield_for_foreignkey(self, db_field, request, **kwargs):
-    #    if db_field.name == "volunteer":
-    #        kwargs["queryset"] = Volunteer.objects.order_by('name','firstname')
-    #        return db_field.formfield(**kwargs)
-    #    return super(AnswerAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
-
 class NeedAdmin(admin.ModelAdmin):
+    """ 
+    Provide informations to create django.contrib.admin
+    forms for the management of needs.
+    """
+
     fields = ('event','job','number')
     list_filter = ['event']
     list_display = ('event','job','number')
