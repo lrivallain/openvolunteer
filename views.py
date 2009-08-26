@@ -23,7 +23,7 @@
     ---------------------------------------------------------------------------
 """
 from demo.openvolunteer.models import *
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseNotFound
 from django.db.models import Q
@@ -201,6 +201,40 @@ def event_volunteers(request, event_id):
                                'answers': answers,
                                'error_message': error_message},
                               context_instance=RequestContext(request))
+
+
+import csv
+@login_required(redirect_field_name='next')
+def event_csv(request, event_id):
+    """Export volunteers for an event into CSV file"""
+    event = get_object_or_404(Event, id=event_id)
+    answers = Answer.objects.filter(event=event,presence=True).all().order_by('job')
+
+    response = HttpResponse(mimetype='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=%s.csv' % event.stripped_title
+
+    writer = csv.writer(response)
+    writer.writerow(['Nom', 'Prenom', 'Email', 'Numero de telephone',
+                     'Numero de mobile', 'Date de Naissance', 'Poste'])
+
+    for answer in answers :
+        if answer.volunteer.birthday :
+           birthday = "%d/%d/%d" % (answer.volunteer.birthday.day,
+                                    answer.volunteer.birthday.month,
+                                    answer.volunteer.birthday.year)
+        else:
+           birthday = ""
+        writer.writerow([unicode(s).encode("cp1252") for s in (
+                             answer.volunteer.name,
+                             answer.volunteer.firstname,
+                             answer.volunteer.email,
+                             answer.volunteer.phone_home,
+                             answer.volunteer.phone_mobile,
+                             birthday,
+                             answer.job)
+                        ])
+
+    return response
 
 
 @login_required(redirect_field_name='next')

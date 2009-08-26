@@ -29,6 +29,12 @@
                     </tr>
                 </table>
             </div>
+            <div class="OV_search_form OV_download_button">
+                <input type="button"
+                       onclick="window.location.href='/openvolunteer/answers/event/csv/{{ event.id }}'"
+                       title="Télécharger la liste des bénévoles présents à cet événement en .CSV"
+                       value="Télécharger la liste des bénévoles présents à cet événement en .CSV" />
+            </div>
         </div>
         {% if needs %}
             <div class="OV_search_results_area" style="text-align:center;">
