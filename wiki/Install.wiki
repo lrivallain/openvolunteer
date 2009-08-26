@@ -14,8 +14,8 @@ There is no instruction to setup Django, but you can found more details for this
  * Python v2.5
   * _[http://www.python.org/download/releases/2.5.4/ Download Python v2.5]_
   * _python-mysqldb library installed._
- * Django v1.0 installation *with admin interface*, *authentication* and *static file access* enabled
-  * _[http://www.djangoproject.com/download/1.0/tarball/ Download Django_v1.0]_
+ * Django v1.1 (or v1.0) installation *with admin interface*, *authentication* and *static file access* enabled
+  * _[http://www.djangoproject.com/download/1.1/tarball/ Download Django_v1.1]_
   * _[http://docs.djangoproject.com/en/dev/intro/install/ Setup documentation]_
   * _[http://docs.djangoproject.com/en/dev/ref/contrib/admin/#ref-contrib-admin HowTo enable admin interface]_
   * _[http://docs.djangoproject.com/en/dev/ref/settings/?from=olddocs#media-root HowTo configure static file access]_
