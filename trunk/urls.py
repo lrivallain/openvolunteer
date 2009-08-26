@@ -43,6 +43,7 @@ urlpatterns = patterns('demo.openvolunteer.views',
     
     # ANSWERS views and search tool
     (r'^answers/event/(?P<event_id>\d+)/$', 'event_volunteers'),
+    (r'^answers/event/csv/(?P<event_id>\d+)/$', 'event_csv'),
     (r'^answers/nocontact/event/(?P<event_id>\d+)/$', 'event_tocontact'),
     (r'^answer/$','answer_index'),
     

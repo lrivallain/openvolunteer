@@ -318,6 +318,19 @@ a:hover {
     text-align:left;
 }
 
+.OV_download_button {
+    margin-top:30px;
+}
+
+.OV_download_button input {
+    padding:5px;
+    -moz-border-radius:10px;
+    font-weight:bold;
+    font-size:1.4em;
+    cursor:pointer;
+}
+
+
 /* **************************************************
  * Answer display
  * **************************************************/
