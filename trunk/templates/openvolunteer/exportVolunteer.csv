@@ -1,3 +1,0 @@
-{% for volunteer in volunteers %}{{ volunteer.name|addslashes }},{{ volunteer.firstname|addslashes }},{{ volunteer.email|addslashes }},{{ volunteer.phone_home|addslashes }},{{  volunteer.phone_mobile|addslashes }},{{  volunteer.birthday|addslashes }},{{  volunteer.inscription_date|addslashes }},{{  volunteer.ca_member|addslashes }}
-{% endfor %}
-

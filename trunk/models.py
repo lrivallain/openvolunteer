@@ -76,8 +76,11 @@ class Volunteer(models.Model):
     comments = models.TextField(blank=True)
     ca_member = models.BooleanField('Membre du CA courant?',blank=True)
 
+    class Meta:
+        ordering = ('name','firstname')
+
     def __unicode__(self):
-        return "%s %s" % (self.firstname, self.name)
+        return "%s %s" % (self.name, self.firstname)
         
     def get_absolute_url(self):
         return "/openvolunteer/volunteer/%d" % self.id
@@ -121,10 +124,16 @@ class Event(models.Model):
     date = models.DateField(help_text='Date de l\'événement')
     place = models.CharField(max_length=100,blank=True,help_text='Lieu de l\'événement')
     affiche = models.FileField(upload_to=affiche_upload,blank=True,help_text='Affiche de l\'événement')
+    
+    class Meta:
+        ordering = ('-date',)
+
     def __unicode__(self):
         return self.title
+    
     def get_absolute_url(self):
         return "/openvolunteer/event/%d" % self.id
+    
     def get_affiche_url(self):
         filename = self.affiche.path.split('/')[len(self.affiche.path.split('/'))-1]
         return "/media/openvolunteer/affiches/%s" % filename
@@ -141,8 +150,13 @@ class Job(models.Model):
                                       help_text='Titre sans espaces et caractères spéciaux afin de com poser une url.')
     description = models.TextField(blank=True)
     boss = models.ManyToManyField(Volunteer,help_text='Responsables de commission',blank=True)
+
+    class Meta:
+        ordering = ('title',)
+
     def __unicode__(self):
         return self.title
+    
     def get_absolute_url(self):
         return "/openvolunteer/job/%s#%s" % (self.stripped_title, self.stripped_title)
 
@@ -163,6 +177,9 @@ class Answer(models.Model):
     date = models.DateField(help_text='Date de la réponse',null=True,blank=True)
     last_request = models.DateField(help_text='Dernière relance',null=True,blank=True)
 
+    class Meta:
+        ordering = ('event','volunteer')
+
 
 class Need(models.Model):
     """
@@ -175,11 +192,16 @@ class Need(models.Model):
     event = models.ForeignKey(Event,help_text='Évènement')
     job = models.ForeignKey(Job,help_text='Poste')
        
+    class Meta:
+        ordering = ('event','job')
+
     def __unicode__(self):
         return u"%s %s" % (self.event, self.job)
+
     def get_completed_nb(self):
         answers = Answer.objects.filter(event=self.event,job=self.job,presence=True).all()
         return len(answers)
+
     def get_completed_status(self):
         a = len(Answer.objects.filter(event=self.event,job=self.job,presence=True).all())
         b = int(self.number)
