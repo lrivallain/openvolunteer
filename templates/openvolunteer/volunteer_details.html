@@ -27,11 +27,19 @@
                     </tr>
                     <tr>
                         <th>Téléphone fixe</th>
-                        <td>{{ volunteer.phone_home }}</td>
+                        <td>
+                            {% if volunteer.phone_home %}
+                                <a href=javascript:;" onclick="$('#dialog_qr_home').dialog('open');">{{ volunteer.phone_home }}</a>
+                            {% endif %}
+                        </td>
                     </tr>
                     <tr>
                         <th>Téléphone mobile</th>
-                        <td>{{ volunteer.phone_mobile }}</td>
+                        <td>
+                            {% if volunteer.phone_mobile %}
+                                <a href=javascript:;" onclick="$('#dialog_qr_mobile').dialog('open');">{{ volunteer.phone_mobile }}</a>
+                            {% endif %}
+                        </td>
                     </tr>
                     <tr>
                         <th>Adresse</th>
@@ -73,6 +81,38 @@
                 </table>
             </div>
         </div>
+        {% if volunteer.phone_home %}
+            <div id="dialog_qr_home" title="QRcode pour le téléphone fixe de {{volunteer.firstname}} {{volunteer.name}} :" style="text-align:center;">
+                <img src="http://chart.apis.google.com/chart?chs=150x150&cht=qr&chl=tel:{{ volunteer.phone_home }}" alt="QRcode pour le téléphone fixe de {{volunteer.firstname}} {{volunteer.name}}">
+            </div>
+            <script type="text/javascript">
+                $(function() {
+                    $("#dialog_qr_home").dialog({
+                        bgiframe: true,
+                        height: 210,
+                        width:400,
+                        modal: true,
+                        autoOpen: false
+                    });
+                });
+            </script>
+        {% endif %}
+        {% if volunteer.phone_mobile %}
+            <div id="dialog_qr_mobile" title="QRcode pour le téléphone mobile de {{volunteer.firstname}} {{volunteer.name}} :" style="text-align:center;">
+                <img src="http://chart.apis.google.com/chart?chs=150x150&cht=qr&chl=tel:{{ volunteer.phone_mobile }}" alt="QRcode pour le téléphone mobile de {{volunteer.firstname}} {{volunteer.name}}">
+            </div>
+            <script type="text/javascript">
+                $(function() {
+                    $("#dialog_qr_mobile").dialog({
+                        bgiframe: true,
+                        height: 210,
+                        width:400,
+                        modal: true,
+                        autoOpen: false
+                    });
+                });
+            </script>
+        {% endif %}
     {% endif %}
 {% endblock %}
 
