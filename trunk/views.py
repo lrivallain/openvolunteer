@@ -29,6 +29,7 @@ from django.http import HttpResponse, HttpResponseNotFound
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 import datetime
+from forms import *
 
 @login_required(redirect_field_name='next')
 def index(request):
@@ -118,6 +119,122 @@ def volunteer_vcard(request, volunteer_id):
         response = HttpResponseNotFound('<h1>La génération de la Vcard a échoué!</h1>')
     return response
 
+@login_required(redirect_field_name='next')
+def volunteer_delete(request, volunteer_id):
+    """
+    Delete current volunteer
+    """
+    try:
+        volunteer = Volunteer.objects.get(id=volunteer_id)
+        volunteer.delete()
+        message = "Suppression effectuée !"
+        status = "success"
+    except:
+        message = "Oups, Une erreur est survenue !"
+        status = "error"
+    return render_to_response('openvolunteer/operation_result.html',
+                              {'status': status,
+                               'message': message},
+                              context_instance=RequestContext(request))
+
+@login_required(redirect_field_name='next')
+def volunteer_edit(request, volunteer_id):
+    """
+    Add or Update volunteer infos
+    """
+    volunteer = Volunteer.objects.get(id=volunteer_id)
+    form = VolunteerForm(request.POST)
+    if request.method == 'POST':
+        try:
+            if form.is_valid():
+                volunteer = volunteer_add_or_edit(request, form, volunteer)
+                message = "Modification effectuée !<br><a href='%s'" % volunteer.get_absolute_url()
+                message += "' title='Revenir à la fiche'>Retour</a>"
+                status = "success"
+            else:
+                message = "La modification a échoué ! (error code: 101)"
+                status = "error"
+        except:
+            message = "La modification a échoué ! (error code: 102)"
+            status = "error"
+    else:
+        return render_to_response('openvolunteer/volunteer_edit.html',
+                              {'volunteer': volunteer, 'form': form},
+                              context_instance=RequestContext(request))
+    return render_to_response('openvolunteer/operation_result.html',
+                              {'status': status,
+                               'message': message},
+                              context_instance=RequestContext(request))
+
+@login_required(redirect_field_name='next')
+def volunteer_add(request):
+    """
+    Add or Update volunteer infos
+    """
+    volunteer = Volunteer()
+    form = VolunteerForm(request.POST)
+    if request.method == 'POST':
+        try:
+            if form.is_valid():
+                volunteer = volunteer_add_or_edit(request, form, volunteer)
+                message = "Ajout effectué !<br><a href='%s'" % volunteer.get_absolute_url()
+                message += "' title='Voir la fiche'>Voir la fiche de ce nouveau bénévole</a>"
+                status = "success"
+            else:
+                message = "L'ajout a échoué ! (error code: 103)"
+                status = "error"
+        except:
+            message = "L'ajout a échoué ! (error code: 104)"
+            status = "error"
+    else:
+        return render_to_response('openvolunteer/volunteer_edit.html',
+                              {'form': form},
+                              context_instance=RequestContext(request))
+    return render_to_response('openvolunteer/operation_result.html',
+                              {'status': status,
+                               'message': message},
+                              context_instance=RequestContext(request))
+
+def volunteer_add_or_edit(request, form, volunteer):
+    """
+    Add or update volunteer infos
+    """
+    volunteer.name = form.cleaned_data['name']
+    volunteer.firstname = form.cleaned_data['firstname']
+    if (request.REQUEST['email'] != ''):
+        volunteer.email = form.cleaned_data['email']
+    else: volunteer.email = ''
+    if (request.REQUEST['phone_home'] != ''):
+        volunteer.phone_home = form.cleaned_data['phone_home']
+    else: volunteer.phone_home = ''
+    if (request.REQUEST['phone_mobile'] != ''):
+        volunteer.phone_mobile = form.cleaned_data['phone_mobile']
+    else: volunteer.phone_mobile = ''
+    if (request.REQUEST['address'] != ''):
+        volunteer.address = form.cleaned_data['address']
+    else: volunteer.address = ''
+    if (request.REQUEST['birth_place'] != ''):
+        volunteer.birth_place = form.cleaned_data['birth_place']
+    else: volunteer.birth_place = ''
+    if ((request.REQUEST['birthday_year'] != '') and
+        (request.REQUEST['birthday_month'] != '') and
+        (request.REQUEST['birthday_day'] != '')):
+        volunteer.birthday = datetime.date(int(request.REQUEST['birthday_year']),
+                                           int(request.REQUEST['birthday_month']),
+                                           int(request.REQUEST['birthday_day']))
+    else: volunteer.birthday = None
+    if (request.REQUEST['social_security_number'] != ''):
+        volunteer.social_security_number = int(request.REQUEST['social_security_number'])
+    try:
+        if (request.REQUEST['ca_member']):
+            volunteer.ca_member = True
+        else: volunteer.ca_member = False
+    except: volunteer.ca_member = False
+    if (request.REQUEST['comments'] != ''):
+        volunteer.comments = form.cleaned_data['comments']
+    else: volunteer.comments = ''
+    volunteer.save()
+    return volunteer
 
 @login_required(redirect_field_name='next')
 def event_index(request):

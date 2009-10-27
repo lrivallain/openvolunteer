@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 """
     ---------------------------------------------------------------------------
 
@@ -22,6 +23,14 @@
     ---------------------------------------------------------------------------
 """
 
-# File-system path to application
-APPLICATION_PATH = "/home/pampryl/working/demo/openvolunteer"
-
+from django import forms
+class VolunteerForm(forms.Form):
+    name = forms.CharField(max_length=100)
+    firstname = forms.CharField(max_length=100)
+    email = forms.EmailField(required=False)
+    phone_home = forms.CharField(required=False, max_length=20)
+    phone_mobile = forms.CharField(required=False, max_length=20)
+    address = forms.CharField(required=False, widget=forms.Textarea)
+    birth_place = forms.CharField(required=False, max_length=100)
+    ca_member = forms.BooleanField(required=False)
+    comments = forms.CharField(required=False, widget=forms.Textarea)

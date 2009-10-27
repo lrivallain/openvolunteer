@@ -9,7 +9,9 @@
     {% else %}
         <div class="OV_volunteer_details">
             {% if volunteer.avatar %}
-                <div class="OV_volunteer_details_photo"><img src="{{ volunteer.get_photo_url }}" alt="Photo de {{ volunteer }}"></div>
+                <div class="OV_volunteer_details_photo">
+                    <img src="{{ volunteer.get_photo_url }}" alt="Photo de {{ volunteer }}">
+                </div>
             {% endif %}
             <div class="OV_volunteer_details_table">
                 <table>
@@ -23,13 +25,15 @@
                     </tr>
                     <tr>
                         <th>Email</th>
-                        <td>{{ volunteer.email }}</td>
+                        <td>
+                            <a href="mailto:{{ volunteer.email }}" title="envoyer un email">{{ volunteer.email }}</a>
+                        </td>
                     </tr>
                     <tr>
                         <th>Téléphone fixe</th>
                         <td>
                             {% if volunteer.phone_home %}
-                                <a href=javascript:;" onclick="$('#dialog_qr_home').dialog('open');">{{ volunteer.phone_home }}</a>
+                                <a href="javascript:;" onclick="$('#dialog_qr_home').dialog('open');">{{ volunteer.phone_home }}</a>
                             {% endif %}
                         </td>
                     </tr>
@@ -37,7 +41,7 @@
                         <th>Téléphone mobile</th>
                         <td>
                             {% if volunteer.phone_mobile %}
-                                <a href=javascript:;" onclick="$('#dialog_qr_mobile').dialog('open');">{{ volunteer.phone_mobile }}</a>
+                                <a href="javascript:;" onclick="$('#dialog_qr_mobile').dialog('open');">{{ volunteer.phone_mobile }}</a>
                             {% endif %}
                         </td>
                     </tr>
@@ -82,7 +86,7 @@
             </div>
         </div>
         {% if volunteer.phone_home %}
-            <div id="dialog_qr_home" title="QRcode pour le téléphone fixe de {{volunteer.firstname}} {{volunteer.name}} :" style="text-align:center;">
+            <div id="dialog_qr_home" title="Téléphone fixe de {{volunteer.firstname}} {{volunteer.name}} :" style="text-align:center;">
                 <img src="http://chart.apis.google.com/chart?chs=150x150&cht=qr&chl=tel:{{ volunteer.phone_home }}" alt="QRcode pour le téléphone fixe de {{volunteer.firstname}} {{volunteer.name}}">
             </div>
             <script type="text/javascript">
@@ -98,7 +102,7 @@
             </script>
         {% endif %}
         {% if volunteer.phone_mobile %}
-            <div id="dialog_qr_mobile" title="QRcode pour le téléphone mobile de {{volunteer.firstname}} {{volunteer.name}} :" style="text-align:center;">
+            <div id="dialog_qr_mobile" title="Téléphone mobile de {{volunteer.firstname}} {{volunteer.name}} :" style="text-align:center;">
                 <img src="http://chart.apis.google.com/chart?chs=150x150&cht=qr&chl=tel:{{ volunteer.phone_mobile }}" alt="QRcode pour le téléphone mobile de {{volunteer.firstname}} {{volunteer.name}}">
             </div>
             <script type="text/javascript">
@@ -117,29 +121,35 @@
 {% endblock %}
 
 {% block navigation %}
+    <div id="dialog_conf_delete" title="Supprimer cette fiche?" style="text-align:center;">
+        <p>Êtes vous sûr de vouloir supprimer cette fiche bénévole?</p>
+        <p><a href="{{ volunteer.get_delete_url }}" title="Confirmer l'opération">Confirmer</a></p>
+    </div>
+    <script>
+        $(function() {
+            $("#dialog_conf_delete").dialog({
+                bgiframe: true,
+                modal: true,
+                autoOpen: false
+            });
+        });
+    </script>
     <ul>
         <li>
-            <a href="mailto:{{ volunteer.email }}" 
-               title="Envoyer un mail à {{ volunteer }}">
-               Envoyer un email
+            <a href="{{ volunteer.get_edit_url }}"
+               title="Modifier cette fiche">
+               Modifier cette fiche
             </a>
         </li>
         <li>
-            <a href="/openvolunteer/volunteer/vcard/{{ volunteer.id }}" 
+            <a href="{{ volunteer.get_vcard_url }}"
                title="Télécharger la vcard de {{ volunteer }}">
                Télécharger la Vcard
             </a>
         </li>
         <li>
-            <a href="/openvolunteer/volunteer/list/" 
-               title="Générer une liste de bénévoles">
-               Générer une liste
-            </a>
-        </li>
-        <li>
-            <a href="/admin/openvolunteer/volunteer/{{ volunteer.id }}" 
-               title="Modifier les informations de {{ volunteer }}">
-               Modifier les informations
+            <a href="javascript:;" onclick="$('#dialog_conf_delete').dialog('open')" title="Supprimer cette fiche">
+                Supprimer cette fiche
             </a>
         </li>
     </ul>
