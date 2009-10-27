@@ -30,8 +30,8 @@ from bigint import BigIntegerField
 from django.template import defaultfilters
 
 def avatar_upload(instance, filename):
-    """ 
-    Upload the avatar to a file with volunteer name for a better 
+    """
+    Upload the avatar to a file with volunteer name for a better
     organization
 
     instance : (object) - current volunteer
@@ -54,37 +54,46 @@ def avatar_upload(instance, filename):
 # Create your models here.
 class Volunteer(models.Model):
     """
-    A volunteer is a personn linked to organization. Lot of 
+    A volunteer is a personn linked to organization. Lot of
     informations are needed to contact him.
     """
 
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, help_text='Nom (Une majuscule puis des minuscules)')
     firstname = models.CharField(max_length=100, help_text='Prénom (Une majuscule puis des minuscules)')
-    email = models.EmailField(blank=True, help_text='Adresse email (yyyyyy@monfai.fr)')
-    phone_home = models.CharField(max_length=20,blank=True,
+    email = models.EmailField(blank=True, null=True, help_text='Adresse email (yyyyyy@monfai.fr)')
+    phone_home = models.CharField(max_length=20, blank=True, null=True,
                                   help_text='Téléphone fixe: 2 chiffres par deux chiffres, séparés par des espaces')
-    phone_mobile = models.CharField(max_length=20,blank=True,
+    phone_mobile = models.CharField(max_length=20, blank=True, null=True,
                                     help_text='Téléphone mobile: 2 chiffres par deux chiffres, séparés par des espaces')
-    address = models.TextField(blank=True, help_text='Adresse')
+    address = models.TextField(blank=True, null=True, help_text='Adresse')
     birthday = models.DateField(null=True, blank=True, help_text='Date de naissance (utiliser le calendrier)')
-    birth_place = models.CharField(max_length=100, help_text='Lieu de naissance',blank=True)
+    birth_place = models.CharField(max_length=100, help_text='Lieu de naissance', blank=True, null=True)
     social_security_number = BigIntegerField(help_text='Numéro de sécurité sociale (15 chiffres)', blank=True, null=True)
     avatar = models.FileField(upload_to=avatar_upload,blank=True,help_text='Photo d\'identité')
-    inscription_date = models.DateField(null=True, blank=True,
+    inscription_date = models.DateField(null=True, blank=True, auto_now_add=True,
                                         help_text='Date de la première inscription dans ce fichier.')
-    comments = models.TextField(blank=True)
-    ca_member = models.BooleanField('Membre du CA courant?',blank=True)
+    comments = models.TextField(blank=True, null=True)
+    ca_member = models.BooleanField('Membre du CA courant?', blank=True)
 
     class Meta:
         ordering = ('name','firstname')
 
     def __unicode__(self):
         return "%s %s" % (self.name, self.firstname)
-        
+
     def get_absolute_url(self):
-        return "/openvolunteer/volunteer/%d" % self.id
-        
+        return "/openvolunteer/volunteer/%d/" % self.id
+
+    def get_edit_url(self):
+        return "/openvolunteer/volunteer/edit/%d/" % self.id
+
+    def get_delete_url(self):
+        return "/openvolunteer/volunteer/delete/%d/" % self.id
+
+    def get_vcard_url(self):
+        return "/openvolunteer/volunteer/vcard/%d/" % self.id
+
     def get_photo_url(self):
         filename = self.avatar.path.split('/')[len(self.avatar.path.split('/'))-1]
         return "/media/openvolunteer/avatars/%s" % filename
@@ -100,14 +109,14 @@ class Volunteer(models.Model):
 
 
 def affiche_upload(instance, filename):
-    """ 
-    Upload the event poster to a file with event title for a better 
+    """
+    Upload the event poster to a file with event title for a better
     organization
 
     instance : (object) - current volunteer
     filename : (string) - the title of uploaded file to get extension
     """
-    
+
     type = filename.split('.')[len(filename.split('.'))-1]
     path = settings.MEDIA_ROOT + '/openvolunteer/affiches/'
     file = instance.stripped_title
@@ -124,16 +133,16 @@ class Event(models.Model):
     date = models.DateField(help_text='Date de l\'événement')
     place = models.CharField(max_length=100,blank=True,help_text='Lieu de l\'événement')
     affiche = models.FileField(upload_to=affiche_upload,blank=True,help_text='Affiche de l\'événement')
-    
+
     class Meta:
         ordering = ('-date',)
 
     def __unicode__(self):
         return self.title
-    
+
     def get_absolute_url(self):
         return "/openvolunteer/event/%d" % self.id
-    
+
     def get_affiche_url(self):
         filename = self.affiche.path.split('/')[len(self.affiche.path.split('/'))-1]
         return "/media/openvolunteer/affiches/%s" % filename
@@ -156,7 +165,7 @@ class Job(models.Model):
 
     def __unicode__(self):
         return self.title
-    
+
     def get_absolute_url(self):
         return "/openvolunteer/job/%s#%s" % (self.stripped_title, self.stripped_title)
 
@@ -191,7 +200,7 @@ class Need(models.Model):
     number = models.IntegerField(help_text='Nombre de personnes nécessaire à ce poste')
     event = models.ForeignKey(Event,help_text='Évènement')
     job = models.ForeignKey(Job,help_text='Poste')
-       
+
     class Meta:
         ordering = ('event','job')
 

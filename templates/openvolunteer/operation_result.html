@@ -1,0 +1,17 @@
+{% extends "openvolunteer/base.html" %}
+
+{% block title %}OpenVolunteer | Résultat{% endblock %}
+
+{% block content %}
+    <h1>Résultat de l'opération</h1>
+    <p class="ov-{{ status }}">{{ message|safe }}</p>
+{% endblock %}
+
+{% block navigation %}
+    <ul>
+        <li><a href="/openvolunteer/volunteer/" title="">Chercher un bénévole</a></li>
+        <li><a href="/openvolunteer/event/" title="">Chercher un événement</a></li>
+        <li><a href="/openvolunteer/answer/" title="">Chercher une réponse de participation</a></li>
+        <li><a href="/openvolunteer/job/" title="">Accéder à la liste des "postes"</a></li>
+    </ul>
+{% endblock %}

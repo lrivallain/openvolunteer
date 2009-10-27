@@ -30,8 +30,8 @@ body {
 .OV_registration {
     font-size:0.9em;
     position:absolute;
-    right:0px; 
-    text-align:right; 
+    right:0px;
+    text-align:right;
     top:120px;
     padding:10px;
     background:#DDDDDD;
@@ -44,7 +44,7 @@ body {
 .OV_shortcuts {
     font-size:0.9em;
     position:absolute;
-    left:0px; 
+    left:0px;
     text-align:right;
     top:120px;
     padding:10px;
@@ -184,7 +184,7 @@ a:hover {
     color:#999999;
 }
 
-.OV_search_results_more { 
+.OV_search_results_more {
     border-bottom:0px;
     font-size:0.8em;
     text-align:right;
@@ -219,7 +219,7 @@ a:hover {
     padding:7px;
     background:#F3F3F3;
     border:1px solid #DDDDDD;
-    -moz-border-radius:3px;   
+    -moz-border-radius:3px;
 }
 
 .OV_volunteer_details_photo img:hover {
@@ -245,7 +245,7 @@ a:hover {
     padding-right:10px;
     width:154px;
     background:#DDDDDD;
-}   
+}
 
 .OV_volunteer_details td {
     border-bottom: 1px solid #AAAAAA;
@@ -460,3 +460,27 @@ a:hover {
     border:1px solid #234F32;
 }
 
+.OV_vol_edit textarea {
+    height:50px;
+}
+
+.OV_vol_edit .OV_disabled {
+    background-color:#DDDDDD;
+    border:1px solid #AEAEAE;
+}
+
+.OV_vol_edit td {
+    border:1px solid #35353C;
+}
+
+.OV_vol_edit .OV_required span {
+    color: #CC0000;
+}
+
+.OV_vol_edit .OV_required input {
+    border:1px solid #CC0000;
+}
+
+.OV_vol_edit .OV_required input:focus {
+    border:2px solid #CC0000;
+}

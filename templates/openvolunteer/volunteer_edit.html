@@ -1,0 +1,112 @@
+{% extends "openvolunteer/base.html" %}
+
+{% block title %}OpenVolunteer | Édition d'une fiche{% endblock %}
+
+{% block content %}
+    <form method="POST" action="." class="OV_volunteer_details">
+        <table>
+            <tr>
+                <th class="OV_required">Nom</th>
+                <td class="OV_required">
+                    <input type="text" id="id_name" name="name"
+                           maxlength="100" value='{{ volunteer.name }}'>
+                </td>
+                <th class="OV_required">Prénom</th>
+                <td class="OV_required">
+                    <input type="text" id="id_firstname" name="firstname"
+                           maxlength="100" value='{{ volunteer.firstname }}'>
+                </td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>
+                    <input type="text" id="id_email" name="email"
+                           maxlength="100" value='{{ volunteer.email }}'>
+                </td>
+                <th>Membre du CA?</th>
+                <td>
+                    <input type="checkbox" id="id_ca_member" name="ca_member"
+                    {% if volunteer.ca_member %}checked{% endif %}>
+                </td>
+            </tr>
+            <tr>
+                <th>Téléphone fixe</th>
+                <td>
+                    <input type="text" id="id_phone_home" name="phone_home"
+                           maxlength="20" value='{{ volunteer.phone_home }}'>
+                </td>
+                <th>Téléphone mobile</th>
+                <td>
+                    <input type="text" id="id_phone_mobile" name="phone_mobile"
+                           maxlength="20" value='{{ volunteer.phone_mobile }}'>
+                </td>
+            </tr>
+            <tr>
+                <th>Adresse</th>
+                <td colspan="3">
+                    <textarea id="id_address" name="address">{{ volunteer.address }}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <th>Date de naissance</th>
+                <td>
+                    <input type="text" id="id_birthday_day" maxlength="2" size="2"
+                           name="birthday_day" value='{{ volunteer.birthday|date:"d" }}'>
+                    <!--<select name="birthday_year">
+                        <option value="1" >Janvier</option>
+                        <option value="2" >Février</option>
+                        <option value="3" >Mars</option>
+                        <option value="4" >Avril</option>
+                        <option value="5" >Mai</option>
+                        <option value="6" >Juin</option>
+                        <option value="7" >Juillet</option>
+                        <option value="8" >Août</option>
+                        <option value="9" >Septembre</option>
+                        <option value="10">Octobre</option>
+                        <option value="11">Novembre</option>
+                        <option value="12">Décembre</option>
+                    </select>-->
+                    <input type="text" id="id_birthday_month" maxlength="2" size="2"
+                           name="birthday_month" value='{{ volunteer.birthday|date:"m" }}'>
+                    <input type="text" id="id_birthday_year" maxlength="4" size="4"
+                           name="birthday_year" value='{{ volunteer.birthday|date:"Y" }}'>
+                </td>
+                <th>Lieu de naissance</th>
+                <td>
+                    <input type="text" id="id_birth_place" name="birth_place"
+                           maxlength="100" value='{{ volunteer.birth_place }}'>
+                </td>
+            </tr>
+            <tr>
+                <th>Numéro de sécu</th>
+                <td>
+                    <input type="text" id="id_social_security_number" maxlength="15"
+                           name="social_security_number" value=''>
+                </td>
+                <th>Première inscription</th>
+                <td>
+                    <input type="text" disabled class="ov-disabled" name="inscription_date"
+                           value='{{ volunteer.inscription_date|date:"d F Y" }}'>
+                </td>
+            </tr>
+            <tr>
+                <th>Commentaires</th>
+                <td colspan="3">
+                    <textarea id="id_comments" name="comments">{{ volunteer.comments }}</textarea>
+                </td>
+            </tr>
+        </table>
+        <p class="OV_required">* Les champs marqués en <span>rouge</span> sont obligatoires.</p>
+        <input type="submit" value="Enregistrer">
+    </form>
+{% endblock %}
+
+{% block navigation %}
+    <ul>
+        {% if volunteer %}
+            <li><a href="{{ volunteer.get_absolute_url }}" title="">Revenir à la fiche de ce bénévole.</a></li>
+        {% else %}
+            <li><a href="/openvolunteer/volunteer/" title="">Rechercher un bénévole</a></li>
+        {% endif %}
+    </ul>
+{% endblock %}
