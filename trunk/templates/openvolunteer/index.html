@@ -3,57 +3,32 @@
 {% block title %}OpenVolunteer | Accueil{% endblock %}
 
 {% block content %}
-    <div class="OV_index_line">
-        <div class="OV_index_box">
-            <div class="OV_index_box_title">
-                <a href="/openvolunteer/volunteer/" title="Chercher un bénévole">Bénévoles</a>
-            </div>
-            <div class="OV_index_box_content">
-                <ul>
-                    {% for result in volunteers %}
-                        <li><a href="{{ result.get_absolute_url }}" title="Accéder à la fiche de {{ result }}">{{ result }}</a></li>
-                    {% endfor %}
-                </ul> 
-            </div>
-        </div>
-        <div class="OV_index_box">
-            <div class="OV_index_box_title">
-                <a href="/openvolunteer/event/" title="Chercher un événement">Evénements</a>
-            </div>
-            <div class="OV_index_box_content">
-                <ul>
-                    {% for result in events %}
-                        <li><a href="{{ result.get_absolute_url }}" title="Accéder à la fiche de {{ result }}">{{ result }}</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="OV_index_line">
-        <div class="OV_index_box">
-            <div class="OV_index_box_title">
-                <a href="/openvolunteer/answer/" title="Chercher une réponse">Réponses</a>
-            </div>
-            <div class="OV_index_box_content">
-                <ul>
-                    {% for result in answers %}
-                        <li><a href="./answer/?v=&e={{ result.event.id }}" title="Accéder à la liste des réponses pour l'événement {{ result.event }}">{{ result.volunteer }}, {{ result.event }}</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-        <div class="OV_index_box">
-            <div class="OV_index_box_title">
-                <a href="/openvolunteer/job/" title="Chercher une poste">Postes</a>
-            </div>
-            <div class="OV_index_box_content">
-                <ul>
-                    {% for result in jobs %}
-                        <li><a href="{{ result.get_absolute_url }}" title="Accéder à la fiche de {{ result }}">{{ result }}</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
+    <div class="OV_index OV_center">
+        <h2>Bienvenue sur OpenVolunteer, dédié à la gestion événementielle des bénévoles.</h2>
+
+        <h3>Raccourcis</h3>
+        <ul>
+            <li>
+                <a href="/openvolunteer/volunteer/add" title="Ajouter un bénévole">
+                    Ajouter un bénévole
+                </a>
+            </li>
+            <li>
+                <a href="/openvolunteer/event/add" title="Ajouter un événement">
+                    Ajouter un événement
+                </a>
+            </li>
+            <li>
+                <a href="/openvolunteer/answer/add" title="Ajouter une réponse">
+                    Ajouter une réponse
+                </a>
+            </li>
+            <li>
+                <a href="/openvolunteer/job/add" title="Ajouter un poste">
+                    Ajouter un poste
+                </a>
+            </li>
+        </ul>
     </div>
 {% endblock %}
 
@@ -62,7 +37,7 @@
     <ul>
         <li><a href="./volunteer/" title="">Chercher un bénévole</a></li>
         <li><a href="./event/" title="">Chercher un événement</a></li>
-        <li><a href="./answer/" title="">Chercher une réponse de participation</a></li>
-        <li><a href="./job/" title="">Accéder à la liste des "postes"</a></li>
+        <li><a href="./answer/" title="">Chercher une réponse</a></li>
+        <li><a href="./job/" title="">Liste des postes</a></li>
     </ul>
 {% endblock %}

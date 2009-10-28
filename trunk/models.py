@@ -143,6 +143,12 @@ class Event(models.Model):
     def get_absolute_url(self):
         return "/openvolunteer/event/%d" % self.id
 
+    def get_edit_url(self):
+        return "/openvolunteer/event/edit/%d/" % self.id
+
+    def get_delete_url(self):
+        return "/openvolunteer/event/delete/%d/" % self.id
+
     def get_affiche_url(self):
         filename = self.affiche.path.split('/')[len(self.affiche.path.split('/'))-1]
         return "/media/openvolunteer/affiches/%s" % filename
@@ -167,7 +173,13 @@ class Job(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return "/openvolunteer/job/%s#%s" % (self.stripped_title, self.stripped_title)
+        return "/openvolunteer/job/#job-%d" % self.id
+
+    def get_edit_url(self):
+        return "/openvolunteer/job/edit/%d/" % self.id
+
+    def get_delete_url(self):
+        return "/openvolunteer/job/delete/%d/" % self.id
 
 
 class Answer(models.Model):

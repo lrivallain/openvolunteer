@@ -3,30 +3,54 @@
 {% block title %}OpenVolunteer | Accueil{% endblock %}
 
 {% block content %}
-    <div class="OV_index_line">
-        {% for job in jobs %}
-            <div class="OV_index_box">
-                <a name="{{ job.stripped_title }}" />
-                <div class="OV_index_box_title">
-                    <a href="#{{ job.stripped_title }}" 
-                       onClick="displayBoxContent('{{ job.stripped_title }}');" 
-                       title="Ouvrir cette boite d'information">{{ job.title }}</a>
-                </div>
-                <div id="{{ job.stripped_title }}" class="OV_index_box_content">
-                    <p>{{ job.description }}</p>
-                    {% if job.boss.all %}
-                        <p><b>Responsables:</b></p>
-                        <ul>
-                            {% for b in job.boss.all %}
-                                <li><a href="{{ b.get_absolute_url }}" title="Consulter la fiche de ce bénévole">{{ b }}</a></li>
-                            {% endfor %}
-                        </ul>
-                    {% else %}
-                        <p><b>Pas de responsable pour le moment...</b></p>
-                    {% endif %}
-                </div>
-            </div>
-        {% endfor %}
+    <div class="OV_search_results_area">
+        <table>
+            <tr>
+                <th>Poste</th>
+                <th>Responsable</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+            {% for job in jobs %}
+            <tr>
+                <td class="OV_center"><a name="job-{{ job.id }}"><h3>{{ job.title }}</h3></a></td>
+                <td>
+                    <ul>
+                        {% for b in job.boss.all %}
+                            <li>
+                                <a href="{{ b.get_absolute_url }}" title="Consulter la fiche de ce bénévole">
+                                    {{ b }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>{{ job.description }}</td>
+                <td class="OV_center">
+                    <div id="dialog_conf_delete" title="Supprimer cette fiche?" style="text-align:center;">
+                        <p>Êtes vous sûr de vouloir supprimer cette fiche de poste?</p>
+                        <p><a href="{{ job.get_delete_url }}" title="Confirmer l'opération">Confirmer</a></p>
+                    </div>
+                    <script>
+                        $(function() {
+                            $("#dialog_conf_delete").dialog({
+                                bgiframe: true,
+                                modal: true,
+                                autoOpen: false
+                            });
+                        });
+                    </script>
+                    <a href="{{ job.get_edit_url }}" title="Modifier la fiche de ce poste">
+                        Modifier
+                    </a> |
+                    <a href="javascript:;" onclick="$('#dialog_conf_delete').dialog('open')"
+                       title="Supprimer la fiche de ce poste">
+                        Supprimer
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
     </div>
         <script type="text/javascript">
             function displayBoxContent(id){
@@ -46,12 +70,8 @@
         </script>
 {% endblock %}
 
-
 {% block navigation %}
     <ul>
-        <li><a href="/admin/openvolunteer/job/add" title="">Ajouter un poste</a></li>
-        <li><a href="/openvolunteer/volunteer/" title="">Chercher un bénévole</a></li>
-        <li><a href="/openvolunteer/event/" title="">Chercher un événement</a></li>
-        <li><a href="/openvolunteer/answer/" title="">Chercher une réponse de participation</a></li>
+        <li><a href="/openvolunteer/job/add/" title="">Ajouter un poste</a></li>
     </ul>
 {% endblock %}

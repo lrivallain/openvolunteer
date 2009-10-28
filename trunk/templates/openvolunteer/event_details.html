@@ -70,21 +70,40 @@
 {% endblock %}
 
 {% block navigation %}
+    <div id="dialog_conf_delete" title="Supprimer cette fiche?" style="text-align:center;">
+        <p>Êtes vous sûr de vouloir supprimer cette fiche événement?</p>
+        <p><a href="{{ event.get_delete_url }}" title="Confirmer l'opération">Confirmer</a></p>
+    </div>
+    <script>
+        $(function() {
+            $("#dialog_conf_delete").dialog({
+                bgiframe: true,
+                modal: true,
+                autoOpen: false
+            });
+        });
+    </script>
     <ul>
         <li>
-            <a href="/admin/openvolunteer/event/{{ event.id }}" 
-               title="Modifier les informations de {{ volunter }}">
-               Modifier les informations
+            <a href="/openvolunteer/event/edit/{{ event.id }}"
+               title="Modifier les informations de cette fiche">
+               Modifier cette fiche
             </a>
         </li>
         <li>
-            <a href="/openvolunteer/answers/event/{{ event.id }}" 
+            <a href="javascript:;" onclick="$('#dialog_conf_delete').dialog('open');"
+               title="Supprimer l'événement">
+               Supprimer cette fiche
+            </a>
+        </li>
+        <li>
+            <a href="/openvolunteer/answers/event/{{ event.id }}"
                title="Obtenir la liste des bénévoles présents à cet événement">
                Obtenir la liste des bénévoles présents
             </a>
         </li>
         <li>
-            <a href="/openvolunteer/answers/nocontact/event/{{ event.id }}" 
+            <a href="/openvolunteer/answers/nocontact/event/{{ event.id }}"
                title="Obtenir la liste des bénévoles non contactés pour cet événement">
                Obtenir la liste des bénévoles non contactés
             </a>
