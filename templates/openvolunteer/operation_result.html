@@ -3,8 +3,10 @@
 {% block title %}OpenVolunteer | Résultat{% endblock %}
 
 {% block content %}
-    <h1>Résultat de l'opération</h1>
-    <p class="ov-{{ status }}">{{ message|safe }}</p>
+    <div class="OV_op_result">
+        <h3>Résultat de l'opération</h3>
+        <p class="OV_op_result_{{ status }}">{{ message|safe }}</p>
+    </div>
 {% endblock %}
 
 {% block navigation %}

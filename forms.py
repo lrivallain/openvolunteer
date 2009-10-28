@@ -22,8 +22,9 @@
     along with OpenVolunteer.  If not, see <http://www.gnu.org/licenses/>.
     ---------------------------------------------------------------------------
 """
-
 from django import forms
+from demo.openvolunteer.models import *
+
 class VolunteerForm(forms.Form):
     name = forms.CharField(max_length=100)
     firstname = forms.CharField(max_length=100)
@@ -34,3 +35,11 @@ class VolunteerForm(forms.Form):
     birth_place = forms.CharField(required=False, max_length=100)
     ca_member = forms.BooleanField(required=False)
     comments = forms.CharField(required=False, widget=forms.Textarea)
+
+class EventForm(forms.Form):
+    title = forms.CharField(max_length=100)
+    place = forms.CharField(required=False, max_length=100)
+
+class JobForm(forms.Form):
+    title = forms.CharField(max_length=100)
+    description = forms.CharField(required=False, widget=forms.Textarea)

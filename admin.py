@@ -26,7 +26,7 @@ from demo.openvolunteer.models import *
 from django.contrib import admin
 
 class VolunteerAdmin(admin.ModelAdmin):
-    """ 
+    """
     Provide informations to create django.contrib.admin
     forms for the management of volunteers.
     """
@@ -34,7 +34,7 @@ class VolunteerAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Informations personnelles', {'fields': ('name','firstname','birthday','birth_place','social_security_number')}),
         ('Coordonnées', {'fields': ('phone_home','phone_mobile','email','address')}),
-        ('Divers', {'fields': ('avatar','inscription_date','ca_member','comments')}),
+        ('Divers', {'fields': ('avatar','ca_member','comments')}),
     )
     list_display = ('name','firstname','email','phone_home','phone_mobile','ca_member')
     search_fields = ['name','firstname','email','phone_home','phone_mobile','ca_member']
@@ -43,7 +43,7 @@ class VolunteerAdmin(admin.ModelAdmin):
 
 
 class EventAdmin(admin.ModelAdmin):
-    """ 
+    """
     Provide informations to create django.contrib.admin
     forms for the management of events.
     """
@@ -58,7 +58,7 @@ class EventAdmin(admin.ModelAdmin):
 
 
 class JobAdmin(admin.ModelAdmin):
-    """ 
+    """
     Provide informations to create django.contrib.admin
     forms for the management of jobs.
     """
@@ -68,9 +68,9 @@ class JobAdmin(admin.ModelAdmin):
     list_filter = ['boss']
     prepopulated_fields = {"stripped_title": ("title",)}
     search_fields = ['title','boss']
-    
+
 class AnswerAdmin(admin.ModelAdmin):
-    """ 
+    """
     Provide informations to create django.contrib.admin
     forms for the management of answers.
     """
@@ -86,7 +86,7 @@ class AnswerAdmin(admin.ModelAdmin):
     raw_id_field = ('volunteer',)
 
 class NeedAdmin(admin.ModelAdmin):
-    """ 
+    """
     Provide informations to create django.contrib.admin
     forms for the management of needs.
     """

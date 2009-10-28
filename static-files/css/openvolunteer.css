@@ -254,9 +254,9 @@ a:hover {
 
 .OV_volunteer_details td textarea {
     color:#000000;
-    border:1px solid #DDDDDD;
+    border:1px solid #234F32;
     width:80%;
-    padding:10px;
+    padding:1px;
     text-align:left;
 }
 
@@ -312,9 +312,9 @@ a:hover {
 
 .OV_event_details td textarea {
     color:#000000;
-    border:1px solid #DDDDDD;
+    border:1px solid #234F32;
     width:80%;
-    padding:10px;
+    padding:1px;
     text-align:left;
 }
 
@@ -373,30 +373,25 @@ a:hover {
     margin-bottom:3px;
 }
 
-/*
- *
- */
-
-.OV_index_line {
-    clear:both;
+.OV_index h2 {
+    color:#555555;
 }
 
-.OV_index_box {
-    background:#FFFFFF;
-    -moz-border-radius-topleft:10px;
-    float:left;
-    width:40%;
-    margin:30px;
+.OV_index h3 {
+    color:#999999;
+    margin-top:40px;
+    font-size:1.4em;
 }
 
-.OV_index_box_title {
-    background:#AAAAAA;
-    font-size:1.3em;
+.OV_index ul {
+    list-style:none;
+    padding:0px;
+}
+
+.OV_index li {
+    padding-top:5px;
     font-weight:bold;
-    padding:2px 5px 2px 5px;
-    text-align:center;
-    -moz-border-radius-topleft:10px;
-    -moz-border-radius-topright:10px;
+    font-size:1.2em;
 }
 
 .OV_index_box_content {
@@ -434,7 +429,6 @@ a:hover {
 .OV_search_form select {
     border:1px solid #234F32;
 }
-
 
 .OV_search_form input[type=submit], .OV_search_form input[type=button] {
     border:1px solid #234F32;
@@ -483,4 +477,29 @@ a:hover {
 
 .OV_vol_edit .OV_required input:focus {
     border:2px solid #CC0000;
+}
+
+.OV_center {
+    text-align:center;
+}
+
+.OV_centered {
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.OV_op_result {
+    text-align:center;
+}
+
+.OV_op_result h3 {
+    color:#999999;
+}
+
+.OV_op_result_error {
+    color:#CC0000;
+}
+
+.OV_op_result_success {
+    color:#000000;
 }
