@@ -81,7 +81,7 @@
                 <th>Numéro de sécu</th>
                 <td>
                     <input type="text" id="id_social_security_number" maxlength="15"
-                           name="social_security_number" value="{{ volunteer.social_security_number }}">
+                           name="social_security_number" value="{% if volunteer.social_security_number %}{{ volunteer.social_security_number }}{% endif %}">
                 </td>
                 <th>Première inscription</th>
                 <td>

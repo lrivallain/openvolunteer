@@ -27,13 +27,13 @@
                 </td>
                 <td>{{ job.description }}</td>
                 <td class="OV_center">
-                    <div id="dialog_conf_delete" title="Supprimer cette fiche?" style="text-align:center;">
+                    <div id="dialog_conf_delete{{ job.id }}" title="Supprimer cette fiche?" style="text-align:center;">
                         <p>Êtes vous sûr de vouloir supprimer cette fiche de poste?</p>
                         <p><a href="{{ job.get_delete_url }}" title="Confirmer l'opération">Confirmer</a></p>
                     </div>
                     <script>
                         $(function() {
-                            $("#dialog_conf_delete").dialog({
+                            $("#dialog_conf_delete{{ job.id }}").dialog({
                                 bgiframe: true,
                                 modal: true,
                                 autoOpen: false
@@ -43,7 +43,7 @@
                     <a href="{{ job.get_edit_url }}" title="Modifier la fiche de ce poste">
                         Modifier
                     </a> |
-                    <a href="javascript:;" onclick="$('#dialog_conf_delete').dialog('open')"
+                    <a href="javascript:;" onclick="$('#dialog_conf_delete{{ job.id }}').dialog('open')"
                        title="Supprimer la fiche de ce poste">
                         Supprimer
                     </a>
