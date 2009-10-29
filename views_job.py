@@ -23,7 +23,7 @@
     ---------------------------------------------------------------------------
 """
 from demo.openvolunteer.models import *
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseNotFound
 from django.db.models import Q
@@ -46,18 +46,9 @@ def job_delete(request, job_id):
     """
     Delete current job
     """
-    try:
-        job = Job.objects.get(id=job_id)
-        job.delete()
-        message = "Suppression effectuée !"
-        status = "success"
-    except:
-        message = "Oups, Une erreur est survenue ! (error code: 112)"
-        status = "error"
-    return render_to_response('openvolunteer/operation_result.html',
-                              {'status': status,
-                               'message': message},
-                              context_instance=RequestContext(request))
+    job = get_object_or_404(Job, id=job_id)
+    job.delete()
+    return redirect("/openvolunteer/job/")
 
 
 @login_required(redirect_field_name='next')
@@ -65,7 +56,7 @@ def job_edit(request, job_id):
     """
     Update job infos
     """
-    job = Job.objects.get(id=job_id)
+    job = get_object_or_404(Job, id=job_id)
     form = JobForm(request.POST)
     if request.method == 'POST':
         try:

@@ -23,7 +23,7 @@
     ---------------------------------------------------------------------------
 """
 from demo.openvolunteer.models import *
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseNotFound
 from django.db.models import Q
@@ -69,15 +69,9 @@ def volunteer_details(request, volunteer_id):
     """
     Display volunteer details and link to modify them
     """
-    try:
-        volunteer = Volunteer.objects.get(id=volunteer_id)
-        error_message = ''
-    except:
-        volunteer = ""
-        error_message = 'Aucun bénévole ne correspond à votre requête.'
+    volunteer = get_object_or_404(Event, id=volunteer_id)
     return render_to_response('openvolunteer/volunteer_details.html',
-                              {'volunteer': volunteer,
-                               'error_message': error_message},
+                              {'volunteer': volunteer},
                               context_instance=RequestContext(request))
 
 
@@ -101,30 +95,23 @@ def volunteer_vcard(request, volunteer_id):
         response = HttpResponseNotFound('<h1>La génération de la Vcard a échoué!</h1>')
     return response
 
+
 @login_required(redirect_field_name='next')
 def volunteer_delete(request, volunteer_id):
     """
     Delete current volunteer
     """
-    try:
-        volunteer = Volunteer.objects.get(id=volunteer_id)
-        volunteer.delete()
-        message = "Suppression effectuée !"
-        status = "success"
-    except:
-        message = "Oups, Une erreur est survenue ! (error code: 105)"
-        status = "error"
-    return render_to_response('openvolunteer/operation_result.html',
-                              {'status': status,
-                               'message': message},
-                              context_instance=RequestContext(request))
+    volunteer = get_object_or_404(Volunteer, id=volunteer_id)
+    volunteer.delete()
+    return redirect("/openvolunteer/volunteer/")
+
 
 @login_required(redirect_field_name='next')
 def volunteer_edit(request, volunteer_id):
     """
     Add or Update volunteer infos
     """
-    volunteer = Volunteer.objects.get(id=volunteer_id)
+    volunteer = get_object_or_404(Volunteer, id=volunteer_id)
     form = VolunteerForm(request.POST)
     if request.method == 'POST':
         try:

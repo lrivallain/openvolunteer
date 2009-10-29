@@ -1,0 +1,62 @@
+{% extends "openvolunteer/base.html" %}
+
+{% block title %}OpenVolunteer | Édition d'une fiche{% endblock %}
+
+{% block content %}
+    <form method="POST" action="." class="OV_volunteer_details OV_center">
+        <table class="OV_centered">
+            <tr>
+                <th class="OV_required">Événement</th>
+                <td class="OV_required">{{ answer.event }}</td>
+            </tr>
+            <tr>
+                <th class="OV_required">Bénévole</th>
+                <td class="OV_required">
+                    <select id="id_volunteer" name="volunteer">
+                        {{ sel_opts_vol|safe }}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Poste</th>
+                <td>
+                    <select id="id_job" name="job">
+                        {{ sel_opts_job|safe }}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Présence</th>
+                <td>
+                    <input type="checkbox" id="id_presence" name="presence"
+                    {% if answer.presence %}checked{% endif %}>
+                </td>
+            </tr>
+            <tr>
+                <th>Dernière demande</th>
+                <td>
+                    <input type="text" id="id_last_request_year" maxlength="2" size="2"
+                           name="lastrequest_day" value='{{ answer.last_request|date:"d" }}'>
+                    <input type="text" id="id_last_request_month" maxlength="2" size="2"
+                           name="lastrequest_month" value='{{ answer.last_request|date:"m" }}'>
+                    <input type="text" id="id_last_request_year" maxlength="4" size="4"
+                           name="lastrequest_year" value='{{ answer.last_request|date:"Y" }}'>
+                </td>
+            </tr>
+            <tr>
+                <th>Commentaires</th>
+                <td colspan="3">
+                    <textarea id="id_comments" name="comments">{{ answer.comments }}</textarea>
+                </td>
+            </tr>
+        </table>
+        <p class="OV_required">* Les champs marqués en <span>rouge</span> sont obligatoires.</p>
+        <input type="submit" value="Enregistrer">
+    </form>
+{% endblock %}
+
+{% block navigation %}
+    <ul>
+       </li><a href="{{ answer.event.get_absolute_url }}" title="">Revenir à la fiche de l'événement.</a></li>
+    </ul>
+{% endblock %}

@@ -32,6 +32,7 @@ urlpatterns = patterns('demo.openvolunteer.views',
     # VOLUNTEERS views, search tool and vcard generation
     (r'^volunteer/$','volunteer_index'),
     (r'^volunteer/add/$','volunteer_add'),
+
     (r'^volunteer/(?P<volunteer_id>\d+)/$', 'volunteer_details'),
     (r'^volunteer/vcard/(?P<volunteer_id>\d+)/$', 'volunteer_vcard'),
     (r'^volunteer/delete/(?P<volunteer_id>\d+)/$', 'volunteer_delete'),
@@ -43,19 +44,30 @@ urlpatterns = patterns('demo.openvolunteer.views',
     # EVENTS views and search tool
     (r'^event/$', 'event_index'),
     (r'^event/add/$', 'event_add'),
+
     (r'^event/(?P<event_id>\d+)/$', 'event_details'),
     (r'^event/edit/(?P<event_id>\d+)/$', 'event_edit'),
     (r'^event/delete/(?P<event_id>\d+)/$', 'event_delete'),
+    (r'^event/csv/(?P<event_id>\d+)/$', 'event_csv'),
+
+    (r'^event/need/add/(?P<event_id>\d+)/$', 'event_need_add'),
+    (r'^event/need/edit/(?P<need_id>\d+)/$', 'event_need_edit'),
+    (r'^event/need/delete/(?P<need_id>\d+)/$', 'event_need_delete'),
+
+    (r'^event/answer/add/(?P<event_id>\d+)/$', 'event_answer_add'),
+    (r'^event/answer/add/(?P<event_id>\d+)/(?P<volunteer_id>\d+)/$', 'event_answer_add'),
+    (r'^event/answer/edit/(?P<answer_id>\d+)/$', 'event_answer_edit'),
+    (r'^event/answer/delete/(?P<answer_id>\d+)/$', 'event_answer_delete'),
 
     # ANSWERS views and search tool
-    (r'^answers/event/(?P<event_id>\d+)/$', 'event_volunteers'),
-    (r'^answers/event/csv/(?P<event_id>\d+)/$', 'event_csv'),
-    (r'^answers/nocontact/event/(?P<event_id>\d+)/$', 'event_tocontact'),
     (r'^answer/$','answer_index'),
+    (r'^answer/positive/(?P<event_id>\d+)/$', 'answer_positives'),
+    (r'^answer/unknown/(?P<event_id>\d+)/$', 'answer_tocontact'),
 
     # JOBS views and index
     (r'^job/$','job_index'),
     (r'^job/add/$','job_add'),
+
     (r'^job/edit/(?P<job_id>\d+)/$','job_edit'),
     (r'^job/delete/(?P<job_id>\d+)/$','job_delete'),
 )

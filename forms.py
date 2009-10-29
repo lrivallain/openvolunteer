@@ -43,3 +43,7 @@ class EventForm(forms.Form):
 class JobForm(forms.Form):
     title = forms.CharField(max_length=100)
     description = forms.CharField(required=False, widget=forms.Textarea)
+
+class AnswerForm(forms.Form):
+    presence = forms.BooleanField(required=False)
+    comments = forms.CharField(required=False, widget=forms.Textarea)

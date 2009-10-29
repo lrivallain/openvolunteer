@@ -141,13 +141,28 @@ class Event(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return "/openvolunteer/event/%d" % self.id
+        return "/openvolunteer/event/%d/" % self.id
 
     def get_edit_url(self):
         return "/openvolunteer/event/edit/%d/" % self.id
 
     def get_delete_url(self):
         return "/openvolunteer/event/delete/%d/" % self.id
+
+    def get_need_add_url(self):
+        return "/openvolunteer/event/need/add/%d/" % self.id
+
+    def get_answer_add_url(self):
+        return "/openvolunteer/event/answer/add/%d/" % self.id
+
+    def get_answer_url(self):
+        return "/openvolunteer/answer/?v=&e=%d" % self.id
+
+    def get_positives_answer_url(self):
+        return "/openvolunteer/answer/positive/%d/" % self.id
+
+    def get_unknown_answer_url(self):
+        return "/openvolunteer/answer/unknown/%d/" % self.id
 
     def get_affiche_url(self):
         filename = self.affiche.path.split('/')[len(self.affiche.path.split('/'))-1]
@@ -195,11 +210,17 @@ class Answer(models.Model):
     presence = models.BooleanField('Sera présent comme bénévole?',blank=True)
     job = models.ForeignKey(Job,null=True,blank=True,help_text='Poste')
     comments = models.TextField(blank=True,help_text='Commentaires')
-    date = models.DateField(help_text='Date de la réponse',null=True,blank=True)
+    date = models.DateField(help_text='Date de la réponse',null=True,blank=True,auto_now=True)
     last_request = models.DateField(help_text='Dernière relance',null=True,blank=True)
 
     class Meta:
         ordering = ('event','volunteer')
+
+    def get_edit_url(self):
+        return "/openvolunteer/event/answer/edit/%d/" % self.id
+
+    def get_delete_url(self):
+        return "/openvolunteer/event/answer/delete/%d/" % self.id
 
 
 class Need(models.Model):
@@ -219,12 +240,17 @@ class Need(models.Model):
     def __unicode__(self):
         return u"%s %s" % (self.event, self.job)
 
+    def get_edit_url(self):
+        return "/openvolunteer/event/need/edit/%d/" % self.id
+
+    def get_delete_url(self):
+        return "/openvolunteer/event/need/delete/%d/" % self.id
+
     def get_completed_nb(self):
-        answers = Answer.objects.filter(event=self.event,job=self.job,presence=True).all()
-        return len(answers)
+        return len(Answer.objects.filter(event=self.event,job=self.job,presence=True).all())
 
     def get_completed_status(self):
-        a = len(Answer.objects.filter(event=self.event,job=self.job,presence=True).all())
+        a = self.get_completed_nb()
         b = int(self.number)
         if (a >= b):
             return True

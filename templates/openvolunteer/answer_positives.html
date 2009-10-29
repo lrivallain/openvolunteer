@@ -1,6 +1,6 @@
 {% extends "openvolunteer/base.html" %}
 
-{% block title %}OpenVolunteer | Bénévoles présent pour cet événement{% endblock %}
+{% block title %}OpenVolunteer | Bénévoles présents pour cet événement{% endblock %}
 
 {% block content %}
     <div class="OV_answsers_event">
@@ -42,14 +42,33 @@
                             {% endif %}
                         </td>
                         <td>
-                            {% ifnotequal answer.job.title "none" %}
-                                <a href="{{ answer.job.get_absolute_url }}" title="Afficher la fiche du poste">{{ answer.job }}</a>
-                            {% endifnotequal %}
+                            <a href="{{ answer.job.get_absolute_url }}" title="Afficher la fiche du poste">{{ answer.job }}</a>
                         </td>
                         <td class="OV_search_results_more">
-                            <a href="{{ answer.volunteer.get_absolute_url }}" 
+                            <div id="dialog_conf_delete" title="Supprimer cette fiche?" style="text-align:center;">
+                                <p>Êtes vous sûr de vouloir supprimer cette réponse?</p>
+                                <p><a href="{{ answer.get_delete_url }}" title="Confirmer l'opération">Confirmer</a></p>
+                            </div>
+                            <script>
+                                $(function() {
+                                    $("#dialog_conf_delete").dialog({
+                                        bgiframe: true,
+                                        modal: true,
+                                        autoOpen: false
+                                    });
+                                });
+                            </script>
+                            <a href="{{ answer.volunteer.get_absolute_url }}"
                                title="Consulter la fiche détaillée de {{ answer.volunteer }}">
-                               Fiche détaillée
+                               Bénévole
+                            </a> |
+                            <a href="{{ answer.get_edit_url }}"
+                               title="Modifer cette réponse">
+                               Modifier
+                            </a> |
+                            <a href="javascript:;" onclick="$('#dialog_conf_delete').dialog('open');"
+                               title="Supprimer cette réponse">
+                               Supprimer
                             </a>
                         </td>
                     </tr>
@@ -62,25 +81,30 @@
 {% block navigation %}
     <ul>
         <li>
-            <a href="/openvolunteer/event/{{ event.id }}" 
-               title="Accéder à la fiche principale de cet événement">
-               Fiche de l'événement
+            <a href="{{ event.get_answer_add_url }}" title="Ajouter une réponse">
+                Ajouter une réponse
+            </a>
+        </li>
+        <li>
+            <a href="{{ event.get_absolute_url }}"
+               title="Voir la fiche de l'événement">
+               Voir la fiche de l'événement
+            </a>
+        </li>
+        <li>
+            <a href="{{ event.get_answer_url }}"
+               title="Obtenir la liste des réponses pour cet événement">
+               Obtenir la liste des réponses
+            </a>
+        </li>
+        <li>
+            <a href="{{ event.get_unknown_answer_url }}"
+               title="Obtenir la liste des bénévoles non contactés pour cet événement">
+               Obtenir la liste des bénévoles non contactés pour cet événement
             </a>
         </li>
         {% if answers %}
             <li><a href="mailto:{% for answer in answers %}{% if answer.volunteer.email %}{{ answer.volunteer.email }},{% endif %}{% endfor %}" title="Envoyer un mail aux bénévoles présents">Envoyer un mail aux bénévoles présents</a></li>
         {% endif %}
-        <li>
-            <a href="/openvolunteer/answers/nocontact/event/{{ event.id }}" 
-               title="Obtenir la liste des bénévoles non contactés pour cet événement">
-               Obtenir la liste des bénévoles non contactés
-            </a>
-        </li>
-        <li>
-            <a href="/openvolunteer/answer/?v=&e={{ event.id }}"
-               title="Obtenir la liste des réponses pour cet événement">
-               Obtenir la liste des réponses
-            </a>
-        </li>
     </ul>
 {% endblock %}

@@ -31,7 +31,7 @@
             </div>
             <div class="OV_search_form OV_download_button">
                 <input type="button"
-                       onclick="window.location.href='/openvolunteer/answers/event/csv/{{ event.id }}'"
+                       onclick="window.location.href='/openvolunteer/event/csv/{{ event.id }}'"
                        title="Télécharger la liste des bénévoles présents à cet événement en .CSV"
                        value="Télécharger la liste des bénévoles présents à cet événement en .CSV" />
             </div>
@@ -59,7 +59,26 @@
                                 {% endif %}
                             </td>
                             <td class="OV_search_results_more">
-                                <a href="/admin/openvolunteer/need/{{need.id}}" title="Modifier les valeurs de ce besoin">Modifier ce besoin</a>
+                                <div id="dialog_conf_delete2" title="Supprimer cette fiche?" style="text-align:center;">
+                                    <p>Êtes vous sûr de vouloir supprimer ce besoin?</p>
+                                    <p><a href="{{ need.get_delete_url }}" title="Confirmer l'opération">Confirmer</a></p>
+                                </div>
+                                <script>
+                                    $(function() {
+                                        $("#dialog_conf_delete2").dialog({
+                                            bgiframe: true,
+                                            modal: true,
+                                            autoOpen: false
+                                        });
+                                    });
+                                </script>
+                                <a href="{{ need.get_edit_url }}" title="Modifier les valeurs de ce besoin">
+                                    Modifier
+                                </a> |
+                                <a href="javascript:;" onclick="$('#dialog_conf_delete2').dialog('open');"
+                                   title="Supprimer ce besoin">
+                                    Supprimer
+                                </a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -85,7 +104,7 @@
     </script>
     <ul>
         <li>
-            <a href="/openvolunteer/event/edit/{{ event.id }}"
+            <a href="{{ event.get_edit_url }}"
                title="Modifier les informations de cette fiche">
                Modifier cette fiche
             </a>
@@ -97,21 +116,33 @@
             </a>
         </li>
         <li>
-            <a href="/openvolunteer/answers/event/{{ event.id }}"
+            <a href="{{ event.get_need_add_url }}"
+               title="Ajouter un besoin">
+               Ajouter un besoin
+            </a>
+        </li>
+        <li>
+            <a href="{{ event.get_answer_add_url }}"
+               title="Ajouter une réponse">
+               Ajouter une réponse
+            </a>
+        </li>
+        <li>
+            <a href="{{ event.get_positives_answer_url }}"
                title="Obtenir la liste des bénévoles présents à cet événement">
                Obtenir la liste des bénévoles présents
             </a>
         </li>
         <li>
-            <a href="/openvolunteer/answers/nocontact/event/{{ event.id }}"
-               title="Obtenir la liste des bénévoles non contactés pour cet événement">
-               Obtenir la liste des bénévoles non contactés
+            <a href="{{ event.get_answer_url }}"
+               title="Obtenir la liste des réponses pour cet événement">
+               Obtenir la liste des réponses
             </a>
         </li>
         <li>
-            <a href="/openvolunteer/answer/?v=&e={{ event.id }}"
-               title="Obtenir la liste des réponses pour cet événement">
-               Obtenir la liste des réponses
+            <a href="{{ event.get_unknown_answer_url }}"
+               title="Obtenir la liste des bénévoles non contactés pour cet événement">
+               Obtenir la liste des bénévoles non contactés
             </a>
         </li>
     </ul>
