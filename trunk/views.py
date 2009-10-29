@@ -34,6 +34,7 @@ from views_volunteer import *
 from views_event import *
 from views_answer import *
 from views_job import *
+from views_need import *
 
 @login_required(redirect_field_name='next')
 def index(request):

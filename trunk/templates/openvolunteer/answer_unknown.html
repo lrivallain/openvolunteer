@@ -1,6 +1,6 @@
 {% extends "openvolunteer/base.html" %}
 
-{% block title %}OpenVolunteer | Bénévoles présent pour cet événement{% endblock %}
+{% block title %}OpenVolunteer | Bénévoles non contactés pour cet événement{% endblock %}
 
 {% block content %}
     {% if error_message %}
@@ -45,9 +45,13 @@
                                 {% endif %}
                             </td>
                             <td class="OV_search_results_more">
-                                <a href="{{ volunteer.get_absolute_url }}" 
-                                   title="Consulter la fiche détaillée de {{ result }}">
-                                   Fiche détaillée
+                                <a href="{{ volunteer.get_absolute_url }}"
+                                   title="Consulter la fiche détaillée de {{ volunteer }}">
+                                    Bénévole
+                                </a> |
+                                <a href="{{ event.get_answer_add_url }}{{ volunteer.id }}/"
+                                   title="Consulter la fiche détaillée de {{ volunteer }}">
+                                    (+) Réponse
                                 </a>
                             </td>
                         </tr>
@@ -61,21 +65,26 @@
 {% block navigation %}
     <ul>
         <li>
-            <a href="/openvolunteer/event/{{ event.id }}" 
-               title="Accéder à la fiche principale de cet événement">
-               Fiche de l'événement
+            <a href="{{ event.get_answer_add_url }}" title="Ajouter une réponse">
+                Ajouter une réponse
             </a>
         </li>
         <li>
-            <a href="/openvolunteer/answers/event/{{ event.id }}" 
-               title="Obtenir la liste des bénévoles présents à cet événement">
-               Obtenir la liste des bénévoles présents
+            <a href="{{ event.get_absolute_url }}"
+               title="Voir la fiche de l'événement">
+               Voir la fiche de l'événement
             </a>
         </li>
         <li>
-            <a href="/openvolunteer/answer/?v=&e={{ event.id }}"
+            <a href="{{ event.get_answer_url }}"
                title="Obtenir la liste des réponses pour cet événement">
                Obtenir la liste des réponses
+            </a>
+        </li>
+        <li>
+            <a href="{{ event.get_positives_answer_url }}"
+               title="Obtenir la liste des bénévoles présents à cet événement">
+               Obtenir la liste des bénévoles présents à cet événement
             </a>
         </li>
     </ul>

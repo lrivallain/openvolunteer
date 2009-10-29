@@ -23,7 +23,7 @@
     ---------------------------------------------------------------------------
 """
 from demo.openvolunteer.models import *
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseNotFound
 from django.db.models import Q
@@ -70,18 +70,11 @@ def event_details(request, event_id):
     """
     Display event details and link to modify them
     """
-    try:
-        event = Event.objects.get(id=event_id)
-        needs = Need.objects.filter(event=event).all()
-        error_message = ''
-    except:
-        needs = []
-        event = ""
-        error_message = 'Aucun événement ne correspond à votre requête.'
+    event = get_object_or_404(Event, id=event_id)
+    needs = Need.objects.filter(event=event).all()
     return render_to_response('openvolunteer/event_details.html',
                               {'event': event,
-                               'needs': needs,
-                               'error_message': error_message},
+                               'needs': needs},
                               context_instance=RequestContext(request))
 
 
@@ -90,47 +83,41 @@ def event_delete(request, event_id):
     """
     Delete current event
     """
-    try:
-        event = Event.objects.get(id=event_id)
-        event.delete()
-        message = "Suppression effectuée !"
-        status = "success"
-    except:
-        message = "Oups, Une erreur est survenue ! (error code: 106)"
-        status = "error"
-    return render_to_response('openvolunteer/operation_result.html',
-                              {'status': status,
-                               'message': message},
-                              context_instance=RequestContext(request))
+    event = get_object_or_404(Event, id=event_id)
+    event.delete()
+    return redirect("/openvolunteer/event/")
+
 
 @login_required(redirect_field_name='next')
 def event_edit(request, event_id):
     """
     Update event infos
     """
-    event = Event.objects.get(id=event_id)
+    event = get_object_or_404(Event, id=event_id)
     form = EventForm(request.POST)
     if request.method == 'POST':
-        try:
-            if form.is_valid():
+        if form.is_valid():
+            try:
                 event = event_add_or_edit(request, form, event)
-                message = "Modification effectuée !<br><a href='%s'" % event.get_absolute_url()
-                message += "' title='Revenir à la fiche'>Retour</a>"
-                status = "success"
-            else:
-                message = "La modification a échoué ! (error code: 109)"
+            except:
+                message = "L'ajout a échoué ! (error code: 108)"
                 status = "error"
-        except:
-            message = "La modification a échoué ! (error code: 110)"
+                return render_to_response('openvolunteer/operation_result.html',
+                                          {'status': status,
+                                           'message': message},
+                                          context_instance=RequestContext(request))
+            return redirect(event)
+        else:
+            message = "L'ajout a échoué ! (error code: 107)"
             status = "error"
+            return render_to_response('openvolunteer/operation_result.html',
+                                      {'status': status,
+                                       'message': message},
+                                      context_instance=RequestContext(request))
     else:
         return render_to_response('openvolunteer/event_edit.html',
-                              {'event': event, 'form': form},
-                              context_instance=RequestContext(request))
-    return render_to_response('openvolunteer/operation_result.html',
-                              {'status': status,
-                               'message': message},
-                              context_instance=RequestContext(request))
+                                  {'form': form},
+                                  context_instance=RequestContext(request))
 
 @login_required(redirect_field_name='next')
 def event_add(request):
@@ -140,26 +127,29 @@ def event_add(request):
     event = Event()
     form = EventForm(request.POST)
     if request.method == 'POST':
-        try:
-            if form.is_valid():
+        if form.is_valid():
+            try:
                 event = event_add_or_edit(request, form, event)
-                message = "Ajout effectué !<br><a href='%s'" % event.get_absolute_url()
-                message += "' title='Voir la fiche'>Voir la fiche de ce nouvel événement</a>"
-                status = "success"
-            else:
-                message = "L'ajout a échoué ! (error code: 107)"
+            except:
+                message = "L'ajout a échoué ! (error code: 108)"
                 status = "error"
-        except:
-            message = "L'ajout a échoué ! (error code: 108)"
+                return render_to_response('openvolunteer/operation_result.html',
+                                          {'status': status,
+                                           'message': message},
+                                          context_instance=RequestContext(request))
+            return redirect(event)
+        else:
+            message = "L'ajout a échoué ! (error code: 107)"
             status = "error"
+            return render_to_response('openvolunteer/operation_result.html',
+                                      {'status': status,
+                                       'message': message},
+                                      context_instance=RequestContext(request))
     else:
         return render_to_response('openvolunteer/event_edit.html',
                                   {'form': form},
                                   context_instance=RequestContext(request))
-    return render_to_response('openvolunteer/operation_result.html',
-                              {'status': status,
-                               'message': message},
-                              context_instance=RequestContext(request))
+
 
 from django.template import defaultfilters
 def event_add_or_edit(request, form, event):
@@ -179,35 +169,6 @@ def event_add_or_edit(request, form, event):
     else: event.date = None
     event.save()
     return event
-
-@login_required(redirect_field_name='next')
-def event_volunteers(request, event_id):
-    """
-    Display volunteers for an event with positive answer
-    """
-    try:
-        event = Event.objects.get(id=event_id)
-        error_message = ''
-    except:
-        event = ""
-        answers = ""
-        error_message = 'Aucun événement ne correspond à votre requête.'
-        return render_to_response('openvolunteer/event_answers.html',
-                                  {'event': event,
-                                   'answers': answers,
-                                   'error_message': error_message},
-                                  context_instance=RequestContext(request))
-    try:
-        answers = Answer.objects.filter(event=event,presence=True).all().order_by('job')
-    except:
-        event = ""
-        answers = ""
-        error_message = 'Aucune réponse positive pour le moment.'
-    return render_to_response('openvolunteer/event_answers.html',
-                              {'event': event,
-                               'answers': answers,
-                               'error_message': error_message},
-                              context_instance=RequestContext(request))
 
 
 import csv
@@ -240,45 +201,4 @@ def event_csv(request, event_id):
                              birthday,
                              answer.job)
                         ])
-
     return response
-
-
-@login_required(redirect_field_name='next')
-def event_tocontact(request, event_id):
-    """
-    Display not contacted volunteers for an event
-    """
-    try:
-        event = Event.objects.get(id=event_id)
-        error_message = ''
-    except:
-        event = ""
-        not_contacted = ""
-        error_message = 'Aucun événement ne correspond à votre requête.'
-        return render_to_response('openvolunteer/event_noanswers.html',
-                                  {'event': event,
-                                   'volunteers': not_contacted,
-                                   'error_message': error_message},
-                                  context_instance=RequestContext(request))
-    try:
-        volunteers = []
-        not_contacted = []
-
-        answers = Answer.objects.filter(event=event).all()
-        for answer in answers:
-            volunteers.append(answer.volunteer)
-
-        all_volunteers = Volunteer.objects.all()
-        for volunteer in all_volunteers:
-            if volunteer not in volunteers:
-                not_contacted.append(volunteer)
-    except:
-        event = ""
-        not_contacted = ""
-        error_message = 'Tous les bénévoles de la liste ont répondu.'
-    return render_to_response('openvolunteer/event_noanswers.html',
-                              {'event': event,
-                               'volunteers': not_contacted,
-                               'error_message': error_message},
-                              context_instance=RequestContext(request))
