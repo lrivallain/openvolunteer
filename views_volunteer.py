@@ -69,7 +69,7 @@ def volunteer_details(request, volunteer_id):
     """
     Display volunteer details and link to modify them
     """
-    volunteer = get_object_or_404(Event, id=volunteer_id)
+    volunteer = get_object_or_404(Volunteer, id=volunteer_id)
     return render_to_response('openvolunteer/volunteer_details.html',
                               {'volunteer': volunteer},
                               context_instance=RequestContext(request))

@@ -64,13 +64,13 @@
                         <a href="{{ result.job.get_absolute_url }}" title="Afficher la fiche du poste">{{ result.job }}</a>
                     </td>
                     <td class="OV_search_results_more">
-                        <div id="dialog_conf_delete" title="Supprimer cette fiche?" style="text-align:center;">
+                        <div id="dialog_conf_delete{{ result.id }}" title="Supprimer cette fiche?" style="text-align:center;">
                             <p>Êtes vous sûr de vouloir supprimer cette réponse?</p>
                             <p><a href="{{ result.get_delete_url }}" title="Confirmer l'opération">Confirmer</a></p>
                         </div>
                         <script>
                             $(function() {
-                                $("#dialog_conf_delete").dialog({
+                                $("#dialog_conf_delete{{ result.id }}").dialog({
                                     bgiframe: true,
                                     modal: true,
                                     autoOpen: false
@@ -85,7 +85,7 @@
                            title="Modifer cette réponse">
                            Modifier
                         </a> |
-                        <a href="javascript:;" onclick="$('#dialog_conf_delete').dialog('open');"
+                        <a href="javascript:;" onclick="$('#dialog_conf_delete{{ result.id }}').dialog('open');"
                            title="Supprimer cette réponse">
                            Supprimer
                         </a>
