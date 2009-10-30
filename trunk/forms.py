@@ -45,5 +45,5 @@ class JobForm(forms.Form):
     description = forms.CharField(required=False, widget=forms.Textarea)
 
 class AnswerForm(forms.Form):
-    presence = forms.BooleanField(required=False)
+    presence = forms.ChoiceField(choices=PRESENCE_CHOICES)
     comments = forms.CharField(required=False, widget=forms.Textarea)

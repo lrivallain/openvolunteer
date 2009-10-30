@@ -196,6 +196,12 @@ class Job(models.Model):
     def get_delete_url(self):
         return "/openvolunteer/job/delete/%d/" % self.id
 
+PRESENCE_CHOICES = (
+    ('maybe', 'Peut-être'),
+    ('yes', 'Oui'),
+    ('no', 'Non'),
+)
+
 
 class Answer(models.Model):
     """
@@ -207,7 +213,7 @@ class Answer(models.Model):
     id = models.AutoField(primary_key=True)
     event = models.ForeignKey(Event,help_text='Évènement')
     volunteer = models.ForeignKey(Volunteer,help_text='Cliquez sur l\'icone pour chercher le bénévole')
-    presence = models.BooleanField('Sera présent comme bénévole?',blank=True)
+    presence = models.CharField(max_length=5, choices=PRESENCE_CHOICES)
     job = models.ForeignKey(Job,null=True,blank=True,help_text='Poste')
     comments = models.TextField(blank=True,help_text='Commentaires')
     date = models.DateField(help_text='Date de la réponse',null=True,blank=True,auto_now=True)
@@ -247,7 +253,7 @@ class Need(models.Model):
         return "/openvolunteer/event/need/delete/%d/" % self.id
 
     def get_completed_nb(self):
-        return len(Answer.objects.filter(event=self.event,job=self.job,presence=True).all())
+        return len(Answer.objects.filter(event=self.event,job=self.job,presence="yes").all())
 
     def get_completed_status(self):
         a = self.get_completed_nb()

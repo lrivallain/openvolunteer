@@ -28,8 +28,11 @@
             <tr>
                 <th>Présence</th>
                 <td>
-                    <input type="checkbox" id="id_presence" name="presence"
-                    {% if answer.presence %}checked{% endif %}>
+                    <select id="id_presence" name="presence">
+                        <option value="yes"   {% ifequal answer.presence 'yes'%}selected="selected"{% endifequal %}  >Oui</option>
+                        <option value="no"    {% ifequal answer.presence 'no'%}selected="selected"{% endifequal %}   >Non</option>
+                        <option value="maybe" {% ifequal answer.presence 'maybe'%}selected="selected"{% endifequal %}>Peut-être</option>
+                    </select>
                 </td>
             </tr>
             <tr>
@@ -57,6 +60,6 @@
 
 {% block navigation %}
     <ul>
-       </li><a href="{{ answer.event.get_absolute_url }}" title="">Revenir à la fiche de l'événement.</a></li>
+       </li><a href="{{ answer.event.get_answer_url }}" title="">Revenir à la liste des réponses</a></li>
     </ul>
 {% endblock %}

@@ -40,7 +40,8 @@
                 <th>Poste</th>
             </tr>
             {% for result in results %}
-                <tr {% if result.presence %}class="OV_search_results_ok"{% endif %}>
+                <tr {% ifequal result.presence 'yes'%}class="OV_search_results_ok"{% endifequal %}
+                    {% ifequal result.presence 'maybe'%}class="OV_search_results_maybe"{% endifequal %}>
                     <td>{{ result.volunteer.name }}</td>
                     <td>{{ result.volunteer.firstname }}</td>
                     <td>
@@ -96,6 +97,7 @@
         <div class="OV_legend">
             <div class="OV_legend_positive"><div></div>&nbsp;: Réponses positives</div>
             <div class="OV_legend_negative"><div></div>&nbsp;: Réponses négatives</div>
+            <div class="OV_legend_maybe"   ><div></div>&nbsp;: Réponses "Peut-être"</div>
         </div>
         {% else %}
             <div class="OV_search_results_area_error">
