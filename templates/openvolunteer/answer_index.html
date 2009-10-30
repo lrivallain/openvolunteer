@@ -62,7 +62,9 @@
                         {% endif %}
                     </td>
                     <td>
-                        <a href="{{ result.job.get_absolute_url }}" title="Afficher la fiche du poste">{{ result.job }}</a>
+                        {% if result.job %}
+                            <a href="{{ result.job.get_absolute_url }}" title="Afficher la fiche du poste">{{ result.job }}</a>
+                        {% endif %}
                     </td>
                     <td class="OV_search_results_more">
                         <div id="dialog_conf_delete{{ result.id }}" title="Supprimer cette fiche?" style="text-align:center;">
