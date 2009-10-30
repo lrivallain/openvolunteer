@@ -184,8 +184,11 @@ def event_answer_add(request, event_id, volunteer_id=None):
         sel_opts_vol = ''
         for vol in volunteers:
             sel_opts_vol += "<option value='%d'" % vol.id
-            if (int(volunteer_id) == vol.id):
-                sel_opts_vol += "selected='selected'"
+            try:
+                if (int(volunteer_id) == vol.id):
+                    sel_opts_vol += "selected='selected'"
+            except:
+                pass
             sel_opts_vol += ">%s %s</option>\n" % (vol.name, vol.firstname)
 
         return render_to_response('openvolunteer/answer_edit.html',
@@ -248,7 +251,8 @@ def answer_add_or_edit(request, form, answer):
     Add or update answer infos
     """
     answer.volunteer = Volunteer.objects.get(id=request.REQUEST['volunteer'])
-    answer.job = Job.objects.get(id=request.REQUEST['job'])
+    if (request.REQUEST['job'] != ''):
+        answer.job = Job.objects.get(id=request.REQUEST['job'])
     if (request.REQUEST['presence']):
         answer.presence = form.cleaned_data['presence']
     #if (request.REQUEST['presence'] == "yes" or request.REQUEST['presence'] == "no" or request.REQUEST['presence'] == "maybe"):
