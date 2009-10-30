@@ -195,6 +195,10 @@ a:hover {
     background:#E0FFB8;
 }
 
+.OV_search_results_maybe td {
+    background-color:#FFFA8F;
+}
+
 .OV_search_results_icon {
     width:16px;
     border:none;
@@ -369,6 +373,19 @@ a:hover {
     border: 1px solid #AAAAAA;
     width:35px;
     height:20px;
+    float:left;
+    margin-bottom:3px;
+}
+
+.OV_legend_maybe {
+    clear:both;
+}
+
+.OV_legend_maybe div {
+    border: 1px solid #AAAAAA;
+    width:35px;
+    height:20px;
+    background-color:#FFFA8F;
     float:left;
     margin-bottom:3px;
 }

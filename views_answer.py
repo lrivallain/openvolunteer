@@ -124,7 +124,7 @@ def answer_positives(request, event_id):
                                    'error_message': error_message},
                                   context_instance=RequestContext(request))
     try:
-        answers = Answer.objects.filter(event=event,presence=True).all().order_by('job')
+        answers = Answer.objects.filter(event=event,presence="yes").all().order_by('job')
     except:
         event = ""
         answers = ""
@@ -249,11 +249,10 @@ def answer_add_or_edit(request, form, answer):
     """
     answer.volunteer = Volunteer.objects.get(id=request.REQUEST['volunteer'])
     answer.job = Job.objects.get(id=request.REQUEST['job'])
-    try:
-        if (request.REQUEST['presence']):
-            answer.presence = True
-        else: answer.presence = False
-    except: answer.presence = False
+    if (request.REQUEST['presence']):
+        answer.presence = form.cleaned_data['presence']
+    #if (request.REQUEST['presence'] == "yes" or request.REQUEST['presence'] == "no" or request.REQUEST['presence'] == "maybe"):
+    #    answer.presence = request.REQUEST['presence']
     if ((request.REQUEST['lastrequest_year'] != '') and
         (request.REQUEST['lastrequest_month'] != '') and
         (request.REQUEST['lastrequest_day'] != '')):

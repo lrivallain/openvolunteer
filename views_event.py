@@ -176,7 +176,7 @@ import csv
 def event_csv(request, event_id):
     """Export volunteers for an event into CSV file"""
     event = get_object_or_404(Event, id=event_id)
-    answers = Answer.objects.filter(event=event,presence=True).all().order_by('job')
+    answers = Answer.objects.filter(event=event,presence="yes").all().order_by('job')
 
     response = HttpResponse(mimetype='text/csv')
     response['Content-Disposition'] = 'attachment; filename=%s.csv' % event.stripped_title
