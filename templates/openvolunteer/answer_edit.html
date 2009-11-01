@@ -3,15 +3,15 @@
 {% block title %}OpenVolunteer | Édition d'une fiche{% endblock %}
 
 {% block content %}
-    <form method="POST" action="." class="OV_volunteer_details OV_center">
-        <table class="OV_centered">
+    <form method="POST" action="." class="edit-form center">
+        <table class="centered">
             <tr>
-                <th class="OV_required">Événement</th>
-                <td class="OV_required">{{ answer.event }}</td>
+                <th>Événement</th>
+                <td class="required">{{ answer.event }}</td>
             </tr>
             <tr>
-                <th class="OV_required">Bénévole</th>
-                <td class="OV_required">
+                <th>Bénévole</th>
+                <td class="required">
                     <select id="id_volunteer" name="volunteer">
                         {{ sel_opts_vol|safe }}
                     </select>
@@ -54,13 +54,13 @@
                 </td>
             </tr>
         </table>
-        <p class="OV_required">* Les champs marqués en <span>rouge</span> sont obligatoires.</p>
+        <p class="required">* Les champs marqués en <span>rouge</span> sont obligatoires.</p>
         <input type="submit" value="Enregistrer">
     </form>
 {% endblock %}
 
 {% block navigation %}
     <ul>
-       </li><a href="{{ answer.event.get_answer_url }}" title="">Revenir à la liste des réponses</a></li>
+       </li><a href="{{ answer.event.get_answer_url }}" title="">Accéder à la liste des réponses</a></li>
     </ul>
 {% endblock %}

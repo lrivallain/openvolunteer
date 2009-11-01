@@ -1,0 +1,35 @@
+/*
+ * EDIT FORMS
+ */
+
+.openvolunteer .edit-form {
+    position:relative;
+    top:1px;
+}
+
+.openvolunteer .edit-form table {
+    text-align:left;
+    /*width:100%;*/
+    border-collapse:collapse;
+}
+
+.openvolunteer .edit-form th {
+    border: 1px solid #AAAAAA;
+    text-align:right;
+    padding-right:10px;
+    width:154px;
+    background:#DDDDDD;
+}
+
+.openvolunteer .edit-form td {
+    border-bottom: 1px solid #AAAAAA;
+    padding-left:10px;
+    padding-right:10px;
+}
+
+.openvolunteer .edit-form textarea {
+    width:100%;
+    padding:1px;
+    text-align:left;
+    height:100px;
+}

@@ -30,6 +30,7 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 import datetime
 from forms import *
+from errors import *
 
 @login_required(redirect_field_name='next')
 def volunteer_index(request):
@@ -114,26 +115,27 @@ def volunteer_edit(request, volunteer_id):
     volunteer = get_object_or_404(Volunteer, id=volunteer_id)
     form = VolunteerForm(request.POST)
     if request.method == 'POST':
-        try:
-            if form.is_valid():
+        if form.is_valid():
+            try:
                 volunteer = volunteer_add_or_edit(request, form, volunteer)
-                message = "Modification effectuée !<br><a href='%s'" % volunteer.get_absolute_url()
-                message += "' title='Revenir à la fiche'>Retour</a>"
-                status = "success"
-            else:
-                message = "La modification a échoué ! (error code: 101)"
+            except:
+                message = "La modification a échoué ! (error code: %d)" % ERROR_VOLUNTEER_ADD_SAVING
                 status = "error"
-        except:
-            message = "La modification a échoué ! (error code: 102)"
+                return render_to_response('openvolunteer/operation_result.html',
+                                          {'status': status, 'message': message},
+                                          context_instance=RequestContext(request))
+            return redirect(volunteer)
+        else:
+            message = "La modification a échoué ! (error code: %d)" % ERROR_VOLUNTEER_ADD_INVALIDFORM
             status = "error"
+            return render_to_response('openvolunteer/operation_result.html',
+                                      {'status': status, 'message': message},
+                                      context_instance=RequestContext(request))
     else:
         return render_to_response('openvolunteer/volunteer_edit.html',
-                              {'volunteer': volunteer, 'form': form},
-                              context_instance=RequestContext(request))
-    return render_to_response('openvolunteer/operation_result.html',
-                              {'status': status,
-                               'message': message},
-                              context_instance=RequestContext(request))
+                                  {'volunteer': volunteer, 'form': form},
+                                  context_instance=RequestContext(request))
+
 
 @login_required(redirect_field_name='next')
 def volunteer_add(request):
@@ -143,26 +145,27 @@ def volunteer_add(request):
     volunteer = Volunteer()
     form = VolunteerForm(request.POST)
     if request.method == 'POST':
-        try:
-            if form.is_valid():
+        if form.is_valid():
+            try:
                 volunteer = volunteer_add_or_edit(request, form, volunteer)
-                message = "Ajout effectué !<br><a href='%s'" % volunteer.get_absolute_url()
-                message += "' title='Voir la fiche'>Voir la fiche de ce nouveau bénévole</a>"
-                status = "success"
-            else:
-                message = "L'ajout a échoué ! (error code: 103)"
+            except:
+                message = "L'ajout a échoué ! (error code: %d)" % ERROR_VOLUNTEER_EDIT_SAVING
                 status = "error"
-        except:
-            message = "L'ajout a échoué ! (error code: 104)"
+                return render_to_response('openvolunteer/operation_result.html',
+                                          {'status': status, 'message': message},
+                                          context_instance=RequestContext(request))
+            return redirect(volunteer)
+        else:
+            message = "L'ajout a échoué ! (error code: %d)" % ERROR_VOLUNTEER_EDIT_INVALIDFORM
             status = "error"
+            return render_to_response('openvolunteer/operation_result.html',
+                                      {'status': status, 'message': message},
+                                      context_instance=RequestContext(request))
     else:
         return render_to_response('openvolunteer/volunteer_edit.html',
-                              {'form': form},
-                              context_instance=RequestContext(request))
-    return render_to_response('openvolunteer/operation_result.html',
-                              {'status': status,
-                               'message': message},
-                              context_instance=RequestContext(request))
+                                  {'form': form},
+                                  context_instance=RequestContext(request))
+
 
 def volunteer_add_or_edit(request, form, volunteer):
     """

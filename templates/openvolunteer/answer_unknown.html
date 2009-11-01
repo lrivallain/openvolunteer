@@ -3,61 +3,56 @@
 {% block title %}OpenVolunteer | Bénévoles non contactés pour cet événement{% endblock %}
 
 {% block content %}
-    {% if error_message %}
-        <p class="OV_error_message">{{ error_message }}</p>
-        <p class="OV_error_message"><a href="javascript:history.back();">< Revenir à la page précédente</a></p>
-    {% else %}
-        <div class="OV_answsers_event">
-            <h2><a href="{{ event.get_absolute_url }}" title="{{ event.title }}">{{ event.title }}</a></h2>
-            ({{ event.date|date:"l d F Y" }} | {{ event.place }})</p>
-        </div>
-        <div class="OV_search_results_area">
-            {% if volunteers %}
-                <h3>Liste des bénévoles non contactés pour cet événement:</h3>
-                <table>
+    <div class="answser-event">
+        <h2><a href="{{ event.get_absolute_url }}" title="{{ event.title }}">{{ event.title }}</a></h2>
+        ({{ event.date|date:"l d F Y" }} | {{ event.place }})</p>
+    </div>
+    <div class="search-results">
+        {% if volunteers %}
+            <h3>Liste des bénévoles non contactés pour cet événement:</h3>
+            <table>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Email</th>
+                    <th>Téléphone fixe</th>
+                    <th>Mobile</th>
+                    <th>CA ?</th>
+                </tr>
+                {% for volunteer in volunteers %}
                     <tr>
-                        <th>Nom</th>
-                        <th>Prénom</th>
-                        <th>Email</th>
-                        <th>Téléphone fixe</th>
-                        <th>Mobile</th>
-                        <th>CA ?</th>
-                    </tr>
-                    {% for volunteer in volunteers %}
-                        <tr>
-                            <td>{{ volunteer.name }}</td>
-                            <td>{{ volunteer.firstname }}</td>
-                            <td>
-                                {% if volunteer.email %}
-                                    {{ volunteer.email }}&nbsp;
-                                    <a href="mailto:{{ volunteer.email }}" title="Envoyer un email">
-                                        <img src="/openvolunteer/files/icons/email.png" alt="mail" class="OV_search_results_icon">
-                                    </a>
-                                {% endif %}
-                            </td>
-                            <td>{{ volunteer.phone_home }}</td>
-                            <td>{{ volunteer.phone_mobile }}</td>
-                            <td style="text-align:center;">
-                                {% if volunteer.ca_member %}
-                                    <img src="/openvolunteer/files/icons/yes.png" alt="oui" class="OV_search_results_icon" />
-                                {% else %}
-                                    <img src="/openvolunteer/files/icons/no.png" alt="non" class="OV_search_results_icon" />
-                                {% endif %}
-                            </td>
-                            <td class="OV_search_results_more">
-                                <a href="{{ volunteer.get_absolute_url }}"
-                                   title="Consulter la fiche détaillée de {{ volunteer }}">
-                                    Bénévole
-                                </a> |
-                                <a href="{{ event.get_answer_add_url }}{{ volunteer.id }}/"
-                                   title="Consulter la fiche détaillée de {{ volunteer }}">
-                                    (+) Réponse
+                        <td>{{ volunteer.name }}</td>
+                        <td>{{ volunteer.firstname }}</td>
+                        <td>
+                            {% if volunteer.email %}
+                                {{ volunteer.email }}&nbsp;
+                                <a href="mailto:{{ volunteer.email }}" title="Envoyer un email">
+                                    <img src="/openvolunteer/files/icons/email.png" alt="mail" class="icon">
                                 </a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </table>
-            {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>{{ volunteer.phone_home }}</td>
+                        <td>{{ volunteer.phone_mobile }}</td>
+                        <td style="text-align:center;">
+                            {% if volunteer.ca_member %}
+                                <img src="/openvolunteer/files/icons/yes.png" alt="oui" class="icon">
+                            {% else %}
+                                <img src="/openvolunteer/files/icons/no.png" alt="non" class="icon">
+                            {% endif %}
+                        </td>
+                        <td class="more">
+                            <a href="{{ volunteer.get_absolute_url }}"
+                               title="Consulter la fiche détaillée de {{ volunteer }}">
+                                Bénévole
+                            </a> |
+                            <a href="{{ event.get_answer_add_url }}{{ volunteer.id }}/"
+                               title="Consulter la fiche détaillée de {{ volunteer }}">
+                                (+) Réponse
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
         {% endif %}
     </div>
 {% endblock %}

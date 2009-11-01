@@ -58,28 +58,23 @@ def list_volunteer_index(request):
         try:
             filter = request.REQUEST["filter_address"]
             volunteers = volunteers.exclude(address="")
-        except:
-            pass
+        except: pass
         try:
             filter = request.REQUEST["filter_phone"]
             volunteers = volunteers.exclude(phone_home="")
-        except:
-            pass
+        except: pass
         try:
             filter = request.REQUEST["filter_mobile"]
             volunteers = volunteers.exclude(phone_mobile="")
-        except:
-            pass
+        except: pass
         try:
             filter = request.REQUEST["filter_email"]
             volunteers = volunteers.exclude(email="")
-        except:
-            pass
+        except: pass
         try:
             filter = request.REQUEST["filter_ca"]
             volunteers = volunteers.exclude(ca_member="")
-        except:
-            pass
+        except: pass
         try:
             filter = request.REQUEST["filter_old"]
             print filter
@@ -87,8 +82,7 @@ def list_volunteer_index(request):
                 limit = datetime.date.today()
                 limit = limit.replace(limit.year-18)
                 volunteers = volunteers.exclude(birthday__gt=limit)
-        except:
-            pass
+        except: pass
         try:
             filter = request.REQUEST["filter_name"]
             search_terms=filter.split(' ')
@@ -98,8 +92,7 @@ def list_volunteer_index(request):
                 # search volunteers corresponding to search term
                 volunteers = volunteers.filter(Q(name__icontains = term)|
                                                Q(firstname__icontains = term)).all()
-        except:
-            pass
+        except: pass
         return render_to_response('openvolunteer/list_volunteer_form.html',
                               {'volunteers': volunteers},
                               context_instance=RequestContext(request))

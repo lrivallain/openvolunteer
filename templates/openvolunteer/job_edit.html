@@ -3,11 +3,11 @@
 {% block title %}OpenVolunteer | Édition d'une fiche{% endblock %}
 
 {% block content %}
-    <form method="POST" action="." class="OV_volunteer_details OV_center">
-        <table class="OV_centered">
+    <form method="POST" action="." class="edit-form center">
+        <table class="centered">
             <tr>
-                <th class="OV_required">Titre</th>
-                <td class="OV_required">
+                <th>Titre</th>
+                <td class="required">
                     <input type="text" id="id_title" name="title"
                            maxlength="100" value='{{ job.title }}'>
                 </td>
@@ -27,7 +27,7 @@
                 </td>
             </tr>
         </table>
-        <p class="OV_required">* Les champs marqués en <span>rouge</span> sont obligatoires.</p>
+        <p class="required">* Les champs marqués en <span>rouge</span> sont obligatoires.</p>
         <input type="submit" value="Enregistrer">
     </form>
 {% endblock %}

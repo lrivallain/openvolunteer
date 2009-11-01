@@ -3,7 +3,7 @@
 {% block title %}OpenVolunteer | Chercher une(des) réponse(s){% endblock %}
 
 {% block content %}
-    <div class="OV_search_form">
+    <div>
         <form method="get" action="/openvolunteer/answer/">
             <fieldset>
                 <p>
@@ -11,17 +11,17 @@
                         {% for event in events %}
                             <option value="{{ event.id }}">{{ event.title }} ({{ event.date|date:"d F Y" }})</option>
                         {% endfor %}
-                    </select><br />
+                    </select><br>
                 <p>
-                    <input type="hidden" name="v" value=""/>
-                    <input class="submit" type="submit" value="Rechercher"/>
+                    <input type="hidden" name="v" value="">
+                    <input class="submit" type="submit" value="Rechercher">
                 </p>
             </fieldset>
         </form>
     </div>
-    <div class="OV_search_results_area">
+    <div class="search-results">
         {% if event %}
-            <div class="OV_answsers_event">
+            <div class="answser-event">
                 <h2><a href="{{ event.get_absolute_url }}" title="{{ event.title }}">{{ event.title }}</a></h2>
             ({{ event.date|date:"l d F Y" }} | {{ event.place }})</p>
             </div>
@@ -40,15 +40,14 @@
                 <th>Poste</th>
             </tr>
             {% for result in results %}
-                <tr {% ifequal result.presence 'yes'%}class="OV_search_results_ok"{% endifequal %}
-                    {% ifequal result.presence 'maybe'%}class="OV_search_results_maybe"{% endifequal %}>
+                <tr class="{{ result.presence }}">
                     <td>{{ result.volunteer.name }}</td>
                     <td>{{ result.volunteer.firstname }}</td>
                     <td>
                         {% if result.volunteer.email %}
                             {{ result.volunteer.email }}&nbsp;
                             <a href="mailto:{{ result.volunteer.email }}" title="Envoyer un email">
-                                <img src="/openvolunteer/files/icons/email.png" alt="mail" class="OV_search_results_icon">
+                                <img src="/openvolunteer/files/icons/email.png" alt="mail" class="icon">
                             </a>
                         {% endif %}
                     </td>
@@ -56,9 +55,9 @@
                     <td>{{ result.volunteer.phone_mobile }}</td>
                     <td style="text-align:center;">
                         {% if result.volunteer.ca_member %}
-                            <img src="/openvolunteer/files/icons/yes.png" alt="oui" class="OV_search_results_icon" />
+                            <img src="/openvolunteer/files/icons/yes.png" alt="oui" class="icon">
                         {% else %}
-                            <img src="/openvolunteer/files/icons/no.png" alt="non" class="OV_search_results_icon" />
+                            <img src="/openvolunteer/files/icons/no.png" alt="non" class="icon">
                         {% endif %}
                     </td>
                     <td>
@@ -66,7 +65,7 @@
                             <a href="{{ result.job.get_absolute_url }}" title="Afficher la fiche du poste">{{ result.job }}</a>
                         {% endif %}
                     </td>
-                    <td class="OV_search_results_more">
+                    <td class="more">
                         <div id="dialog_conf_delete{{ result.id }}" title="Supprimer cette fiche?" style="text-align:center;">
                             <p>Êtes vous sûr de vouloir supprimer cette réponse?</p>
                             <p><a href="{{ result.get_delete_url }}" title="Confirmer l'opération">Confirmer</a></p>
@@ -96,13 +95,13 @@
                 </tr>
             {% endfor %}
         </table>
-        <div class="OV_legend">
-            <div class="OV_legend_positive"><div></div>&nbsp;: Réponses positives</div>
-            <div class="OV_legend_negative"><div></div>&nbsp;: Réponses négatives</div>
-            <div class="OV_legend_maybe"   ><div></div>&nbsp;: Réponses "Peut-être"</div>
+        <div class="legend">
+            <div class="legend-positive"><div></div>&nbsp;: Réponses positives</div>
+            <div class="legend-negative"><div></div>&nbsp;: Réponses négatives</div>
+            <div class="legend-maybe"   ><div></div>&nbsp;: Réponses "Peut-être"</div>
         </div>
         {% else %}
-            <div class="OV_search_results_area_error">
+            <div class="search-error">
                 {% if terms %}
                     <p>Le(s) terme(s) de recherche spécifié(s) – {{ terms }} – ne correspond(ent) à aucun document.</p>
                     <p>Suggestions :
@@ -122,6 +121,11 @@
 
 {% block navigation %}
     <ul>
+        <li>
+            <a href="/openvolunteer/event/" title="Accéder à la liste des événements">
+                Chercher un événement
+            </a>
+        </li>
         {% if event %}
             <li>
                 <a href="{{ event.get_answer_add_url }}" title="Ajouter une réponse">

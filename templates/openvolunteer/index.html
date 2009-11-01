@@ -3,7 +3,7 @@
 {% block title %}OpenVolunteer | Accueil{% endblock %}
 
 {% block content %}
-    <div class="OV_index OV_center">
+    <div class="index center">
         <h2>Bienvenue sur OpenVolunteer, dédié à la gestion événementielle des bénévoles.</h2>
 
         <h3>Raccourcis</h3>
@@ -18,11 +18,6 @@
                     Ajouter un événement
                 </a>
             </li>
-            <!--<li>
-                <a href="/openvolunteer/answer/add" title="Ajouter une réponse">
-                    Ajouter une réponse
-                </a>
-            </li>-->
             <li>
                 <a href="/openvolunteer/job/add" title="Ajouter un poste">
                     Ajouter un poste
@@ -35,9 +30,9 @@
 
 {% block navigation %}
     <ul>
-        <li><a href="./volunteer/" title="">Chercher un bénévole</a></li>
-        <li><a href="./event/" title="">Chercher un événement</a></li>
-        <li><a href="./answer/" title="">Chercher une réponse</a></li>
-        <li><a href="./job/" title="">Liste des postes</a></li>
+        <li><a href="/openvolunteer/volunteer"  title="Chercher un bénévole" >Chercher un bénévole </a></li>
+        <li><a href="/openvolunteer/event/"     title="Chercher un événement">Chercher un événement</a></li>
+        <li><a href="/openvolunteer/answer/"    title="Chercher une réponse" >Chercher une réponse </a></li>
+        <li><a href="/openvolunteer/job/"       title="Liste des postes"     >Liste des postes     </a></li>
     </ul>
 {% endblock %}

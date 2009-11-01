@@ -3,120 +3,115 @@
 {% block title %}OpenVolunteer | Fiche détaillée d'un bénévole{% endblock %}
 
 {% block content %}
-    {% if error_message %}
-        <p class="OV_error_message">{{ error_message }}</p>
-        <p class="OV_error_message"><a href="javascript:history.back();">< Revenir à la page précédente</a></p>
-    {% else %}
-        <div class="OV_volunteer_details">
-            {% if volunteer.avatar %}
-                <div class="OV_volunteer_details_photo">
-                    <img src="{{ volunteer.get_photo_url }}" alt="Photo de {{ volunteer }}">
-                </div>
-            {% endif %}
-            <div class="OV_volunteer_details_table">
-                <table>
-                    <tr>
-                        <th>Nom</th>
-                        <td>{{ volunteer.name }}</td>
-                    </tr>
-                    <tr>
-                        <th>Prénom</th>
-                        <td>{{ volunteer.firstname }}</td>
-                    </tr>
-                    <tr>
-                        <th>Email</th>
-                        <td>
-                            <a href="mailto:{{ volunteer.email }}" title="envoyer un email">{{ volunteer.email }}</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Téléphone fixe</th>
-                        <td>
-                            {% if volunteer.phone_home %}
-                                <a href="javascript:;" onclick="$('#dialog_qr_home').dialog('open');">{{ volunteer.phone_home }}</a>
-                            {% endif %}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Téléphone mobile</th>
-                        <td>
-                            {% if volunteer.phone_mobile %}
-                                <a href="javascript:;" onclick="$('#dialog_qr_mobile').dialog('open');">{{ volunteer.phone_mobile }}</a>
-                            {% endif %}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Adresse</th>
-                        <td>{{ volunteer.address }}</td>
-                    </tr>
-                    <tr>
-                        <th>Date de naissance</th>
-                        <td>{{ volunteer.birthday|date:"d F Y" }}</td>
-                    </tr>
-                    <tr>
-                        <th>Lieu de naissance</th>
-                        <td>{{ volunteer.birth_place }}</td>
-                    </tr>
-                    <tr>
-                        <th>Numéro de sécu</th>
-                        <td>{% if volunteer.social_security_number %}
-                                {{ volunteer.social_security_number }}
-                            {% endif %}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Première inscription</th>
-                        <td>{{ volunteer.inscription_date|date:"d F Y" }}</td>
-                    </tr>
-                    <tr>
-                        <th>Membre du CA?</th>
-                        <td>
-                            {% if volunteer.ca_member %}
-                                <img src="/openvolunteer/files/icons/yes.png" alt="oui" class="OV_search_results_icon" />
-                            {% else %}
-                                <img src="/openvolunteer/files/icons/no.png" alt="non" class="OV_search_results_icon" />
-                            {% endif %}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Commentaires</th>
-                        <td style="text-align:center;"><textarea readonly>{{ volunteer.comments }}</textarea></td>
-                    </tr>
-                </table>
+    <div class="volunteer">
+        {% if volunteer.avatar %}
+            <div class="photo">
+                <img src="{{ volunteer.get_photo_url }}" alt="Photo de {{ volunteer }}">
             </div>
+        {% endif %}
+        <div class="details">
+            <table>
+                <tr>
+                    <th>Nom</th>
+                    <td>{{ volunteer.name }}</td>
+                </tr>
+                <tr>
+                    <th>Prénom</th>
+                    <td>{{ volunteer.firstname }}</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>
+                        <a href="mailto:{{ volunteer.email }}" title="envoyer un email">{{ volunteer.email }}</a>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Téléphone fixe</th>
+                    <td>
+                        {% if volunteer.phone_home %}
+                            <a href="javascript:;" onclick="$('#dialog_qr_home').dialog('open');">{{ volunteer.phone_home }}</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Téléphone mobile</th>
+                    <td>
+                        {% if volunteer.phone_mobile %}
+                            <a href="javascript:;" onclick="$('#dialog_qr_mobile').dialog('open');">{{ volunteer.phone_mobile }}</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Adresse</th>
+                    <td>{{ volunteer.address }}</td>
+                </tr>
+                <tr>
+                    <th>Date de naissance</th>
+                    <td>{{ volunteer.birthday|date:"d F Y" }}</td>
+                </tr>
+                <tr>
+                    <th>Lieu de naissance</th>
+                    <td>{{ volunteer.birth_place }}</td>
+                </tr>
+                <tr>
+                    <th>Numéro de sécu</th>
+                    <td>{% if volunteer.social_security_number %}
+                            {{ volunteer.social_security_number }}
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Première inscription</th>
+                    <td>{{ volunteer.inscription_date|date:"d F Y" }}</td>
+                </tr>
+                <tr>
+                    <th>Membre du CA?</th>
+                    <td>
+                        {% if volunteer.ca_member %}
+                            <img src="/openvolunteer/files/icons/yes.png" alt="oui" class="icon">
+                        {% else %}
+                            <img src="/openvolunteer/files/icons/no.png" alt="non" class="icon">
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Commentaires</th>
+                    <td style="text-align:center;"><textarea readonly>{{ volunteer.comments }}</textarea></td>
+                </tr>
+            </table>
         </div>
-        {% if volunteer.phone_home %}
-            <div id="dialog_qr_home" title="Téléphone fixe de {{volunteer.firstname}} {{volunteer.name}} :" style="text-align:center;">
-                <img src="http://chart.apis.google.com/chart?chs=150x150&cht=qr&chl=tel:{{ volunteer.phone_home }}" alt="QRcode pour le téléphone fixe de {{volunteer.firstname}} {{volunteer.name}}">
-            </div>
-            <script type="text/javascript">
-                $(function() {
-                    $("#dialog_qr_home").dialog({
-                        bgiframe: true,
-                        height: 210,
-                        width:400,
-                        modal: true,
-                        autoOpen: false
-                    });
+    </div>
+    {% if volunteer.phone_home %}
+        <div id="dialog_qr_home" title="Téléphone fixe de {{volunteer.firstname}} {{volunteer.name}} :" style="text-align:center;">
+            <img src="http://chart.apis.google.com/chart?chs=150x150&cht=qr&chl=tel:{{ volunteer.phone_home }}" alt="QRcode pour le téléphone fixe de {{volunteer.firstname}} {{volunteer.name}}">
+        </div>
+        <script type="text/javascript">
+            $(function() {
+                $("#dialog_qr_home").dialog({
+                    bgiframe: true,
+                    height: 210,
+                    width:400,
+                    modal: true,
+                    autoOpen: false
                 });
-            </script>
-        {% endif %}
-        {% if volunteer.phone_mobile %}
-            <div id="dialog_qr_mobile" title="Téléphone mobile de {{volunteer.firstname}} {{volunteer.name}} :" style="text-align:center;">
-                <img src="http://chart.apis.google.com/chart?chs=150x150&cht=qr&chl=tel:{{ volunteer.phone_mobile }}" alt="QRcode pour le téléphone mobile de {{volunteer.firstname}} {{volunteer.name}}">
-            </div>
-            <script type="text/javascript">
-                $(function() {
-                    $("#dialog_qr_mobile").dialog({
-                        bgiframe: true,
-                        height: 210,
-                        width:400,
-                        modal: true,
-                        autoOpen: false
-                    });
+            });
+        </script>
+    {% endif %}
+    {% if volunteer.phone_mobile %}
+        <div id="dialog_qr_mobile" title="Téléphone mobile de {{volunteer.firstname}} {{volunteer.name}} :" style="text-align:center;">
+            <img src="http://chart.apis.google.com/chart?chs=150x150&cht=qr&chl=tel:{{ volunteer.phone_mobile }}" alt="QRcode pour le téléphone mobile de {{volunteer.firstname}} {{volunteer.name}}">
+        </div>
+        <script type="text/javascript">
+            $(function() {
+                $("#dialog_qr_mobile").dialog({
+                    bgiframe: true,
+                    height: 210,
+                    width:400,
+                    modal: true,
+                    autoOpen: false
                 });
-            </script>
-        {% endif %}
+            });
+        </script>
     {% endif %}
 {% endblock %}
 

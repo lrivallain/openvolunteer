@@ -30,6 +30,7 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 import datetime
 from forms import *
+from errors import *
 
 @login_required(redirect_field_name='next')
 def answer_index(request):
@@ -62,7 +63,8 @@ def answer_index(request):
         query_volunteer = ""
     events = Event.objects.all()
     return render_to_response('openvolunteer/answer_index.html',
-                              {'results': answers,'events': events, 'event': event, 'terms': query_volunteer},
+                              {'results': answers,'events': events,
+                               'event': event, 'terms': query_volunteer},
                               context_instance=RequestContext(request))
 
 
@@ -71,18 +73,7 @@ def answer_tocontact(request, event_id):
     """
     Display not contacted volunteers for an event
     """
-    try:
-        event = Event.objects.get(id=event_id)
-        error_message = ''
-    except:
-        event = ""
-        not_contacted = ""
-        error_message = 'Aucun événement ne correspond à votre requête.'
-        return render_to_response('openvolunteer/answer_unknown.html',
-                                  {'event': event,
-                                   'volunteers': not_contacted,
-                                   'error_message': error_message},
-                                  context_instance=RequestContext(request))
+    event = get_object_or_404(Event, id=event_id)
     try:
         volunteers = []
         not_contacted = []
@@ -98,11 +89,9 @@ def answer_tocontact(request, event_id):
     except:
         event = ""
         not_contacted = ""
-        error_message = 'Tous les bénévoles de la liste ont répondu.'
     return render_to_response('openvolunteer/answer_unknown.html',
                               {'event': event,
-                               'volunteers': not_contacted,
-                               'error_message': error_message},
+                               'volunteers': not_contacted},
                               context_instance=RequestContext(request))
 
 
@@ -111,28 +100,16 @@ def answer_positives(request, event_id):
     """
     Display volunteers for an event with positive answer
     """
-    try:
-        event = Event.objects.get(id=event_id)
-        error_message = ''
-    except:
-        event = ""
-        answers = ""
-        error_message = 'Aucun événement ne correspond à votre requête.'
-        return render_to_response('openvolunteer/answer_positives.html',
-                                  {'event': event,
-                                   'answers': answers,
-                                   'error_message': error_message},
-                                  context_instance=RequestContext(request))
+    event = get_object_or_404(Event, id=event_id)
+
     try:
         answers = Answer.objects.filter(event=event,presence="yes").all().order_by('job')
     except:
         event = ""
         answers = ""
-        error_message = 'Aucune réponse positive pour le moment.'
     return render_to_response('openvolunteer/answer_positives.html',
                               {'event': event,
-                               'answers': answers,
-                               'error_message': error_message},
+                               'answers': answers},
                               context_instance=RequestContext(request))
 
 
@@ -160,7 +137,7 @@ def event_answer_add(request, event_id, volunteer_id=None):
             try:
                 answer = answer_add_or_edit(request, form, answer)
             except:
-                message = "L'ajout a échoué ! (error code: 108)"
+                message = "L'ajout a échoué ! (error code: %d)" % ERROR_ANSWER_ADD_SAVING
                 status = "error"
                 return render_to_response('openvolunteer/operation_result.html',
                                           {'status': status,
@@ -168,7 +145,7 @@ def event_answer_add(request, event_id, volunteer_id=None):
                                           context_instance=RequestContext(request))
             return redirect(answer.event.get_answer_url())
         else:
-            message = "L'ajout a échoué ! (error code: 107)"
+            message = "L'ajout a échoué ! (error code: %d)" % ERROR_ANSWER_ADD_INVALIDFORM
             status = "error"
             return render_to_response('openvolunteer/operation_result.html',
                                       {'status': status,
@@ -209,7 +186,7 @@ def event_answer_edit(request, answer_id):
             try:
                 answer = answer_add_or_edit(request, form, answer)
             except:
-                message = "La modification a échoué ! (error code: 108)"
+                message = "La modification a échoué ! (error code: %d)" % ERROR_ANSWER_EDIT_SAVING
                 status = "error"
                 return render_to_response('openvolunteer/operation_result.html',
                                           {'status': status,
@@ -217,7 +194,7 @@ def event_answer_edit(request, answer_id):
                                           context_instance=RequestContext(request))
             return redirect(answer.event.get_answer_url())
         else:
-            message = "La modification a échoué ! (error code: 107)"
+            message = "La modification a échoué ! (error code: %d)" % ERROR_ANSWER_EDIT_INVALIDFORM
             status = "error"
             return render_to_response('openvolunteer/operation_result.html',
                                       {'status': status,
@@ -255,8 +232,6 @@ def answer_add_or_edit(request, form, answer):
         answer.job = Job.objects.get(id=request.REQUEST['job'])
     if (request.REQUEST['presence']):
         answer.presence = form.cleaned_data['presence']
-    #if (request.REQUEST['presence'] == "yes" or request.REQUEST['presence'] == "no" or request.REQUEST['presence'] == "maybe"):
-    #    answer.presence = request.REQUEST['presence']
     if ((request.REQUEST['lastrequest_year'] != '') and
         (request.REQUEST['lastrequest_month'] != '') and
         (request.REQUEST['lastrequest_day'] != '')):

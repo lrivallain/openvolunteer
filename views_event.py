@@ -30,13 +30,13 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 import datetime
 from forms import *
+from errors import *
 
 @login_required(redirect_field_name='next')
 def event_index(request):
     """
     Display a search form (and a list of events)
     """
-    events = []
     try:
         query = request.GET["q"]
         # if search request is empty or only contains a space, return
@@ -100,7 +100,7 @@ def event_edit(request, event_id):
             try:
                 event = event_add_or_edit(request, form, event)
             except:
-                message = "L'ajout a échoué ! (error code: 108)"
+                message = "L'ajout a échoué ! (error code: %d)" % ERROR_EVENT_EDIT_SAVING
                 status = "error"
                 return render_to_response('openvolunteer/operation_result.html',
                                           {'status': status,
@@ -108,7 +108,7 @@ def event_edit(request, event_id):
                                           context_instance=RequestContext(request))
             return redirect(event)
         else:
-            message = "L'ajout a échoué ! (error code: 107)"
+            message = "L'ajout a échoué ! (error code: %d)" % ERROR_EVENT_EDIT_INVALIDFORM
             status = "error"
             return render_to_response('openvolunteer/operation_result.html',
                                       {'status': status,
@@ -116,7 +116,7 @@ def event_edit(request, event_id):
                                       context_instance=RequestContext(request))
     else:
         return render_to_response('openvolunteer/event_edit.html',
-                                  {'form': form},
+                                  {'form': form, 'event': event},
                                   context_instance=RequestContext(request))
 
 @login_required(redirect_field_name='next')
@@ -131,7 +131,7 @@ def event_add(request):
             try:
                 event = event_add_or_edit(request, form, event)
             except:
-                message = "L'ajout a échoué ! (error code: 108)"
+                message = "L'ajout a échoué ! (error code: %d)" % ERROR_EVENT_ADD_SAVING
                 status = "error"
                 return render_to_response('openvolunteer/operation_result.html',
                                           {'status': status,
@@ -139,7 +139,7 @@ def event_add(request):
                                           context_instance=RequestContext(request))
             return redirect(event)
         else:
-            message = "L'ajout a échoué ! (error code: 107)"
+            message = "L'ajout a échoué ! (error code: %d)" % ERROR_EVENT_ADD_INVALIDFORM
             status = "error"
             return render_to_response('openvolunteer/operation_result.html',
                                       {'status': status,
