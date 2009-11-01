@@ -7,8 +7,18 @@
         <table>
             <tr>
                 <th>
+                    Filtrer sur le nom ou l'adresse:
+                </th>
+                <th>
                     Séléctionner uniquement les bénévoles ayant complété:
                 </th>
+                <th>
+                    Autres filtres:
+                </th>
+            </tr>
+                <td>
+                    <input type="text" name="filter_q" value="" size="40">
+                </td>
                 <td>
                     <ul>
                         <li><input type="checkbox" name="filter_address" checked>&nbsp; Une adresse</li>
@@ -17,10 +27,6 @@
                         <li><input type="checkbox" name="filter_email" checked>&nbsp; Une adresse Email</li>
                     </ul>
                 </td>
-                <td width="50px"></td>
-                <th>
-                    Autres filtres:
-                </th>
                 <td>
                     <ul>
                         <li><input type="radio" name="filter_old" value="off">&nbsp; Inclure les mineurs</li>
@@ -30,14 +36,19 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="5">
-                    <br>
-                    <input class="submit" type="submit" value="Générer la liste"><br>
+                <td colspan="3" class="center">
+                    <input class="submit" type="submit" value="Générer la liste">
                 </td>
             </tr>
         </table>
     </form>
     {% if volunteers %}
+        <div class="dlbutton center"  style="margin-top:5px;">
+            <input type="button"
+                   onclick="window.location.href='/media/openvolunteer/csv/volunteer_list.csv'"
+                   title="Télécharger la liste des bénévoles en .CSV"
+                   value="Télécharger la liste des bénévoles en .CSV">
+        </div>
         <div class="search-results">
             <table>
                 <tr>

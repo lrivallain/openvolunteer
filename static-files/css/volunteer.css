@@ -58,7 +58,6 @@
     height:100px;
 }
 
-
 /*
  * LIST GENERATOR
  */
@@ -78,12 +77,20 @@
 }
 
 .list-form th {
-    text-align:right;
+    width:33%;
+    text-align:left;
     font-weight:bold;
+}
+
+.list-form td {
+    padding-top:15px;
+    width:33%;
+    text-align:left;
 }
 
 .list-form ul {
     text-align:left;
     list-style:none;
     margin-top:-8px;
+    margin-left:-30px;
 }
