@@ -30,6 +30,7 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 import datetime
 from forms import *
+from errors import *
 
 @login_required(redirect_field_name='next')
 def job_index(request):
@@ -59,18 +60,22 @@ def job_edit(request, job_id):
     job = get_object_or_404(Job, id=job_id)
     form = JobForm(request.POST)
     if request.method == 'POST':
-        try:
-            if form.is_valid():
+        if form.is_valid():
+            try:
                 job = job_add_or_edit(request, form, job)
-                message = "Modification effectuée !<br><a href='%s'" % job.get_absolute_url()
-                message += "' title='Revenir à la liste des postes'>Retour</a>"
-                status = "success"
-            else:
-                message = "La modification a échoué ! (error code: 113)"
+            except:
+                message = "La modification a échoué ! (error code: %d)" % ERROR_JOB_EDIT_SAVING
                 status = "error"
-        except:
-            message = "La modification a échoué ! (error code: 114)"
+                return render_to_response('openvolunteer/operation_result.html',
+                                          {'status': status, 'message': message},
+                                          context_instance=RequestContext(request))
+            return redirect(job)
+        else:
+            message = "La modification a échoué ! (error code: %d)" % ERROR_JOB_EDIT_INVALIDFORM
             status = "error"
+            return render_to_response('openvolunteer/operation_result.html',
+                                      {'status': status, 'message': message},
+                                      context_instance=RequestContext(request))
     else:
         volunteers = Volunteer.objects.all()
         boss = job.boss.all()
@@ -88,6 +93,7 @@ def job_edit(request, job_id):
                                'message': message},
                               context_instance=RequestContext(request))
 
+
 @login_required(redirect_field_name='next')
 def job_add(request):
     """
@@ -96,18 +102,22 @@ def job_add(request):
     job = Job()
     form = JobForm(request.POST)
     if request.method == 'POST':
-        try:
-            if form.is_valid():
+        if form.is_valid():
+            try:
                 job = job_add_or_edit(request, form, job, True)
-                message = "L'ajout a été effectué !<br><a href='%s'" % job.get_absolute_url()
-                message += "' title='Revenir à la liste des postes'>Retour</a>"
-                status = "success"
-            else:
-                message = "L'ajout a échoué ! (error code: 115)"
+            except:
+                message = "L'ajout a échoué ! (error code: %d)" % ERROR_JOB_ADD_SAVING
                 status = "error"
-        except:
-            message = "L'ajout a échoué ! (error code: 116)"
+                return render_to_response('openvolunteer/operation_result.html',
+                                          {'status': status, 'message': message},
+                                          context_instance=RequestContext(request))
+            return redirect(job)
+        else:
+            message = "L'ajout a échoué ! (error code: %d)" % ERROR_JOB_ADD_INVALIDFORM
             status = "error"
+            return render_to_response('openvolunteer/operation_result.html',
+                                      {'status': status, 'message': message},
+                                      context_instance=RequestContext(request))
     else:
         volunteers = Volunteer.objects.all()
         sel_opts = ''

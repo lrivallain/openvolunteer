@@ -29,6 +29,7 @@ from django.http import HttpResponse, HttpResponseNotFound
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 import datetime
+from errors import *
 
 @login_required(redirect_field_name='next')
 def event_need_add(request, event_id):
@@ -41,7 +42,7 @@ def event_need_add(request, event_id):
         try:
             need = need_add_or_edit(request, need, True)
         except:
-            message = "L'ajout a échoué ! (error code: 116)"
+            message = "L'ajout a échoué ! (error code: %d)" % ERROR_NEED_ADD_SAVING
             status = "error"
             return render_to_response('openvolunteer/operation_result.html',
                                       {'status': status,
@@ -79,7 +80,7 @@ def event_need_edit(request, need_id):
         try:
             need = need_add_or_edit(request, need, True)
         except:
-            message = "L'ajout a échoué ! (error code: 116)"
+            message = "L'ajout a échoué ! (error code: %d)" % ERROR_NEED_EDIT_SAVING
             status = "error"
             return render_to_response('openvolunteer/operation_result.html',
                                       {'status': status,

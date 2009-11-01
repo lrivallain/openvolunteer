@@ -3,34 +3,20 @@
 {% block title %}OpenVolunteer | Édition d'une fiche{% endblock %}
 
 {% block content %}
-    <form method="POST" action="." class="OV_event_details OV_center">
-        <table class="OV_centered">
+    <form method="POST" action="." class="edit-form center">
+        <table class="centered">
             <tr>
-                <th class="OV_required">Titre</th>
-                <td>
+                <th>Titre</th>
+                <td class="required">
                     <input type="text" id="id_title" name="title"
                            maxlength="100" value='{{ event.title }}'>
                 </td>
             </tr>
             <tr>
-                <th class="required">Date</th>
-                <td class="OV_required">
+                <th>Date</th>
+                <td class="required">
                     <input type="text" id="id_date_day" maxlength="2" size="2"
                            name="date_day" value='{{ event.date|date:"d" }}'>
-                    <!--<select name="birthday_year">
-                        <option value="1" >Janvier</option>
-                        <option value="2" >Février</option>
-                        <option value="3" >Mars</option>
-                        <option value="4" >Avril</option>
-                        <option value="5" >Mai</option>
-                        <option value="6" >Juin</option>
-                        <option value="7" >Juillet</option>
-                        <option value="8" >Août</option>
-                        <option value="9" >Septembre</option>
-                        <option value="10">Octobre</option>
-                        <option value="11">Novembre</option>
-                        <option value="12">Décembre</option>
-                    </select>-->
                     <input type="text" id="id_date_month" maxlength="2" size="2"
                            name="date_month" value='{{ event.date|date:"m" }}'>
                     <input type="text" id="id_birthday_year" maxlength="4" size="4"
@@ -45,7 +31,7 @@
                 </td>
             </tr>
         </table>
-        <p class="OV_required">* Les champs marqués en <span>rouge</span> sont obligatoires.</p>
+        <p class="required">* Les champs marqués en <span>rouge</span> sont obligatoires.</p>
         <input type="submit" value="Enregistrer">
     </form>
 {% endblock %}
@@ -53,7 +39,7 @@
 {% block navigation %}
     <ul>
         {% if event %}
-            <li><a href="{{ event.get_absolute_url }}" title="">Revenir à la fiche de l'événement.</a></li>
+            <li><a href="{{ event.get_absolute_url }}" title="">Revenir à la fiche de l'événement</a></li>
         {% else %}
             <li><a href="/openvolunteer/event/" title="">Rechercher un événement</a></li>
         {% endif %}

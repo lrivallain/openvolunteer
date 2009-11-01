@@ -3,7 +3,7 @@
 {% block title %}OpenVolunteer | Accueil{% endblock %}
 
 {% block content %}
-    <div class="OV_search_results_area">
+    <div class="search-results">
         <table>
             <tr>
                 <th>Poste</th>
@@ -13,7 +13,7 @@
             </tr>
             {% for job in jobs %}
             <tr>
-                <td class="OV_center"><a name="job-{{ job.id }}"><h3>{{ job.title }}</h3></a></td>
+                <td class="center"><a name="job-{{ job.id }}"><h3>{{ job.title }}</h3></a></td>
                 <td>
                     <ul>
                         {% for b in job.boss.all %}
@@ -26,7 +26,7 @@
                     </ul>
                 </td>
                 <td>{{ job.description }}</td>
-                <td class="OV_center">
+                <td class="center">
                     <div id="dialog_conf_delete{{ job.id }}" title="Supprimer cette fiche?" style="text-align:center;">
                         <p>Êtes vous sûr de vouloir supprimer cette fiche de poste?</p>
                         <p><a href="{{ job.get_delete_url }}" title="Confirmer l'opération">Confirmer</a></p>

@@ -3,17 +3,23 @@
 {% block title %}OpenVolunteer | Résultat{% endblock %}
 
 {% block content %}
-    <div class="OV_op_result">
+    <div class="result">
         <h3>Résultat de l'opération</h3>
-        <p class="OV_op_result_{{ status }}">{{ message|safe }}</p>
+        <p class="{{ status }}">
+            {{ message|safe }}
+            {% ifequal status "error" %}
+                <br><a href="javascript: history.go(-1)">Revenir en arrière</a>
+            {% endifequal %}
+        </p>
+
     </div>
 {% endblock %}
 
 {% block navigation %}
     <ul>
-        <li><a href="/openvolunteer/volunteer/" title="">Chercher un bénévole</a></li>
-        <li><a href="/openvolunteer/event/" title="">Chercher un événement</a></li>
-        <li><a href="/openvolunteer/answer/" title="">Chercher une réponse de participation</a></li>
-        <li><a href="/openvolunteer/job/" title="">Accéder à la liste des "postes"</a></li>
+        <li><a href="/openvolunteer/volunteer"  title="Chercher un bénévole" >Chercher un bénévole </a></li>
+        <li><a href="/openvolunteer/event/"     title="Chercher un événement">Chercher un événement</a></li>
+        <li><a href="/openvolunteer/answer/"    title="Chercher une réponse" >Chercher une réponse </a></li>
+        <li><a href="/openvolunteer/job/"       title="Liste des postes"     >Liste des postes     </a></li>
     </ul>
 {% endblock %}

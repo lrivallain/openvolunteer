@@ -1,0 +1,61 @@
+.openvolunteer .logo img {
+    width:150px;
+    border:none;
+}
+
+.openvolunteer .menu {
+    font-size:0.9em;
+    position:absolute;
+    left:0px;
+    text-align:right;
+    top:120px;
+    padding:10px;
+    background:#DDDDDD;
+    border:1px solid #AAAAAA;
+    border-left:none;
+    -moz-border-radius-bottomright:10px;
+    -moz-border-radius-topright:10px;
+}
+
+.openvolunteer .shortcuts {
+    background:#DDDDDD;
+    width:150px;
+    position:absolute;
+    z-index:10;
+    top:200px;
+    right:0px;
+    border:1px solid #AAAAAA;
+    border-right:none;
+    -moz-border-radius-bottomleft:10px;
+    -moz-border-radius-topleft:10px;
+    text-align:center;
+}
+
+.openvolunteer .shortcuts ul {
+    font-size:9pt;
+    list-style:none;
+    padding:0px;
+}
+
+.openvolunteer .shortcuts li {
+    margin-top:10px;
+}
+
+.openvolunteer .registration {
+    font-size:0.9em;
+    position:absolute;
+    right:0px;
+    text-align:right;
+    top:120px;
+    padding:10px;
+    background:#DDDDDD;
+    border:1px solid #AAAAAA;
+    border-right:none;
+    -moz-border-radius-bottomleft:10px;
+    -moz-border-radius-topleft:10px;
+}
+
+html>body .openvolunteer .footer {
+    /* Position fixed for all browsers able to use it */
+    position: fixed;
+}

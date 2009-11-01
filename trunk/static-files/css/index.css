@@ -1,0 +1,28 @@
+.openvolunteer .index h2 {
+    color:#555555;
+}
+
+.openvolunteer .index h3 {
+    color:#999999;
+    margin-top:40px;
+    font-size:1.4em;
+    text-align:center;
+}
+
+.openvolunteer .index ul {
+    list-style:none;
+    padding:0px;
+}
+
+.openvolunteer .index li {
+    padding-top:5px;
+    font-weight:bold;
+    font-size:1.2em;
+}
+
+.openvolunteer .content {
+    clear:both;
+    margin-top:70px;
+    margin-right:151px;
+    padding-bottom:20px;
+}

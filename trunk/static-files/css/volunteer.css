@@ -1,0 +1,89 @@
+.openvolunteer .volunteer {
+    padding:10px;
+}
+
+.openvolunteer .volunteer .photo {
+    float:left;
+}
+
+.openvolunteer .volunteer .photo img {
+    z-index:9;
+    width:150px;
+    padding:7px;
+    background:#F3F3F3;
+    border:1px solid #DDDDDD;
+    -moz-border-radius:3px;
+}
+
+.openvolunteer .volunteer .photo img:hover {
+    border:1px solid #234F32;
+    opacity:0.8;
+}
+
+.openvolunteer .volunteer .details {
+    position:relative;
+    margin-left:200px;
+    top:1px;
+}
+
+.openvolunteer .volunteer-edit {
+    position:relative;
+    top:1px;
+}
+
+.openvolunteer .volunteer .details table, .openvolunteer .volunteer-edit table {
+    text-align:left;
+    /*width:100%;*/
+    border-collapse:collapse;
+}
+
+.openvolunteer .volunteer .details th, .openvolunteer .volunteer-edit th {
+    border: 1px solid #AAAAAA;
+    text-align:right;
+    padding-right:10px;
+    width:154px;
+    background:#DDDDDD;
+}
+
+.openvolunteer .volunteer .details td, .openvolunteer .volunteer-edit td {
+    border-bottom: 1px solid #AAAAAA;
+    padding-left:10px;
+    padding-right:10px;
+}
+
+.openvolunteer .volunteer .details textarea, .openvolunteer .volunteer-edit textarea {
+    width:100%;
+    padding:1px;
+    text-align:left;
+    height:100px;
+}
+
+
+/*
+ * LIST GENERATOR
+ */
+
+.list-form {
+    text-align:center;
+    width:100%;
+    font-size:0.8em;
+}
+
+.list-form table {
+    width:100%;
+}
+
+.list-form tr {
+    vertical-align:top;
+}
+
+.list-form th {
+    text-align:right;
+    font-weight:bold;
+}
+
+.list-form ul {
+    text-align:left;
+    list-style:none;
+    margin-top:-8px;
+}
