@@ -8,7 +8,7 @@
             <fieldset>
                 <input type="text" name="q" size="40" maxlength="255" value="{{ terms }}">
                 <input class="submit" type="submit" value="Rechercher"><br>
-                <span>Les recherches peuvent être effectuées sur la <u>dénomination</u><!--, la <u>date</u>--> où le <u>lieu</u> des événements.</span>
+                <span>Les recherches peuvent être effectuées sur la <u>dénomination</u>, la <u>date</u> où le <u>lieu</u> des événements.</span>
             </fieldset>
         </form>
     </div>
@@ -48,30 +48,30 @@
                     </p>
                 {% endif %}
             </div>
-        {% endif %}
 
-        {% if events %}
-        <h3>Les 10 derniers événements inscrits:</h3>
-            <table>
-                <tr>
-                    <th>dénomination</th>
-                    <th>Date</th>
-                    <th>Lieu</th>
-                </tr>
-                {% for event in events %}
+            {% if events %}
+            <h3>Les 10 derniers événements inscrits:</h3>
+                <table>
                     <tr>
-                        <td>{{ event.title }}</td>
-                        <td>{{ event.date|date:"l d F Y" }}</td>
-                        <td>{{ event.place }}</td>
-                        <td class="more">
-                            <a href="{{ event.get_absolute_url }}"
-                               title="Consulter la fiche détaillée de {{ event }}">
-                               Fiche détaillée
-                            </a>
-                        </td>
+                        <th>dénomination</th>
+                        <th>Date</th>
+                        <th>Lieu</th>
                     </tr>
-                {% endfor %}
-            </table>
+                    {% for event in events %}
+                        <tr>
+                            <td>{{ event.title }}</td>
+                            <td>{{ event.date|date:"l d F Y" }}</td>
+                            <td>{{ event.place }}</td>
+                            <td class="more">
+                                <a href="{{ event.get_absolute_url }}"
+                                   title="Consulter la fiche détaillée de {{ event }}">
+                                   Fiche détaillée
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% endif %}
         {% endif %}
     </div>
 {% endblock %}
