@@ -37,12 +37,12 @@ def event_index(request):
     """
     Display a search form (and a list of events)
     """
+    events = Event.objects.all().order_by('-date')[:10]
     try:
         query = request.GET["q"]
         # if search request is empty or only contains a space, return
         #   specific error
         if query == "" or query == " ":
-            events = Event.objects.all().order_by('-date')[:10]
             return render_to_response('openvolunteer/event_index.html',
                                       {'events': events, 'results': results, 'terms': ""},
                                       context_instance=RequestContext(request))
@@ -52,12 +52,19 @@ def event_index(request):
             results = Event.objects.all()
             for term in search_terms:
                 # search events corresponding to search term
-                results = results.filter(Q(title__icontains = term)|
-                                         #Q(date__icontains = term)|
-                                         Q(place__icontains = term)).all().order_by('date')
+                try:
+                    # try to filter with date:
+                    results = results.filter(Q(title__icontains = term)|
+                                             Q(date__year = int(term)) |
+                                             Q(date__month = int(term))|
+                                             Q(date__day = int(term))  |
+                                             Q(place__icontains = term)).all().order_by('date')
+                except:
+                    # if error when using date filter:
+                    results = results.filter(Q(title__icontains = term)|
+                                             Q(place__icontains = term)).all().order_by('date')
     # If there is no 'q' value, return empty results
     except:
-        events = Event.objects.all().order_by('-date')[:10]
         results = []
         query = ""
     return render_to_response('openvolunteer/event_index.html',
