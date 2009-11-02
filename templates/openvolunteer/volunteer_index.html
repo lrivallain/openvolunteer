@@ -84,5 +84,12 @@
                 Générer une liste
             </a>
         </li>
+        {% if results %}
+            <li>
+                <a href='/media/openvolunteer/csv/volunteer_list.csv' title="Télécharger la liste générée">
+                    Télécharger la liste générée
+                </a>
+            </li>
+        {% endif %}
     </ul>
 {% endblock %}

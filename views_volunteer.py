@@ -34,10 +34,10 @@ from errors import *
 
 @login_required(redirect_field_name='next')
 def volunteer_index(request):
-    """
-    Display a search form (and a list of volunteers)
-    """
-    try:
+    #"""
+    #Display a search form (and a list of volunteers)
+    #"""
+    #try:
         query = request.GET["q"]
         # if search request is empty or only contains a space, return
         #   specific error
@@ -56,11 +56,13 @@ def volunteer_index(request):
                                                Q(email__icontains = term)|
                                                Q(phone_home__icontains = term)|
                                                Q(phone_mobile__icontains = term)).all().order_by('name')
+            if volunteers:
+                list_volunteer_csv(volunteers)
     # If there is no 'q' value, return empty results
-    except:
-        volunteers = []
-        query = ""
-    return render_to_response('openvolunteer/volunteer_index.html',
+    #except:
+    #    volunteers = []
+    #    query = ""
+        return render_to_response('openvolunteer/volunteer_index.html',
                               {'results': volunteers, 'terms': query},
                               context_instance=RequestContext(request))
 
@@ -207,3 +209,116 @@ def volunteer_add_or_edit(request, form, volunteer):
     else: volunteer.comments = ''
     volunteer.save()
     return volunteer
+
+
+@login_required(redirect_field_name='next')
+def list_volunteer_index(request):
+    """
+    Display a form to generate a filtered list of volunteers
+    """
+    if request.method == 'GET':
+        return render_to_response('openvolunteer/list_volunteer_form.html',{},context_instance=RequestContext(request))
+    elif request.method == 'POST':
+        volunteers = Volunteer.objects.all()
+        if request.REQUEST["filter_q"]:
+            filter = request.REQUEST["filter_q"]
+            volunteers = volunteers.filter(Q(name__icontains = filter)|
+                                           Q(firstname__icontains = filter))
+        try:
+            filter = request.REQUEST["filter_address"]
+            volunteers = volunteers.exclude(address="")
+        except: pass
+        try:
+            filter = request.REQUEST["filter_phone"]
+            volunteers = volunteers.exclude(phone_home="")
+        except: pass
+        try:
+            filter = request.REQUEST["filter_mobile"]
+            volunteers = volunteers.exclude(phone_mobile="")
+        except: pass
+        try:
+            filter = request.REQUEST["filter_email"]
+            volunteers = volunteers.exclude(email="")
+        except: pass
+        try:
+            filter = request.REQUEST["filter_ca"]
+            volunteers = volunteers.exclude(ca_member="")
+        except: pass
+        try:
+            filter = request.REQUEST["filter_old"]
+            print filter
+            if (filter == 'on'):
+                limit = datetime.date.today()
+                limit = limit.replace(limit.year-18)
+                volunteers = volunteers.exclude(birthday__gt=limit)
+        except: pass
+        try:
+            filter = request.REQUEST["filter_name"]
+            search_terms=filter.split(' ')
+            print search_terms
+            for term in search_terms:
+                print term
+                # search volunteers corresponding to search term
+                volunteers = volunteers.filter(Q(name__icontains = term)|
+                                               Q(firstname__icontains = term)).all()
+        except: pass
+        if volunteers:
+            list_volunteer_csv(volunteers)
+        return render_to_response('openvolunteer/list_volunteer_form.html',
+                              {'volunteers': volunteers},
+                              context_instance=RequestContext(request))
+
+
+import csv
+import os
+from ovsettings import *
+def list_volunteer_csv(volunteers):
+    """Export volunteers into CSV file"""
+
+    filename = APPLICATION_PATH + "/../media/openvolunteer/csv/volunteer_list.csv"
+
+    if os.path.isfile(filename):
+        os.remove(filename)
+
+    writer = csv.writer(open(filename, 'w'))
+    writer.writerow([unicode(s).encode('utf-8') for s in (
+                        u'Nom',
+                        u'Prénom',
+                        u'Email',
+                        u'Numéro de téléphone',
+                        u'Numéro de mobile',
+                        u'Date de Naissance',
+                        u'Inscription',
+                        u'Membre du CA')
+                    ])
+
+    for volunteer in volunteers:
+        if volunteer.birthday:
+           birthday = "%d/%d/%d" % (volunteer.birthday.day,
+                                    volunteer.birthday.month,
+                                    volunteer.birthday.year)
+        else:
+           birthday = ""
+
+        if volunteer.inscription_date:
+           inscription = "%d/%d/%d" % (volunteer.inscription_date.day,
+                                       volunteer.inscription_date.month,
+                                       volunteer.inscription_date.year)
+        else:
+           inscription = ""
+
+        if volunteer.ca_member:
+            ca = "oui"
+        else:
+            ca = "non"
+        writer.writerow([unicode(s).encode('utf-8') for s in (
+                             volunteer.name,
+                             volunteer.firstname,
+                             volunteer.email,
+                             volunteer.phone_home,
+                             volunteer.phone_mobile,
+                             birthday,
+                             inscription,
+                             ca)
+                        ])
+    return filename

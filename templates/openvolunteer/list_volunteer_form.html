@@ -21,16 +21,16 @@
                 </td>
                 <td>
                     <ul>
-                        <li><input type="checkbox" name="filter_address" checked>&nbsp; Une adresse</li>
-                        <li><input type="checkbox" name="filter_phone" checked>&nbsp; Un téléphone fixe</li>
-                        <li><input type="checkbox" name="filter_mobile" checked>&nbsp; Un téléphone mobile</li>
-                        <li><input type="checkbox" name="filter_email" checked>&nbsp; Une adresse Email</li>
+                        <li><input type="checkbox" name="filter_address">&nbsp; Une adresse</li>
+                        <li><input type="checkbox" name="filter_phone">&nbsp; Un téléphone fixe</li>
+                        <li><input type="checkbox" name="filter_mobile">&nbsp; Un téléphone mobile</li>
+                        <li><input type="checkbox" name="filter_email">&nbsp; Une adresse Email</li>
                     </ul>
                 </td>
                 <td>
                     <ul>
-                        <li><input type="radio" name="filter_old" value="off">&nbsp; Inclure les mineurs</li>
-                        <li><input type="radio" name="filter_old" value="on" checked>&nbsp; Uniquement les majeurs</li>
+                        <li><input type="radio" name="filter_old" value="on" checked>&nbsp; Inclure les mineurs</li>
+                        <li><input type="radio" name="filter_old" value="off">&nbsp; Uniquement les majeurs</li>
                         <li><input type="checkbox" name="filter_ca">&nbsp; Uniquement les membres du CA</li>
                     </ul>
                 </td>
@@ -43,12 +43,6 @@
         </table>
     </form>
     {% if volunteers %}
-        <div class="dlbutton center"  style="margin-top:5px;">
-            <input type="button"
-                   onclick="window.location.href='/media/openvolunteer/csv/volunteer_list.csv'"
-                   title="Télécharger la liste des bénévoles en .CSV"
-                   value="Télécharger la liste des bénévoles en .CSV">
-        </div>
         <div class="search-results">
             <table>
                 <tr>
@@ -100,7 +94,17 @@
 {% block navigation %}
     <ul>
         {% if volunteers %}
-            <li><a href="mailto:{% for result in volunteers %}{% if result.email %}{{ result.email }},{% endif %}{% endfor %}" title="Envoyer un mail aux personnes de cette liste">Envoyer un mail aux personnes de cette liste</a></li>
+            <li>
+                <a href="mailto:{% for result in volunteers %}{% if result.email %}{{ result.email }},{% endif %}{% endfor %}"
+                   title="Envoyer un mail aux personnes de cette liste">
+                    Envoyer un mail aux personnes de cette liste
+                </a>
+            </li>
+            <li>
+                <a href='/media/openvolunteer/csv/volunteer_list.csv' title="Télécharger la liste générée">
+                    Télécharger la liste générée
+                </a>
+            </li>
         {% endif %}
         <li><a href="/openvolunteer/volunteer/" title="">Chercher un bénévole</a></li>
         <li><a href="/openvolunteer/event/" title="">Chercher un événement</a></li>
