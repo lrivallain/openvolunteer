@@ -34,10 +34,10 @@ from errors import *
 
 @login_required(redirect_field_name='next')
 def volunteer_index(request):
-    #"""
-    #Display a search form (and a list of volunteers)
-    #"""
-    #try:
+    """
+    Display a search form (and a list of volunteers)
+    """
+    try:
         query = request.GET["q"]
         # if search request is empty or only contains a space, return
         #   specific error
@@ -59,9 +59,9 @@ def volunteer_index(request):
             if volunteers:
                 list_volunteer_csv(volunteers)
     # If there is no 'q' value, return empty results
-    #except:
-    #    volunteers = []
-    #    query = ""
+    except:
+        volunteers = []
+        query = ""
         return render_to_response('openvolunteer/volunteer_index.html',
                               {'results': volunteers, 'terms': query},
                               context_instance=RequestContext(request))
