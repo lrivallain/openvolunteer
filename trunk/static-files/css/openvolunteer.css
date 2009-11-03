@@ -162,6 +162,11 @@
     background:#E0FFB8;
 }
 
+.openvolunteer .search-results .no td {
+    background:#FFCFB2;
+    text-decoration: line-through;
+}
+
 .openvolunteer .search-results .maybe td {
     background-color:#FFFA8F;
 }
