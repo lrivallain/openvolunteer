@@ -13,6 +13,7 @@
                 <th>Bénévole</th>
                 <td class="required">
                     <select id="id_volunteer" name="volunteer">
+                        <option value="">----</option>
                         {{ sel_opts_vol|safe }}
                     </select>
                 </td>
@@ -30,21 +31,31 @@
                 <th>Présence</th>
                 <td>
                     <select id="id_presence" name="presence">
+                        <option value="maybe" {% ifequal answer.presence 'maybe'%}selected="selected"{% endifequal %}>Peut-être</option>
                         <option value="yes"   {% ifequal answer.presence 'yes'%}selected="selected"{% endifequal %}  >Oui</option>
                         <option value="no"    {% ifequal answer.presence 'no'%}selected="selected"{% endifequal %}   >Non</option>
-                        <option value="maybe" {% ifequal answer.presence 'maybe'%}selected="selected"{% endifequal %}>Peut-être</option>
                     </select>
                 </td>
             </tr>
             <tr>
                 <th>Dernière demande</th>
+                <script type="text/javascript">
+                    function autoToday() {
+                        var d=new Date();
+                        document.getElementById('id_last_request_day').value = d.getDate();
+                        document.getElementById('id_last_request_month').value = d.getMonth() + 1;
+                        document.getElementById('id_last_request_year').value = d.getFullYear();
+                    }
+                </script>
                 <td>
-                    <input type="text" id="id_last_request_year" maxlength="2" size="2"
+                    <input type="text" id="id_last_request_day" maxlength="2" size="2"
                            name="lastrequest_day" value='{{ answer.last_request|date:"d" }}'>
                     <input type="text" id="id_last_request_month" maxlength="2" size="2"
                            name="lastrequest_month" value='{{ answer.last_request|date:"m" }}'>
                     <input type="text" id="id_last_request_year" maxlength="4" size="4"
                            name="lastrequest_year" value='{{ answer.last_request|date:"Y" }}'>
+                    <br>
+                    (<a href="javascript:;" onclick="autoToday();">Aujourd'hui</a>)
                 </td>
             </tr>
             <tr>
