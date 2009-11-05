@@ -22,34 +22,18 @@
     along with OpenVolunteer.  If not, see <http://www.gnu.org/licenses/>.
     ---------------------------------------------------------------------------
 """
-import vobject
 
 def _vcard_string(person):
-    """
-    Helper function for vcard views. Accepts a 'person' object 
-    with certain attributes (name, firstname, email, phone numbers)
-    and returns a string containing serialized vCard data.
-    """
+    vcard  = u"BEGIN:VCARD\n"
+    vcard += u"VERSION:3.0\n"
+    vcard += u"FN:%s %s\n"                      % (person.name, person.firstname)
+    vcard += u"N:%s;%s;;;\n"                    % (person.firstname, person.name)
+    if person.email:
+        vcard += u"EMAIL;TYPE=INTERNET:%s\n"    % person.email
+    if person.phone_home:
+        vcard += u"TEL;TYPE=HOME:%s\n"          % person.phone_home
+    if person.phone_mobile:
+        vcard += u"TEL;TYPE=CELL:%s\n"          % person.phone_mobile
+    vcard += u"END:VCARD"
 
-    vcard = vobject.vCard()
-    
-    vcard.add('n')
-    vcard.n.value = vobject.vcard.Name(family=person.name, given=person.firstname)
-    
-    vcard.add('fn')
-    vcard.fn.value = "%s %s" % (person.firstname, person.name)
-    
-    vcard.add('email')
-    vcard.email.type_param = 'INTERNET'
-    vcard.email.value = person.email
-    
-    t1 = vcard.add('tel')
-    t1.type_param = 'HOME'
-    t1.value = person.phone_home
-    
-    t2 = vcard.add('tel')
-    t2.type_param = 'CELL'
-    t2.value = person.phone_mobile
-    
-    output = vcard.serialize()
-    return output
+    return vcard

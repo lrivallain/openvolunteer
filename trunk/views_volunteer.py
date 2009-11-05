@@ -92,7 +92,7 @@ def volunteer_vcard(request, volunteer_id):
         filename = "%s-%s" % (volunteer.firstname, volunteer.name)
         filename = "%s.vcf" % defaultfilters.slugify(filename)
 
-        response = HttpResponse(output, mimetype="text/x-vCard")
+        response = HttpResponse(output.encode('iso-8859-1'), mimetype="text/x-vCard")
         response['Content-Disposition'] = 'attachment; filename=%s' % filename
     else:
         response = HttpResponseNotFound('<h1>La génération de la Vcard a échoué!</h1>')
