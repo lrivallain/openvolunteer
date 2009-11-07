@@ -81,6 +81,42 @@
             </table>
         </div>
     {% endif %}
+    {% if comments %}
+        <h3 style="margin-left:60px;">Liste des commentaires</h3>
+        <div class="comment"><a name="comments"></a>
+        {% for comment in comments %}
+            <div class="comment"><a name="c{{ comment.id }}"></a>
+                <h4>
+                    {% if comment.email %}
+                        <a href="mailto:{{ comment.email }}" title="Envoyer un email à {{ comment.name }}">{{ comment.name }}</a>
+                    {% else %}
+                        {{ comment.name }}
+                    {% endif %}
+                le {{ comment.pub_date|date:"l d F Y à H:i" }}</h4>
+                <div>{{ comment.comment }}</div>
+            </div>
+        {% endfor %}
+        </div>
+    {% endif %}
+    <h3 style="margin-left:60px;">Ajouter un commentaire</h3>
+    <form method="post" action="{{ event.get_comment_add_url }}" class="comment-form center">
+        <table class="centered">
+            <tr>
+                <th>Nom et prénom (ou pseudo)</th>
+                <td class="required"><input type="text" name="name" value="{{ user.username }}"></td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td><input type="text" name="email" value="{{ user.email }}"></td>
+            </tr>
+            <tr>
+                <th>Commentaire</th>
+                <td class="required"><textarea name="comment"></textarea></td>
+            </tr>
+        </table>
+        <p class="required">* Les champs marqués en <span>rouge</span> sont obligatoires.</p>
+        <input type="submit" value="Enregistrer">
+    </form>
 {% endblock %}
 
 {% block navigation %}

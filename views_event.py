@@ -79,9 +79,11 @@ def event_details(request, event_id):
     """
     event = get_object_or_404(Event, id=event_id)
     needs = Need.objects.filter(event=event).all()
+    comments = Comment.objects.filter(event=event).all()
     return render_to_response('openvolunteer/event_details.html',
                               {'event': event,
-                               'needs': needs},
+                               'needs': needs,
+                               'comments': comments},
                               context_instance=RequestContext(request))
 
 
@@ -209,3 +211,27 @@ def event_csv(request, event_id):
                              answer.job)
                         ])
     return response
+
+
+@login_required(redirect_field_name='next')
+def event_comment_add(request, event_id):
+    """
+    Add a comment for current event
+    """
+    comment = Comment()
+    comment.event = get_object_or_404(Event, id=event_id)
+    if request.method == 'POST':
+        try:
+            comment.name = request.REQUEST['name']
+            if request.REQUEST['email']:
+                comment.email = request.REQUEST['email']
+            comment.comment = request.REQUEST['comment']
+            comment.save()
+        except:
+            message = "L'ajout a échoué ! (error code: %d)" % ERROR_EVENT_ADD_SAVING
+            status = "error"
+            return render_to_response('openvolunteer/operation_result.html',
+                                      {'status': status,
+                                       'message': message},
+                                      context_instance=RequestContext(request))
+    return redirect(comment.event)

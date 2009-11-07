@@ -149,6 +149,9 @@ class Event(models.Model):
     def get_delete_url(self):
         return "/openvolunteer/event/delete/%d/" % self.id
 
+    def get_comment_add_url(self):
+        return "/openvolunteer/event/comment/add/%d/" % self.id
+
     def get_need_add_url(self):
         return "/openvolunteer/event/need/add/%d/" % self.id
 
@@ -262,3 +265,25 @@ class Need(models.Model):
             return True
         else:
             return False
+
+
+class Comment(models.Model):
+    """
+    A comment system for Event details
+    """
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100, help_text='Nom et Prénom')
+    email = models.EmailField(blank=True, null=True, help_text='Adresse email (yyyyyy@monfai.fr)')
+    comment = models.TextField(help_text='Commentaire')
+    pub_date = models.DateTimeField(auto_now_add=True)
+    event = models.ForeignKey(Event,help_text='Évènement')
+
+    class Meta:
+        ordering = ('pub_date',)
+
+    def __unicode__(self):
+        return "%s on %s - %d/%d%d" % (self.name, self.event, self.pub_date.day,
+                                       self.pub_date.month, self.pub_date.year)
+
+    def get_absolute_url(self):
+        return "%s#c%d" % (self.event.get_absolute_url(), self.id)

@@ -76,3 +76,37 @@
     font-size:1.2em;
     cursor:pointer;
 }
+
+.openvolunteer .comment {
+    margin-left:30px;
+}
+
+.openvolunteer .comment-form {
+    text-align:center;
+}
+
+.openvolunteer .comment-form input[type="text"] {
+    width:200px;
+}
+
+.openvolunteer .comment-form textarea {
+    height:200px;
+    width:350px;
+}
+
+.openvolunteer .comment-form table {
+    border-collapse:collapse;
+    text-align:left;
+}
+
+.openvolunteer .comment-form th {
+    border: 1px solid #AAAAAA;
+    text-align:center;
+    background:#DDDDDD;
+    padding:5px;
+}
+
+.openvolunteer .comment-form td {
+    border-bottom: 1px solid #AAAAAA;
+    padding:5px;
+}

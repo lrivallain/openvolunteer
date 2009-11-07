@@ -50,6 +50,8 @@ urlpatterns = patterns('demo.openvolunteer.views',
     (r'^event/delete/(?P<event_id>\d+)/$', 'event_delete'),
     (r'^event/csv/(?P<event_id>\d+)/$', 'event_csv'),
 
+    (r'^event/comment/add/(?P<event_id>\d+)/$', 'event_comment_add'),
+
     (r'^event/need/add/(?P<event_id>\d+)/$', 'event_need_add'),
     (r'^event/need/edit/(?P<need_id>\d+)/$', 'event_need_edit'),
     (r'^event/need/delete/(?P<need_id>\d+)/$', 'event_need_delete'),
