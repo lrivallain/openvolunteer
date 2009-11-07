@@ -111,7 +111,7 @@
     border:1px solid #AEAEAE;
 }
 
-.openvolunteer .required input, .openvolunteer .required select {
+.openvolunteer .required input, .openvolunteer .required select, .openvolunteer .required textarea {
     border:1px solid #CC0000;
 }
 

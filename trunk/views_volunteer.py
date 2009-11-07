@@ -62,7 +62,7 @@ def volunteer_index(request):
     except:
         volunteers = []
         query = ""
-        return render_to_response('openvolunteer/volunteer_index.html',
+    return render_to_response('openvolunteer/volunteer_index.html',
                               {'results': volunteers, 'terms': query},
                               context_instance=RequestContext(request))
 
@@ -121,14 +121,14 @@ def volunteer_edit(request, volunteer_id):
             try:
                 volunteer = volunteer_add_or_edit(request, form, volunteer)
             except:
-                message = "La modification a échoué ! (error code: %d)" % ERROR_VOLUNTEER_ADD_SAVING
+                message = "La modification a échoué ! (error code: %d)" % ERROR_VOLUNTEER_EDIT_SAVING
                 status = "error"
                 return render_to_response('openvolunteer/operation_result.html',
                                           {'status': status, 'message': message},
                                           context_instance=RequestContext(request))
             return redirect(volunteer)
         else:
-            message = "La modification a échoué ! (error code: %d)" % ERROR_VOLUNTEER_ADD_INVALIDFORM
+            message = "La modification a échoué ! (error code: %d)" % ERROR_VOLUNTEER_EDIT_INVALIDFORM
             status = "error"
             return render_to_response('openvolunteer/operation_result.html',
                                       {'status': status, 'message': message},
@@ -151,14 +151,14 @@ def volunteer_add(request):
             try:
                 volunteer = volunteer_add_or_edit(request, form, volunteer)
             except:
-                message = "L'ajout a échoué ! (error code: %d)" % ERROR_VOLUNTEER_EDIT_SAVING
+                message = "L'ajout a échoué ! (error code: %d)" % ERROR_VOLUNTEER_ADD_SAVING
                 status = "error"
                 return render_to_response('openvolunteer/operation_result.html',
                                           {'status': status, 'message': message},
                                           context_instance=RequestContext(request))
             return redirect(volunteer)
         else:
-            message = "L'ajout a échoué ! (error code: %d)" % ERROR_VOLUNTEER_EDIT_INVALIDFORM
+            message = "L'ajout a échoué ! (error code: %d)" % ERROR_VOLUNTEER_ADD_INVALIDFORM
             status = "error"
             return render_to_response('openvolunteer/operation_result.html',
                                       {'status': status, 'message': message},
