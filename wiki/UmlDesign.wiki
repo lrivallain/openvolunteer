@@ -1,12 +1,82 @@
 #summary Graphwiz extract from models.py
 #labels Phase-Design,Featured
 
-= Introduction =
+= UML representation of OV models =
+http://lh3.ggpht.com/_J5MBiYAzx0E/SvgSQaqNYjI/AAAAAAAAI2Q/m5BpwpBeOQs/s576/openvolunteer_uml.png
+
+== How-to get this graph? ==
 {{{
 $ svn co svn://unicoders.org/unicoders/django/trunk/utils/modelviz.py
 $ python modelviz.py openvolunteer > openvolunteer.dot
 $ dot openvolunteer_uml.dot -Tpng -o openvolunteer_uml.png
 }}}
 
-= Result =
-http://lh3.ggpht.com/_J5MBiYAzx0E/SvgSQaqNYjI/AAAAAAAAI2Q/m5BpwpBeOQs/s576/openvolunteer_uml.png
+= List of availables methods for OV models =
+Class and methods of models (_attributes are described in previous part of this document_)
+
+== Volunteer ==
+{{{
+class Volunteer()
+    class Meta
+    def __unicode__()
+    def get_absolute_url()
+    def get_edit_url()
+    def get_delete_url()
+    def get_vcard_url()
+    def get_photo_url()
+    def save()
+}}}
+
+== Event ==
+{{{
+class Event()
+    class Meta
+    def __unicode__()
+    def get_absolute_url()
+    def get_edit_url()
+    def get_delete_url()
+    def get_comment_add_url()
+    def get_need_add_url()
+    def get_answer_add_url()
+    def get_answer_url()
+    def get_positives_answer_url()
+    def get_unknown_answer_url()
+    def get_affiche_url()
+}}}
+
+== Job ==
+{{{
+class Job()
+    class Meta
+    def __unicode__()
+    def get_absolute_url()
+    def get_edit_url()
+    def get_delete_url()
+}}}
+
+== Answer ==
+{{{
+class Answer()
+    class Meta
+    def get_edit_url()
+    def get_delete_url()
+}}}
+
+== Need ==
+{{{
+class Need()
+    class Meta
+    def __unicode__()
+    def get_edit_url()
+    def get_delete_url()
+    def get_completed_nb()
+    def get_completed_status()
+}}}
+
+== Comment ==
+{{{
+class Comment()
+    class Meta
+    def __unicode__()
+    def get_absolute_url()
+}}}
