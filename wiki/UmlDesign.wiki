@@ -1,0 +1,12 @@
+#summary Graphwiz extract from models.py
+#labels Phase-Design,Featured
+
+= Introduction =
+{{{
+$ svn co svn://unicoders.org/unicoders/django/trunk/utils/modelviz.py
+$ python modelviz.py openvolunteer > openvolunteer.dot
+$ dot openvolunteer_uml.dot -Tpng -o openvolunteer_uml.png
+}}}
+
+= Result =
+http://lh3.ggpht.com/_J5MBiYAzx0E/SvgSQaqNYjI/AAAAAAAAI2Q/m5BpwpBeOQs/s576/openvolunteer_uml.png
