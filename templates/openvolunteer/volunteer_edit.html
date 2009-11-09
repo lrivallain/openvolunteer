@@ -3,7 +3,7 @@
 {% block title %}OpenVolunteer | Édition d'une fiche{% endblock %}
 
 {% block content %}
-    <form method="POST" action="." class="edit-form center">
+    <form method="POST" action="." class="edit-form center" enctype="multipart/form-data">
         <table class="centered">
             <tr>
                 <th>Nom</th>
@@ -79,6 +79,13 @@
                 <th>Commentaires</th>
                 <td colspan="3">
                     <textarea id="id_comments" name="comments">{{ volunteer.comments }}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <th>Photographie</th>
+                <td colspan="3">
+                    {{ form.avatar }}<br>
+                    <input type="checkbox" id="id_delete_avatar" name="delete_avatar"><i>Supprimer la photo actuelle?</i>
                 </td>
             </tr>
         </table>
