@@ -35,10 +35,14 @@ class VolunteerForm(forms.Form):
     birth_place = forms.CharField(required=False, max_length=100)
     ca_member = forms.BooleanField(required=False)
     comments = forms.CharField(required=False, widget=forms.Textarea)
+    avatar = forms.ImageField(required=False)
+    delete_avatar = forms.BooleanField(required=False)
 
 class EventForm(forms.Form):
     title = forms.CharField(max_length=100)
     place = forms.CharField(required=False, max_length=100)
+    affiche = forms.ImageField(required=False)
+    delete_affiche = forms.BooleanField(required=False)
 
 class JobForm(forms.Form):
     title = forms.CharField(max_length=100)

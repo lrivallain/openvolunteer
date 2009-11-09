@@ -3,7 +3,7 @@
 {% block title %}OpenVolunteer | Édition d'une fiche{% endblock %}
 
 {% block content %}
-    <form method="POST" action="." class="edit-form center">
+    <form method="POST" action="." class="edit-form center" enctype="multipart/form-data">
         <table class="centered">
             <tr>
                 <th>Titre</th>
@@ -28,6 +28,13 @@
                 <td>
                     <input type="text" id="id_place" name="place"
                            maxlength="100" value='{{ event.place }}'>
+                </td>
+            </tr>
+            <tr>
+                <th>Affiche</th>
+                <td>
+                    {{ form.affiche }}<br>
+                    <input type="checkbox" id="id_delete_affiche" name="delete_affiche"><i>Supprimer l'affiche actuelle?</i>
                 </td>
             </tr>
         </table>

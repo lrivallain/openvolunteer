@@ -103,7 +103,7 @@ def event_edit(request, event_id):
     Update event infos
     """
     event = get_object_or_404(Event, id=event_id)
-    form = EventForm(request.POST)
+    form = EventForm(request.POST, request.FILES)
     if request.method == 'POST':
         if form.is_valid():
             try:
@@ -176,6 +176,17 @@ def event_add_or_edit(request, form, event):
                                    int(request.REQUEST['date_month']),
                                    int(request.REQUEST['date_day']))
     else: event.date = None
+
+    try:
+        if (request.REQUEST['delete_affiche']):
+            event.affiche.delete(save=False)
+    except: pass
+
+    try:
+        if request.FILES['affiche']:
+            event = handle_event_affiche(event, request.FILES['affiche'])
+    except: pass
+
     event.save()
     return event
 
@@ -235,3 +246,13 @@ def event_comment_add(request, event_id):
                                        'message': message},
                                       context_instance=RequestContext(request))
     return redirect(comment.event)
+
+
+def handle_event_affiche(event, file):
+    """
+    Save uploaded file for event affiche
+    """
+    filename = file.name
+    event.affiche.save(filename, file, save=True)
+    return event
+

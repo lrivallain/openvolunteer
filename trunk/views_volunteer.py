@@ -46,7 +46,7 @@ def volunteer_index(request):
                                       {'results': [], 'terms': ""},
                                       context_instance=RequestContext(request))
         else:
-            search_terms=query.split(' ')
+            search_terms = query.split(' ')
             # get all volunteers
             volunteers = Volunteer.objects.all()
             for term in search_terms:
@@ -115,7 +115,7 @@ def volunteer_edit(request, volunteer_id):
     Add or Update volunteer infos
     """
     volunteer = get_object_or_404(Volunteer, id=volunteer_id)
-    form = VolunteerForm(request.POST)
+    form = VolunteerForm(request.POST, request.FILES)
     if request.method == 'POST':
         if form.is_valid():
             try:
@@ -207,6 +207,17 @@ def volunteer_add_or_edit(request, form, volunteer):
     if (request.REQUEST['comments'] != ''):
         volunteer.comments = form.cleaned_data['comments']
     else: volunteer.comments = ''
+
+    try:
+        if (request.REQUEST['delete_avatar']):
+            volunteer.avatar.delete(save=False)
+    except: pass
+
+    try:
+        if request.FILES['avatar']:
+            volunteer = handle_volunteer_avatar(volunteer, request.FILES['avatar'])
+    except: pass
+
     volunteer.save()
     return volunteer
 
@@ -273,7 +284,9 @@ import csv
 import os
 from ovsettings import *
 def list_volunteer_csv(volunteers):
-    """Export volunteers into CSV file"""
+    """
+    Export volunteers into CSV file
+    """
 
     filename = APPLICATION_PATH + "/../media/openvolunteer/csv/volunteer_list.csv"
 
@@ -322,3 +335,13 @@ def list_volunteer_csv(volunteers):
                              ca)
                         ])
     return filename
+
+
+def handle_volunteer_avatar(volunteer, file):
+    """
+    Save uploaded file for volunteer avatar 
+    """
+    filename = file.name
+    volunteer.avatar.save(filename, file, save=True)
+    return volunteer
+
