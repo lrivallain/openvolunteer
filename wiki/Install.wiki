@@ -5,7 +5,7 @@
 <wiki:toc max_depth="3" />
 
 = Introduction =
-This page is a draft way to setup !OpenVolunteer on an apache2 web server by using mod_python. It describes the prerequisite of setup, configuration of application and configuration of web server.
+This page is a draft way to setup !OpenVolunteer on an apache2 web server by using mod_wsgi. It describes the prerequisite of setup, configuration of application and configuration of web server.
 
 There is no instruction to setup Django, but you can found more details for this step in  [http://docs.djangoproject.com/en/dev/intro/install/ this page] on the official django web site.
 
@@ -14,14 +14,14 @@ There is no instruction to setup Django, but you can found more details for this
  * Python v2.5
   * _[http://www.python.org/download/releases/2.5.4/ Download Python v2.5]_
   * _python-mysqldb library installed._
- * Django v1.1 (or v1.0) installation *with admin interface*, *authentication* and *static file access* enabled
+ * Django >= v1.0 (recommended: v1.1) installation *with admin interface*, *authentication* and *static file access* enabled
   * _[http://www.djangoproject.com/download/1.1/tarball/ Download Django_v1.1]_
   * _[http://docs.djangoproject.com/en/dev/intro/install/ Setup documentation]_
   * _[http://docs.djangoproject.com/en/dev/ref/contrib/admin/#ref-contrib-admin HowTo enable admin interface]_
-  * _[http://docs.djangoproject.com/en/dev/ref/settings/?from=olddocs#media-root HowTo configure static file access]_
+  * _[http://docs.djangoproject.com/en/dev/ref/settings/#media-root HowTo configure static file access]_
   * _[http://docs.djangoproject.com/en/dev/topics/auth/#topics-auth HowTo setup authentication]_
- * Vobject 0.8.1b
-  * _[http://vobject.skyhouseconsulting.com/vobject-0.8.1b.tar.gz Download vobject 0.8.1b]_
+ * Python Imaging Library (provided in packages mirrors of most of commons Linux based distributions)
+  * _[http://effbot.org/downloads/Imaging-1.1.6.tar.gz Download PIL 1.1.6]_
   * Run {{{ python setup.py install }}} to setup
 
 == Install it ==
@@ -30,27 +30,23 @@ There is no instruction to setup Django, but you can found more details for this
  # Create a project :
   _debian_ :
   {{{django-admin startproject MyProject}}}
- # Get the last tarball of !OpenVolunteer in [http://openvolunteer.googlecode.com/files/openvolunteer_v0.1.tar.gz download section]
+ # Get the last tarball of !OpenVolunteer in [http://openvolunteer.googlecode.com/files/openvolunteer_v0.2.tar.gz download section]
  # Extract the content of this tarball by:
   {{{ tar -xzf openvolunteer_v0.1.tar.gz }}}
  # Move openvolunteer folder to django project folder by:
-  {{{ mv openvolunteer /path/to/MyProject/ }}}
- # In the dir !MyProject settings file (settings.py), add {{{ 'openvoluteer', }}} to  {{{ INSTALLED_APPS }}}.
+  {{{ mv openvolunteer /path/to/django/MyProject/ }}}
+ # In the dir !MyProject settings file (settings.py), add {{{ 'openvolunteer', }}} to  {{{ INSTALLED_APPS }}}.
  # In the project url file (urls.py), add the following line to urlpatterns (according to project name):
   {{{ (r'^openvolunteer/', include('MyProject.openvolunteer.urls')), }}}
 
 == Configure it ==
  # In {{{ openvolunteer }}} folder, open the {{{ ovsettings.py }}} file.
- # Change the folowing line according to the used file system path:
-  {{{ APPLICATION_PATH = "/path/to/MyProject/openvolunteer" }}}
- # In: 
-  # {{{ admin.py }}}
-  # {{{ urls.py }}}
-  # {{{ views.py }}}
- change:
-  {{{ from demo.openvolunteer.models import * }}}
- to:
-  {{{ from MyProject.openvolunteer.models import * }}}
+ # Change the folowing lines according to the current project, app and path:
+{{{
+OPENVOLUNTEER_PROJ_NAME   = "MyProject"
+OPENVOLUNTEER_APP_NAME    = "openvolunteer"
+OPENVOLUNTEER_PROJ_ROOT   = "/path/to/django/MyProject"
+}}}
 
 == Test it ==
  # From project folder, launch the creation of mysql tables:
@@ -61,6 +57,44 @@ There is no instruction to setup Django, but you can found more details for this
 
 = Deployment =
 == Apache Prerequisites ==
-_Not yet available. Please consider the draft status of this page..._
+Need an apache2 with mod_wsgi enabled (`a2enmod mod_wsgi`)
+
 == Configuration ==
-_Not yet available. Please consider the draft status of this page..._
+ # Create a file `apache.wsgi` with:
+{{{
+import os
+import sys
+
+# fix a restriction of mod_wsgi:
+sys.stdout = sys.stderr
+
+# /path/to/django/MyProject without MyProject !!!
+sys.path.append('/path/to')
+
+# Change following line according to your project name
+os.environ['DJANGO_SETTINGS_MODULE'] = 'MyProject.settings'
+
+import django.core.handlers.wsgi
+application = django.core.handlers.wsgi.WSGIHandler()
+}}}
+ # And an apache2 configuration sample for a virtual host:
+{{{
+NameVirtualHost *:80
+<VirtualHost *:80>
+    ServerName host.domain.tld
+    ServerAdmin webmaster@host.domain.tld
+    DocumentRoot /var/www/
+
+    WSGIScriptAlias / /path/to/django/MyProject/apache.wsgi
+
+    Alias "/media" "/path/to/django/MyProject/media/"
+    <Location "/media">
+        SetHandler None
+    </Location>
+
+    Alias "/admin_media" "/usr/lib/python2.5/site-packages/django/contrib/admin/media/"
+    <Location "/admin_media">
+        SetHandler None
+    </Location>
+</VirtualHost>
+}}}
