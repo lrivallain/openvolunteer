@@ -1,4 +1,4 @@
-#summary This page is a draft way to setup OpenVolunteer on an apache2 web server by using mod_python.
+#summary This page describes a way to setup OpenVolunteer on an apache2 web server by using mod_wsgi
 #labels Phase-Deploy,Phase-Design,Featured
 #sidebar HowTo install
 
