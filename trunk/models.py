@@ -28,6 +28,7 @@ from django.conf import settings
 from django.utils.dates import *
 from bigint import BigIntegerField
 from django.template import defaultfilters
+from ovsettings import *
 
 def avatar_upload(instance, filename):
     """
@@ -37,18 +38,23 @@ def avatar_upload(instance, filename):
     instance : (object) - current volunteer
     filename : (string) - the title of uploaded file to get extension
     """
-    type = filename.split('.')[len(filename.split('.'))-1]
-
     # slugify name and firstname to avoid unicode problem
     slug_firstname = defaultfilters.slugify(instance.firstname)
     slug_name = defaultfilters.slugify(instance.name)
 
-    path = settings.MEDIA_ROOT + '/openvolunteer/avatars/'
-    file = "%s%s" % (slug_firstname, slug_name)
-    complete_filename = path + file + '.' + type
+    # test if folder is available
     import os
+    path  = settings.MEDIA_ROOT + OPENVOLUNTEER_APP_NAME + '/avatars/'
+    if not os.path.exists(path):
+        os.mkdir(path)
+
+    # create complete filename and remove if existing
+    file = "%s%s" % (slug_firstname, slug_name)
+    type = filename.split('.')[len(filename.split('.'))-1]
+    complete_filename = path + file + '.' + type
     if os.path.exists(complete_filename):
         os.remove(complete_filename)
+
     return complete_filename
 
 # Create your models here.
@@ -82,21 +88,25 @@ class Volunteer(models.Model):
     def __unicode__(self):
         return "%s %s" % (self.name, self.firstname)
 
+    @models.permalink
     def get_absolute_url(self):
-        return "/openvolunteer/volunteer/%d/" % self.id
+        return (OPENVOLUNTEER_APP_PREFIX + 'views.volunteer_details', (), {'volunteer_id': str(self.id)})
 
+    @models.permalink
     def get_edit_url(self):
-        return "/openvolunteer/volunteer/edit/%d/" % self.id
+        return (OPENVOLUNTEER_APP_PREFIX + 'views.volunteer_edit', (), {'volunteer_id': str(self.id)})
 
+    @models.permalink
     def get_delete_url(self):
-        return "/openvolunteer/volunteer/delete/%d/" % self.id
+        return (OPENVOLUNTEER_APP_PREFIX + 'views.volunteer_delete', (), {'volunteer_id': str(self.id)})
 
+    @models.permalink
     def get_vcard_url(self):
-        return "/openvolunteer/volunteer/vcard/%d/" % self.id
+        return (OPENVOLUNTEER_APP_PREFIX + 'views.volunteer_vcard', (), {'volunteer_id': str(self.id)})
 
     def get_photo_url(self):
         filename = self.avatar.path.split('/')[len(self.avatar.path.split('/'))-1]
-        return "/media/openvolunteer/avatars/%s" % filename
+        return "/media%s/avatars/%s" % (OPENVOLUNTEER_WEB_ROOT, filename)
 
     def save(self):
         super(Volunteer, self).save()
@@ -116,11 +126,20 @@ def affiche_upload(instance, filename):
     instance : (object) - current volunteer
     filename : (string) - the title of uploaded file to get extension
     """
+    # test if folder is available
+    import os
+    path  = settings.MEDIA_ROOT + OPENVOLUNTEER_APP_NAME + '/affiches/'
+    if not os.path.exists(path):
+        os.mkdir(path)
 
-    type = filename.split('.')[len(filename.split('.'))-1]
-    path = settings.MEDIA_ROOT + '/openvolunteer/affiches/'
+    # create complete filename and remove if existing
     file = instance.stripped_title
-    return path + file + '.' + type
+    type = filename.split('.')[len(filename.split('.'))-1]
+    complete_filename = path + file + '.' + type
+    if os.path.exists(complete_filename):
+        os.remove(complete_filename)
+
+    return complete_filename
 
 class Event(models.Model):
     """
@@ -140,36 +159,44 @@ class Event(models.Model):
     def __unicode__(self):
         return self.title
 
+    @models.permalink
     def get_absolute_url(self):
-        return "/openvolunteer/event/%d/" % self.id
+        return (OPENVOLUNTEER_APP_PREFIX + 'views.event_details', (), {'event_id': str(self.id)})
 
+    @models.permalink
     def get_edit_url(self):
-        return "/openvolunteer/event/edit/%d/" % self.id
+        return (OPENVOLUNTEER_APP_PREFIX + 'views.event_edit', (), {'event_id': str(self.id)})
 
+    @models.permalink
     def get_delete_url(self):
-        return "/openvolunteer/event/delete/%d/" % self.id
+        return (OPENVOLUNTEER_APP_PREFIX + 'views.event_delete', (), {'event_id': str(self.id)})
 
+    @models.permalink
     def get_comment_add_url(self):
-        return "/openvolunteer/event/comment/add/%d/" % self.id
+        return (OPENVOLUNTEER_APP_PREFIX + 'views.event_comment_add', (), {'event_id': str(self.id)})
 
+    @models.permalink
     def get_need_add_url(self):
-        return "/openvolunteer/event/need/add/%d/" % self.id
+        return (OPENVOLUNTEER_APP_PREFIX + 'views.event_need_add', (), {'event_id': str(self.id)})
 
+    @models.permalink
     def get_answer_add_url(self):
-        return "/openvolunteer/event/answer/add/%d/" % self.id
+        return (OPENVOLUNTEER_APP_PREFIX + 'views.event_answer_add', (), {'event_id': str(self.id)})
 
     def get_answer_url(self):
-        return "/openvolunteer/answer/?v=&e=%d" % self.id
+        return "%s/answer/?v=&e=%d" % (OPENVOLUNTEER_WEB_ROOT, self.id)
 
+    @models.permalink
     def get_positives_answer_url(self):
-        return "/openvolunteer/answer/positive/%d/" % self.id
+        return (OPENVOLUNTEER_APP_PREFIX + 'views.answer_positives', (), {'event_id': str(self.id)})
 
+    @models.permalink
     def get_unknown_answer_url(self):
-        return "/openvolunteer/answer/unknown/%d/" % self.id
+        return (OPENVOLUNTEER_APP_PREFIX + 'views.answer_tocontact', (), {'event_id': str(self.id)})
 
     def get_affiche_url(self):
         filename = self.affiche.path.split('/')[len(self.affiche.path.split('/'))-1]
-        return "/media/openvolunteer/affiches/%s" % filename
+        return "/media%s/affiches/%s" % (OPENVOLUNTEER_WEB_ROOT, filename)
 
 
 class Job(models.Model):
@@ -191,13 +218,16 @@ class Job(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return "/openvolunteer/job/#job-%d" % self.id
+        return "%s/job/#job-%d" % (OPENVOLUNTEER_WEB_ROOT, self.id)
 
+    @models.permalink
     def get_edit_url(self):
-        return "/openvolunteer/job/edit/%d/" % self.id
+        return (OPENVOLUNTEER_APP_PREFIX + 'views.job_edit', (), {'job_id': str(self.id)})
 
+    @models.permalink
     def get_delete_url(self):
-        return "/openvolunteer/job/delete/%d/" % self.id
+        return (OPENVOLUNTEER_APP_PREFIX + 'views.job_delete', (), {'job_id': str(self.id)})
+
 
 PRESENCE_CHOICES = (
     ('maybe', 'Peut-être'),
@@ -225,11 +255,13 @@ class Answer(models.Model):
     class Meta:
         ordering = ('event','volunteer')
 
+    @models.permalink
     def get_edit_url(self):
-        return "/openvolunteer/event/answer/edit/%d/" % self.id
+        return (OPENVOLUNTEER_APP_PREFIX + 'views.event_answer_edit', (), {'answer_id': str(self.id)})
 
+    @models.permalink
     def get_delete_url(self):
-        return "/openvolunteer/event/answer/delete/%d/" % self.id
+        return (OPENVOLUNTEER_APP_PREFIX + 'views.event_answer_edit', (), {'answer_id': str(self.id)})
 
 
 class Need(models.Model):
@@ -249,19 +281,19 @@ class Need(models.Model):
     def __unicode__(self):
         return u"%s %s" % (self.event, self.job)
 
+    @models.permalink
     def get_edit_url(self):
-        return "/openvolunteer/event/need/edit/%d/" % self.id
+        return (OPENVOLUNTEER_APP_PREFIX + 'views.event_need_edit', (), {'need_id': str(self.id)})
 
+    @models.permalink
     def get_delete_url(self):
-        return "/openvolunteer/event/need/delete/%d/" % self.id
+        return (OPENVOLUNTEER_APP_PREFIX + 'views.event_need_edit', (), {'need_id': str(self.id)})
 
     def get_completed_nb(self):
         return len(Answer.objects.filter(event=self.event,job=self.job,presence="yes").all())
 
     def get_completed_status(self):
-        a = self.get_completed_nb()
-        b = int(self.number)
-        if (a >= b):
+        if (self.get_completed_nb() >= int(self.number)):
             return True
         else:
             return False

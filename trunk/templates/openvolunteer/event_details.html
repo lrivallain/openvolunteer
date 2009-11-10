@@ -27,7 +27,7 @@
         </div>
         <div class="dlbutton center">
             <input type="button"
-                   onclick="window.location.href='/openvolunteer/event/csv/{{ event.id }}'"
+                   onclick="window.location.href='{{ settings.OPENVOLUNTEER_WEB_ROOT }}/event/csv/{{ event.id }}'"
                    title="Télécharger la liste des bénévoles présents à cet événement en .CSV"
                    value="Télécharger la liste des bénévoles présents à cet événement en .CSV">
         </div>
@@ -49,9 +49,9 @@
                         <td>{{ need.number }}</td>
                         <td>
                             {% if need.get_completed_status  %}
-                                <img src="/openvolunteer/files/icons/yes.png" alt="oui" class="icon">
+                                <img src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/icons/yes.png" alt="oui" class="icon">
                             {% else %}
-                                <img src="/openvolunteer/files/icons/no.png" alt="non" class="icon">
+                                <img src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/icons/no.png" alt="non" class="icon">
                             {% endif %}
                         </td>
                         <td class="more">

@@ -6,11 +6,11 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>{% block title %}OpenVolunteer {% endblock %}</title>
     <style type="text/css">
-        @import url(/openvolunteer/files/css/openvolunteer.css);
-        @import url(/openvolunteer/files/jquery/css/flick/jquery-ui-1.7.2.custom.css);
+        @import url({{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/css/openvolunteer.css);
+        @import url({{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/jquery/css/flick/jquery-ui-1.7.2.custom.css);
     </style>
-    <script type="text/javascript" src="/openvolunteer/files/jquery/js/jquery-1.3.2.min.js"></script>
-    <script type="text/javascript" src="/openvolunteer/files/jquery/js/jquery-ui-1.7.2.custom.min.js"></script>
+    <script type="text/javascript" src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/jquery/js/jquery-1.3.2.min.js"></script>
+    <script type="text/javascript" src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/jquery/js/jquery-ui-1.7.2.custom.min.js"></script>
     <script type="text/javascript">
         $(function() {
             $("#footer").dialog({
@@ -25,8 +25,8 @@
 </head>
 <body class="openvolunteer">
     <div class="logo">
-        <a href="/openvolunteer/" title="Accueil">
-            <img src="/openvolunteer/files/logo.png" alt="OpenVolunteer">
+        <a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/" title="Accueil">
+            <img src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/logo.png" alt="OpenVolunteer">
         </a>
     </div>
     <div class="registration">
@@ -37,20 +37,20 @@
             {% else %}
                 {{ user.username }}</a>:
             {% endif %}
-            <a href="/accounts/logout/?next=/openvolunteer/" title="Se déconnecter">Déconnexion</a> |
-            <a href="/admin/openvolunteer/" title="Accéder à l'interface d'administration d'OpenVolunteer">Administration</a>
+            <a href="/accounts/logout/?next={{ settings.OPENVOLUNTEER_WEB_ROOT }}/" title="Se déconnecter">Déconnexion</a> |
+            <a href="/admin/{{ settings.OPENVOLUNTEER_APP_NAME }}/" title="Accéder à l'interface d'administration d'OpenVolunteer">Administration</a>
         {% else %}
-            <a href="/openvolunteer/" title="Accéder à l'accueil">Accueil</a> |
-            <a href="/accounts/login/?next=/openvolunteer/" title="Se connecter">Connexion</a>
+            <a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/" title="Accéder à l'accueil">Accueil</a> |
+            <a href="/accounts/login/?next={{ settings.OPENVOLUNTEER_WEB_ROOT }}/" title="Se connecter">Connexion</a>
         {% endif %}
         | <a href="javascript:;" onclick="$('#footer').dialog('open');" title="À propos d'OpenVolunteer">À propos</a>
     </div>
     <div class="menu">
-        <a href="/openvolunteer/"           title="Accéder à l'accueil">Accueil  </a> |
-        <a href="/openvolunteer/volunteer"  title="Bénévoles"          >Bénévoles</a> |
-        <a href="/openvolunteer/event/"     title="Événements"         >Événement</a> |
-        <a href="/openvolunteer/answer/"    title="Réponses"           >Réponses </a> |
-        <a href="/openvolunteer/job/"       title="Postes"             >Postes   </a>
+        <a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/"          title="Accéder à l'accueil">Accueil  </a> |
+        <a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/volunteer" title="Bénévoles"          >Bénévoles</a> |
+        <a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/event/"    title="Événements"         >Événement</a> |
+        <a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/answer/"   title="Réponses"           >Réponses </a> |
+        <a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/job/"      title="Postes"             >Postes   </a>
     </div>
     <div class="shortcuts">
         {% block navigation %}{% endblock %}

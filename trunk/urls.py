@@ -25,7 +25,7 @@ from ovsettings import *
 from django.conf.urls.defaults import *
 from django.contrib.comments import urls
 
-urlpatterns = patterns('demo.openvolunteer.views',
+urlpatterns = patterns(OPENVOLUNTEER_APP_PREFIX + 'views',
     # MAIN view
     (r'^$', 'index'),
 
@@ -76,5 +76,5 @@ urlpatterns = patterns('demo.openvolunteer.views',
 
 urlpatterns += patterns('',
     # Provide access to css files
-    (r'^files/(?P<path>.*)$', 'django.views.static.serve', {'document_root': APPLICATION_PATH + '/static-files'}),
+    (r'^files/(?P<path>.*)$', 'django.views.static.serve', {'document_root': OPENVOLUNTEER_SYSTEM_ROOT + '/static-files'}),
 )

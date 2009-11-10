@@ -22,19 +22,18 @@
     along with OpenVolunteer.  If not, see <http://www.gnu.org/licenses/>.
     ---------------------------------------------------------------------------
 """
-from demo.openvolunteer.models import *
-from django.shortcuts import render_to_response, get_object_or_404
-from django.template import RequestContext
-from django.http import HttpResponse, HttpResponseNotFound
-from django.db.models import Q
-from django.contrib.auth.decorators import login_required
-import datetime
-
+from models import *
 from views_volunteer import *
 from views_event import *
 from views_answer import *
 from views_job import *
 from views_need import *
+
+from django.shortcuts import render_to_response
+from django.template import RequestContext
+from django.contrib.auth.decorators import login_required
+
+import datetime
 
 @login_required(redirect_field_name='next')
 def index(request):

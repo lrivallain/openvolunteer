@@ -21,7 +21,32 @@
     along with OpenVolunteer.  If not, see <http://www.gnu.org/licenses/>.
     ---------------------------------------------------------------------------
 """
+###############################################################################
+#                       Main settings for OV app                              #
+###############################################################################
+# Django project name
+OPENVOLUNTEER_PROJ_NAME   = "demo"
 
-# File-system path to application
-APPLICATION_PATH = "/home/pampryl/working/demo/openvolunteer"
+# This application name (no change is needed in most cases)
+OPENVOLUNTEER_APP_NAME    = "openvolunteer"
 
+# Path (from root) where the project is stored on system
+OPENVOLUNTEER_PROJ_ROOT   = "/home/pampryl/working/demo"
+
+
+
+###############################################################################
+#                !!! DO NOT EDIT THIS PART OF SETTINGS !!!                    #
+###############################################################################
+# Something like "project.app." string
+OPENVOLUNTEER_APP_PREFIX  = "%s.%s." % (OPENVOLUNTEER_PROJ_NAME, OPENVOLUNTEER_APP_NAME)
+
+# Something like "/home/user/project/app/" string
+OPENVOLUNTEER_SYSTEM_ROOT = "%s/%s" % (OPENVOLUNTEER_PROJ_ROOT, OPENVOLUNTEER_APP_NAME)
+
+# Something like "/app" string
+OPENVOLUNTEER_WEB_ROOT    = "/%s" % OPENVOLUNTEER_APP_NAME
+
+# Something like "http://host.domain.tld/media/app" string
+from django.conf import settings
+OPENVOLUNTEER_MEDIA_URL   = settings.MEDIA_URL + OPENVOLUNTEER_APP_NAME

@@ -23,7 +23,7 @@
     ---------------------------------------------------------------------------
 """
 from django import forms
-from demo.openvolunteer.models import *
+from models import *
 
 class VolunteerForm(forms.Form):
     name = forms.CharField(max_length=100)
