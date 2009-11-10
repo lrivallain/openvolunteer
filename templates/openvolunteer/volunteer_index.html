@@ -4,7 +4,7 @@
 
 {% block content %}
     <div>
-        <form method="get" action="/openvolunteer/volunteer/?">
+        <form method="get" action="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/volunteer/?">
             <fieldset>
                 <input type="text" name="q" size="40" maxlength="255" value="{{ terms }}">
                 <input class="submit" type="submit" value="Rechercher"><br>
@@ -31,7 +31,7 @@
                             {% if result.email %}
                                 {{ result.email }}&nbsp;
                                 <a href="mailto:{{ result.email }}" title="Envoyer un email">
-                                    <img src="/openvolunteer/files/icons/email.png" alt="mail" class="icon">
+                                    <img src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/icons/email.png" alt="mail" class="icon">
                                 </a>
                             {% endif %}
                         </td>
@@ -39,9 +39,9 @@
                         <td>{{ result.phone_mobile }}</td>
                         <td style="text-align:center;">
                             {% if result.ca_member %}
-                                <img src="/openvolunteer/files/icons/yes.png" alt="oui" class="icon">
+                                <img src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/icons/yes.png" alt="oui" class="icon">
                             {% else %}
-                                <img src="/openvolunteer/files/icons/no.png" alt="non" class="icon">
+                                <img src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/icons/no.png" alt="non" class="icon">
                             {% endif %}
                         </td>
                         <td class="more">
@@ -75,18 +75,18 @@
 {% block navigation %}
     <ul>
         <li>
-            <a href="/openvolunteer/volunteer/add/" title="Ajouter un bénévole">
+            <a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/volunteer/add/" title="Ajouter un bénévole">
                 Ajouter un bénévole
             </a>
         </li>
         <li>
-            <a href="/openvolunteer/volunteer/list/" title="Générer une liste">
+            <a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/volunteer/list/" title="Générer une liste">
                 Générer une liste
             </a>
         </li>
         {% if results %}
             <li>
-                <a href='/media/openvolunteer/csv/volunteer_list.csv' title="Télécharger la liste générée">
+                <a href='/media{{ OPENVOLUNTEER_APP_NAME }}/csv/volunteer_list.csv' title="Télécharger la liste générée">
                     Télécharger la liste générée
                 </a>
             </li>

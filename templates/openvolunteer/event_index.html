@@ -4,7 +4,7 @@
 
 {% block content %}
     <div>
-        <form method="get" action="/openvolunteer/event/?">
+        <form method="get" action="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/event/?">
             <fieldset>
                 <input type="text" name="q" size="40" maxlength="255" value="{{ terms }}">
                 <input class="submit" type="submit" value="Rechercher"><br>
@@ -79,7 +79,7 @@
 {% block navigation %}
     <ul>
         <li>
-            <a href="/openvolunteer/event/add/" title="Ajouter un événement">
+            <a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/event/add/" title="Ajouter un événement">
                 Ajouter un événement
             </a>
         </li>

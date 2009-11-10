@@ -37,7 +37,7 @@
         {% if job %}
             <li><a href="{{ job.get_absolute_url }}" title="">Revenir à la liste des postes.</a></li>
         {% else %}
-            <li><a href="/openvolunteer/job/" title="">Revenir à la liste des postes</a></li>
+            <li><a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/job/" title="">Revenir à la liste des postes</a></li>
         {% endif %}
     </ul>
 {% endblock %}

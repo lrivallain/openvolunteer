@@ -22,7 +22,7 @@
     along with OpenVolunteer.  If not, see <http://www.gnu.org/licenses/>.
     ---------------------------------------------------------------------------
 """
-from demo.openvolunteer.models import *
+from models import *
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseNotFound
@@ -72,7 +72,7 @@ def event_index(request):
                               context_instance=RequestContext(request))
 
 
-@login_required(redirect_field_name='next')
+#@login_required(redirect_field_name='next')
 def event_details(request, event_id):
     """
     Display event details and link to modify them
@@ -94,7 +94,7 @@ def event_delete(request, event_id):
     """
     event = get_object_or_404(Event, id=event_id)
     event.delete()
-    return redirect("/openvolunteer/event/")
+    return redirect(OPENVOLUNTEER_WEB_ROOT + '/event/')
 
 
 @login_required(redirect_field_name='next')

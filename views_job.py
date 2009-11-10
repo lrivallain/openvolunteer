@@ -22,7 +22,7 @@
     along with OpenVolunteer.  If not, see <http://www.gnu.org/licenses/>.
     ---------------------------------------------------------------------------
 """
-from demo.openvolunteer.models import *
+from models import *
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseNotFound
@@ -49,7 +49,7 @@ def job_delete(request, job_id):
     """
     job = get_object_or_404(Job, id=job_id)
     job.delete()
-    return redirect("/openvolunteer/job/")
+    return redirect(OPENVOLUNTEER_WEB_ROOT + '/job/')
 
 
 @login_required(redirect_field_name='next')

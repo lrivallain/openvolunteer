@@ -48,7 +48,7 @@
         {% if event %}
             <li><a href="{{ event.get_absolute_url }}" title="">Revenir à la fiche de l'événement</a></li>
         {% else %}
-            <li><a href="/openvolunteer/event/" title="">Rechercher un événement</a></li>
+            <li><a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/event/" title="">Rechercher un événement</a></li>
         {% endif %}
     </ul>
 {% endblock %}

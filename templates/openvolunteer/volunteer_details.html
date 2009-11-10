@@ -68,9 +68,9 @@
                     <th>Membre du CA?</th>
                     <td>
                         {% if volunteer.ca_member %}
-                            <img src="/openvolunteer/files/icons/yes.png" alt="oui" class="icon">
+                            <img src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/icons/yes.png" alt="oui" class="icon">
                         {% else %}
-                            <img src="/openvolunteer/files/icons/no.png" alt="non" class="icon">
+                            <img src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/icons/no.png" alt="non" class="icon">
                         {% endif %}
                     </td>
                 </tr>

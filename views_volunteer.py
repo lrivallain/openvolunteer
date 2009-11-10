@@ -22,15 +22,17 @@
     along with OpenVolunteer.  If not, see <http://www.gnu.org/licenses/>.
     ---------------------------------------------------------------------------
 """
-from demo.openvolunteer.models import *
+from models import *
+from forms import *
+from errors import *
+
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseNotFound
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
+
 import datetime
-from forms import *
-from errors import *
 
 @login_required(redirect_field_name='next')
 def volunteer_index(request):
@@ -106,7 +108,7 @@ def volunteer_delete(request, volunteer_id):
     """
     volunteer = get_object_or_404(Volunteer, id=volunteer_id)
     volunteer.delete()
-    return redirect("/openvolunteer/volunteer/")
+    return redirect(OPENVOLUNTEER_WEB_ROOT + '/volunteer/')
 
 
 @login_required(redirect_field_name='next')
@@ -288,7 +290,8 @@ def list_volunteer_csv(volunteers):
     Export volunteers into CSV file
     """
 
-    filename = APPLICATION_PATH + "/../media/openvolunteer/csv/volunteer_list.csv"
+    filename =  settings.MEDIA_ROOT + OPENVOLUNTEER_APP_NAME
+    filename += "/csv/volunteer_list.csv"
 
     if os.path.isfile(filename):
         os.remove(filename)

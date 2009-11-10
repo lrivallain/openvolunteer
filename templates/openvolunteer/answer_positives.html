@@ -28,7 +28,7 @@
                             {% if answer.volunteer.email %}
                                 {{ answer.volunteer.email }}&nbsp;
                                 <a href="mailto:{{ answer.volunteer.email }}" title="Envoyer un email">
-                                    <img src="/openvolunteer/files/icons/email.png" alt="mail" class="icon">
+                                    <img src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/icons/email.png" alt="mail" class="icon">
                                 </a>
                             {% endif %}
                         </td>
@@ -36,9 +36,9 @@
                         <td>{{ answer.volunteer.phone_mobile }}</td>
                         <td style="text-align:center;">
                             {% if answer.volunteer.ca_member %}
-                                <img src="/openvolunteer/files/icons/yes.png" alt="oui" class="icon">
+                                <img src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/icons/yes.png" alt="oui" class="icon">
                             {% else %}
-                                <img src="/openvolunteer/files/icons/no.png" alt="non" class="icon">
+                                <img src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/icons/no.png" alt="non" class="icon">
                             {% endif %}
                         </td>
                         <td>

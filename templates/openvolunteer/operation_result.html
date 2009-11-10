@@ -17,9 +17,9 @@
 
 {% block navigation %}
     <ul>
-        <li><a href="/openvolunteer/volunteer"  title="Chercher un bénévole" >Chercher un bénévole </a></li>
-        <li><a href="/openvolunteer/event/"     title="Chercher un événement">Chercher un événement</a></li>
-        <li><a href="/openvolunteer/answer/"    title="Chercher une réponse" >Chercher une réponse </a></li>
-        <li><a href="/openvolunteer/job/"       title="Liste des postes"     >Liste des postes     </a></li>
+        <li><a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/volunteer"  title="Chercher un bénévole" >Chercher un bénévole </a></li>
+        <li><a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/event/"     title="Chercher un événement">Chercher un événement</a></li>
+        <li><a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/answer/"    title="Chercher une réponse" >Chercher une réponse </a></li>
+        <li><a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/job/"       title="Liste des postes"     >Liste des postes     </a></li>
     </ul>
 {% endblock %}

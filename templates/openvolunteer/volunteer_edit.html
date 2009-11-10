@@ -99,7 +99,7 @@
         {% if volunteer %}
             <li><a href="{{ volunteer.get_absolute_url }}" title="">Revenir à la fiche de ce bénévole.</a></li>
         {% else %}
-            <li><a href="/openvolunteer/volunteer/" title="">Rechercher un bénévole</a></li>
+            <li><a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/volunteer/" title="">Rechercher un bénévole</a></li>
         {% endif %}
     </ul>
 {% endblock %}
