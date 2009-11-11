@@ -9,6 +9,9 @@
  # Move openvolunteer folder to django project folder by:
   {{{ mv openvolunteer /path/to/django/MyProject/ }}}
  # In the dir !MyProject settings file (`settings.py`), add `'openvolunteer',` to `INSTALLED_APPS`.
+  # add `'openvolunteer',` to `INSTALLED_APPS`
+  # add `'openvolunteer.context_processors.settings',` to `TEMPLATE_CONTEXT_PROCESSORS`
+  # add `'/path/to/django/MyProject/openvolunteer/templates',` to `TEMPLATE_DIRS`
  # In the project url file (`urls.py`), add the following line to urlpatterns (according to project name):
   {{{ (r'^openvolunteer/', include('MyProject.openvolunteer.urls')), }}}
  # In `openvolunteer` folder, open the `ovsettings.py` file and change the following lines according to the current project, app and path:
