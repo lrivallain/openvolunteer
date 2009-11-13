@@ -24,6 +24,9 @@
 """
 
 def _vcard_string(person):
+    """
+    Return a very simple VCARD object with 'person' data
+    """
     vcard  = u"BEGIN:VCARD\n"
     vcard += u"VERSION:3.0\n"
     vcard += u"FN:%s %s\n"                      % (person.name, person.firstname)

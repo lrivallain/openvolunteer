@@ -23,7 +23,8 @@
     ---------------------------------------------------------------------------
 """
 from django import forms
-from models import *
+from models import PRESENCE_CHOICES
+
 
 class VolunteerForm(forms.Form):
     name = forms.CharField(max_length=100)
@@ -38,15 +39,18 @@ class VolunteerForm(forms.Form):
     avatar = forms.ImageField(required=False)
     delete_avatar = forms.BooleanField(required=False)
 
+
 class EventForm(forms.Form):
     title = forms.CharField(max_length=100)
     place = forms.CharField(required=False, max_length=100)
     affiche = forms.ImageField(required=False)
     delete_affiche = forms.BooleanField(required=False)
 
+
 class JobForm(forms.Form):
     title = forms.CharField(max_length=100)
     description = forms.CharField(required=False, widget=forms.Textarea)
+
 
 class AnswerForm(forms.Form):
     presence = forms.ChoiceField(choices=PRESENCE_CHOICES)

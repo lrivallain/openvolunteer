@@ -21,57 +21,81 @@
     along with OpenVolunteer.  If not, see <http://www.gnu.org/licenses/>.
     ---------------------------------------------------------------------------
 """
-from ovsettings import *
+from ovsettings import OPENVOLUNTEER_APP_PREFIX, OPENVOLUNTEER_SYSTEM_ROOT
 from django.conf.urls.defaults import *
 from django.contrib.comments import urls
 
+
 urlpatterns = patterns(OPENVOLUNTEER_APP_PREFIX + 'views',
-    # MAIN view
+    # WELCOME view
     (r'^$', 'index'),
 
-    # VOLUNTEERS views, search tool and vcard generation
+    # VOLUNTEERS
+    # search
     (r'^volunteer/$','volunteer_index'),
-    (r'^volunteer/add/$','volunteer_add'),
-
+    # view
     (r'^volunteer/(?P<volunteer_id>\d+)/$', 'volunteer_details'),
+    # vcard generation
     (r'^volunteer/vcard/(?P<volunteer_id>\d+)/$', 'volunteer_vcard'),
+    # add
+    (r'^volunteer/add/$','volunteer_add'),
+    # delete
     (r'^volunteer/delete/(?P<volunteer_id>\d+)/$', 'volunteer_delete'),
+    # edit
     (r'^volunteer/edit/(?P<volunteer_id>\d+)/$', 'volunteer_edit'),
-
-    # LISTS generators
+    # lists generator
     (r'^volunteer/list/$','list_volunteer_index'),
 
-    # EVENTS views and search tool
+    # EVENTS
+    # search
     (r'^event/$', 'event_index'),
-    (r'^event/add/$', 'event_add'),
-
+    # view
     (r'^event/(?P<event_id>\d+)/$', 'event_details'),
-    (r'^event/edit/(?P<event_id>\d+)/$', 'event_edit'),
+    # add
+    (r'^event/add/$', 'event_add'),
+    # delete
     (r'^event/delete/(?P<event_id>\d+)/$', 'event_delete'),
+    # edit
+    (r'^event/edit/(?P<event_id>\d+)/$', 'event_edit'),
+    # csv export
     (r'^event/csv/(?P<event_id>\d+)/$', 'event_csv'),
 
-    (r'^event/comment/add/(?P<event_id>\d+)/$', 'event_comment_add'),
-
+    # NEEDS
+    # add
     (r'^event/need/add/(?P<event_id>\d+)/$', 'event_need_add'),
-    (r'^event/need/edit/(?P<need_id>\d+)/$', 'event_need_edit'),
+    # delete
     (r'^event/need/delete/(?P<need_id>\d+)/$', 'event_need_delete'),
-
-    (r'^event/answer/add/(?P<event_id>\d+)/$', 'event_answer_add'),
-    (r'^event/answer/add/(?P<event_id>\d+)/(?P<volunteer_id>\d+)/$', 'event_answer_add'),
-    (r'^event/answer/edit/(?P<answer_id>\d+)/$', 'event_answer_edit'),
-    (r'^event/answer/delete/(?P<answer_id>\d+)/$', 'event_answer_delete'),
+    #edit
+    (r'^event/need/edit/(?P<need_id>\d+)/$', 'event_need_edit'),
 
     # ANSWERS views and search tool
+    # search and view (all answer for an event)
     (r'^answer/$','answer_index'),
+    # view (ok and unknow)
     (r'^answer/positive/(?P<event_id>\d+)/$', 'answer_positives'),
     (r'^answer/unknown/(?P<event_id>\d+)/$', 'answer_tocontact'),
+    # add (from event and from unknow answers list
+    (r'^event/answer/add/(?P<event_id>\d+)/$', 'event_answer_add'),
+    (r'^event/answer/add/(?P<event_id>\d+)/(?P<volunteer_id>\d+)/$', 'event_answer_add'),
+    # delete
+    (r'^event/answer/delete/(?P<answer_id>\d+)/$', 'event_answer_delete'),
+    # edit
+    (r'^event/answer/edit/(?P<answer_id>\d+)/$', 'event_answer_edit'),
 
-    # JOBS views and index
+    # JOBS
+    # all job list
     (r'^job/$','job_index'),
+    # add
     (r'^job/add/$','job_add'),
-
-    (r'^job/edit/(?P<job_id>\d+)/$','job_edit'),
+    # delete
     (r'^job/delete/(?P<job_id>\d+)/$','job_delete'),
+    # edit
+    (r'^job/edit/(?P<job_id>\d+)/$','job_edit'),
+
+    # COMMENT
+    # add
+    (r'^event/comment/add/(?P<event_id>\d+)/$', 'event_comment_add'),
+
 )
 
 urlpatterns += patterns('',

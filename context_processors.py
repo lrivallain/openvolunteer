@@ -23,6 +23,7 @@
 """
 import ovsettings as _settings
 
+
 def settings(request):
     """
     export ovsettings to templates

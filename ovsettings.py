@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 """
     ---------------------------------------------------------------------------
 
@@ -32,7 +33,6 @@ OPENVOLUNTEER_APP_NAME    = "openvolunteer"
 
 # Path (from root) where the project is stored on system
 OPENVOLUNTEER_PROJ_ROOT   = "/home/pampryl/working/demo"
-
 
 
 ###############################################################################

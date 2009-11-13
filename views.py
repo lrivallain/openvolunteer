@@ -22,7 +22,6 @@
     along with OpenVolunteer.  If not, see <http://www.gnu.org/licenses/>.
     ---------------------------------------------------------------------------
 """
-from models import *
 from views_volunteer import *
 from views_event import *
 from views_answer import *
@@ -33,12 +32,11 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 
-import datetime
 
 @login_required(redirect_field_name='next')
 def index(request):
     """
-    Open volunteers home page - Display links to main parts
+    OpenVolunteers home page - Display links to main parts
     of interface
     """
     return render_to_response('openvolunteer/index.html',{},
