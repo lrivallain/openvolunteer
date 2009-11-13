@@ -295,8 +295,11 @@ def list_volunteer_csv(volunteers):
     Export volunteers into CSV file
     """
 
-    filename =  settings.MEDIA_ROOT + OPENVOLUNTEER_APP_NAME
-    filename += "/csv/volunteer_list.csv"
+    path =  settings.MEDIA_ROOT + OPENVOLUNTEER_APP_NAME + "/csv"
+    filename = path + "/volunteer_list.csv"
+
+    if not os.path.exists(path):
+        os.mkdir(path)
 
     if os.path.isfile(filename):
         os.remove(filename)
