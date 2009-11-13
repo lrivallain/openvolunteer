@@ -23,14 +23,15 @@
     ---------------------------------------------------------------------------
 """
 from models import *
-from django.shortcuts import render_to_response, get_object_or_404, redirect
-from django.template import RequestContext
-from django.http import HttpResponse, HttpResponseNotFound
-from django.db.models import Q
-from django.contrib.auth.decorators import login_required
-import datetime
 from forms import *
 from errors import *
+
+from django.shortcuts import render_to_response, get_object_or_404, redirect
+from django.template import RequestContext
+from django.contrib.auth.decorators import login_required
+
+import datetime
+
 
 @login_required(redirect_field_name='next')
 def answer_index(request):

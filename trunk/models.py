@@ -22,13 +22,16 @@
     along with OpenVolunteer.  If not, see <http://www.gnu.org/licenses/>.
     ---------------------------------------------------------------------------
 """
+from ovsettings import *
+from bigint import BigIntegerField
 
 from django.db import models
 from django.conf import settings
-from django.utils.dates import *
-from bigint import BigIntegerField
 from django.template import defaultfilters
-from ovsettings import *
+
+import os
+import Image
+
 
 def avatar_upload(instance, filename):
     """
@@ -43,7 +46,6 @@ def avatar_upload(instance, filename):
     slug_name = defaultfilters.slugify(instance.name)
 
     # test if folder is available
-    import os
     path  = settings.MEDIA_ROOT + OPENVOLUNTEER_APP_NAME + '/avatars/'
     if not os.path.exists(path):
         os.mkdir(path)
@@ -57,13 +59,12 @@ def avatar_upload(instance, filename):
 
     return complete_filename
 
-# Create your models here.
+
 class Volunteer(models.Model):
     """
     A volunteer is a personn linked to organization. Lot of
     informations are needed to contact him.
     """
-
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, help_text='Nom (Une majuscule puis des minuscules)')
     firstname = models.CharField(max_length=100, help_text='Prénom (Une majuscule puis des minuscules)')
@@ -111,7 +112,6 @@ class Volunteer(models.Model):
     def save(self):
         super(Volunteer, self).save()
         if self.avatar:
-            import Image
             im = Image.open(self.avatar.name)
             size = 300, 300
             im.thumbnail(size, Image.ANTIALIAS)
@@ -127,7 +127,6 @@ def affiche_upload(instance, filename):
     filename : (string) - the title of uploaded file to get extension
     """
     # test if folder is available
-    import os
     path  = settings.MEDIA_ROOT + OPENVOLUNTEER_APP_NAME + '/affiches/'
     if not os.path.exists(path):
         os.mkdir(path)
@@ -242,7 +241,6 @@ class Answer(models.Model):
     to see who will be present at an event. It's possible to assign
     a volunteer to a job in case of positive answer.
     """
-
     id = models.AutoField(primary_key=True)
     event = models.ForeignKey(Event,help_text='Évènement')
     volunteer = models.ForeignKey(Volunteer,help_text='Cliquez sur l\'icone pour chercher le bénévole')
@@ -269,7 +267,6 @@ class Need(models.Model):
     A need is a number of volunteers wanted to complete a job for
     a specific event.
     """
-
     id = models.AutoField(primary_key=True)
     number = models.IntegerField(help_text='Nombre de personnes nécessaire à ce poste')
     event = models.ForeignKey(Event,help_text='Évènement')
@@ -301,7 +298,7 @@ class Need(models.Model):
 
 class Comment(models.Model):
     """
-    A comment system for Event details
+    A very simple comment system for Event details
     """
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, help_text='Nom et Prénom')

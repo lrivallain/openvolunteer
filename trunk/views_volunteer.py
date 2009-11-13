@@ -25,14 +25,18 @@
 from models import *
 from forms import *
 from errors import *
+from ovsettings import *
 
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
-from django.http import HttpResponse, HttpResponseNotFound
+from django.http import HttpResponse
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 
 import datetime
+import csv
+import os
+
 
 @login_required(redirect_field_name='next')
 def volunteer_index(request):
@@ -89,15 +93,19 @@ def volunteer_vcard(request, volunteer_id):
     """
     volunteer = Volunteer.objects.get(id=volunteer_id)
     output = _vcard_string(volunteer)
-    if (output != ""):
-        # slugify filename to avoid some unicode issues
-        filename = "%s-%s" % (volunteer.firstname, volunteer.name)
-        filename = "%s.vcf" % defaultfilters.slugify(filename)
+    if (output == ""):
+        message = "La génération a échoué ! (error code: %d)" % ERROR_VOLUNTEER_VCARD_GENERATION
+        status = "error"
+        return render_to_response('openvolunteer/operation_result.html',
+                                  {'status': status, 'message': message},
+                                  context_instance=RequestContext(request))
 
-        response = HttpResponse(output.encode('iso-8859-1'), mimetype="text/x-vCard")
-        response['Content-Disposition'] = 'attachment; filename=%s' % filename
-    else:
-        response = HttpResponseNotFound('<h1>La génération de la Vcard a échoué!</h1>')
+    # slugify filename to avoid some unicode issues
+    filename = "%s-%s" % (volunteer.firstname, volunteer.name)
+    filename = "%s.vcf" % defaultfilters.slugify(filename)
+
+    response = HttpResponse(output.encode('iso-8859-1'), mimetype="text/x-vCard")
+    response['Content-Disposition'] = 'attachment; filename=%s' % filename
     return response
 
 
@@ -282,9 +290,6 @@ def list_volunteer_index(request):
                               context_instance=RequestContext(request))
 
 
-import csv
-import os
-from ovsettings import *
 def list_volunteer_csv(volunteers):
     """
     Export volunteers into CSV file
@@ -342,9 +347,8 @@ def list_volunteer_csv(volunteers):
 
 def handle_volunteer_avatar(volunteer, file):
     """
-    Save uploaded file for volunteer avatar 
+    Save uploaded file for volunteer avatar
     """
     filename = file.name
     volunteer.avatar.save(filename, file, save=True)
     return volunteer
-

@@ -23,14 +23,13 @@
     ---------------------------------------------------------------------------
 """
 from models import *
-from django.shortcuts import render_to_response, get_object_or_404, redirect
-from django.template import RequestContext
-from django.http import HttpResponse, HttpResponseNotFound
-from django.db.models import Q
-from django.contrib.auth.decorators import login_required
-import datetime
 from forms import *
 from errors import *
+
+from django.shortcuts import render_to_response, get_object_or_404, redirect
+from django.template import RequestContext
+from django.contrib.auth.decorators import login_required
+
 
 @login_required(redirect_field_name='next')
 def job_index(request):
@@ -41,6 +40,7 @@ def job_index(request):
     return render_to_response('openvolunteer/job_index.html',
                               {'jobs': jobs},
                               context_instance=RequestContext(request))
+
 
 @login_required(redirect_field_name='next')
 def job_delete(request, job_id):

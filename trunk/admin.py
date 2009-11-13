@@ -25,6 +25,7 @@
 from models import *
 from django.contrib import admin
 
+
 class VolunteerAdmin(admin.ModelAdmin):
     """
     Provide informations to create django.contrib.admin
@@ -69,6 +70,7 @@ class JobAdmin(admin.ModelAdmin):
     prepopulated_fields = {"stripped_title": ("title",)}
     search_fields = ['title','boss']
 
+
 class AnswerAdmin(admin.ModelAdmin):
     """
     Provide informations to create django.contrib.admin
@@ -85,6 +87,7 @@ class AnswerAdmin(admin.ModelAdmin):
     search_fields = ['event','volunteer']
     raw_id_field = ('volunteer',)
 
+
 class NeedAdmin(admin.ModelAdmin):
     """
     Provide informations to create django.contrib.admin
@@ -96,6 +99,7 @@ class NeedAdmin(admin.ModelAdmin):
     list_display = ('event','job','number')
     search_fields = ['event','job']
 
+
 class CommentAdmin(admin.ModelAdmin):
     """
     Provide informations to create django.contrib.admin
@@ -106,6 +110,7 @@ class CommentAdmin(admin.ModelAdmin):
     list_filter = ['event']
     list_display = ('event','name','email','pub_date')
     search_fields = ['name','email','comment']
+
 
 admin.site.register(Volunteer, VolunteerAdmin)
 admin.site.register(Event, EventAdmin)

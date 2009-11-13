@@ -23,14 +23,18 @@
     ---------------------------------------------------------------------------
 """
 from models import *
-from django.shortcuts import render_to_response, get_object_or_404, redirect
-from django.template import RequestContext
-from django.http import HttpResponse, HttpResponseNotFound
-from django.db.models import Q
-from django.contrib.auth.decorators import login_required
-import datetime
 from forms import *
 from errors import *
+
+from django.shortcuts import render_to_response, get_object_or_404, redirect
+from django.template import RequestContext, defaultfilters
+from django.http import HttpResponse
+from django.db.models import Q
+from django.contrib.auth.decorators import login_required
+
+import datetime
+import csv
+
 
 @login_required(redirect_field_name='next')
 def event_index(request):
@@ -72,7 +76,7 @@ def event_index(request):
                               context_instance=RequestContext(request))
 
 
-#@login_required(redirect_field_name='next')
+@login_required(redirect_field_name='next')
 def event_details(request, event_id):
     """
     Display event details and link to modify them
@@ -128,6 +132,7 @@ def event_edit(request, event_id):
                                   {'form': form, 'event': event},
                                   context_instance=RequestContext(request))
 
+
 @login_required(redirect_field_name='next')
 def event_add(request):
     """
@@ -160,7 +165,6 @@ def event_add(request):
                                   context_instance=RequestContext(request))
 
 
-from django.template import defaultfilters
 def event_add_or_edit(request, form, event):
     """
     Add or update event infos
@@ -191,7 +195,6 @@ def event_add_or_edit(request, form, event):
     return event
 
 
-import csv
 @login_required(redirect_field_name='next')
 def event_csv(request, event_id):
     """Export volunteers for an event into CSV file"""
