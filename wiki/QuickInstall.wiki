@@ -5,6 +5,7 @@
 = Requirements =
 You need:
  * Python 2.5 installed on current host
+ * Python Imaging Library (1.1.6 recommended)
  * Django 1.1 installed on current host
  * An access to a database engine (MySQL server for example)
 
