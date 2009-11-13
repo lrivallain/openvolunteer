@@ -1,23 +1,40 @@
-#summary This page describes a way to setup OpenVolunteer on an existing django project.
+#summary This page describes a way to setup OpenVolunteer by using a django project sample and a automatic install-script.
 #labels Featured,Phase-Deploy
 #sidebar Quick install
 
-== Install it ==
- # Get the last tarball of !OpenVolunteer in [http://openvolunteer.googlecode.com/files download section]
+= Requirements =
+You need:
+ * Python 2.5 installed on current host
+ * Django 1.1 installed on current host
+ * An access to a database engine (MySQL server for example)
+
+= Install it =
+ # Get the last tarball of [http://openvolunteer.googlecode.com/files/quick_DjangoProject_setup.tar.gz quick_DjangoProject_setup]
  # Extract the content of this tarball by:
-  {{{ tar -xzf openvolunteer_v0.1.tar.gz }}}
- # Move openvolunteer folder to django project folder by:
-  {{{ mv openvolunteer /path/to/django/MyProject/ }}}
- # In the dir !MyProject settings file (`settings.py`), add `'openvolunteer',` to `INSTALLED_APPS`.
-  # add `'openvolunteer',` to `INSTALLED_APPS`
-  # add `'openvolunteer.context_processors.settings',` to `TEMPLATE_CONTEXT_PROCESSORS`
-  # add `'/path/to/django/MyProject/openvolunteer/templates',` to `TEMPLATE_DIRS`
- # In the project url file (`urls.py`), add the following line to urlpatterns (according to project name):
-  {{{ (r'^openvolunteer/', include('MyProject.openvolunteer.urls')), }}}
- # In `openvolunteer` folder, open the `ovsettings.py` file and change the following lines according to the current project, app and path:
-  {{{
-OPENVOLUNTEER_PROJ_NAME   = "MyProject"
-OPENVOLUNTEER_APP_NAME    = "openvolunteer"
-OPENVOLUNTEER_PROJ_ROOT   = "/path/to/django/MyProject"
-  }}}
- # Test it by opening your web browser and getting `/openvolunteer` file from your project hosting root url.
+{{{ 
+tar -xzf quick_DjangoProject_setup.tar.gz 
+}}}
+ # Go to new `ovdemo/` folder and run install script:
+{{{
+cd ovdemo
+chmod +x ov_install.sh 
+./ov_install.sh
+}}}   
+ # Configure the database settings in `settings.py` file:
+{{{
+DATABASE_ENGINE = ''
+DATABASE_NAME = ''
+DATABASE_USER = ''
+DATABASE_PASSWORD = ''
+DATABASE_HOST = ''
+DATABASE_PORT = ''
+}}}
+ # run the both command to synchronize database and run a test server:
+{{{
+python manage.py syncdb
+python manage.py runserver
+}}}
+ # access to http://127.0.0.1:8000
+
+= Deployment =
+Have a look to ApacheDeployement page
