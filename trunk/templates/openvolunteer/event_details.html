@@ -84,7 +84,21 @@
     {% if comments %}
         <h3 style="margin-left:60px;">Liste des commentaires</h3>
         <div class="comment"><a name="comments"></a>
-        {% for comment in comments %}
+       {% for comment in comments %}
+            <div id="comment_dialog_delete_{{ comment.id }}" title="Supprimer ce commentaire?" style="text-align:center;">
+                <p>Êtes vous sûr de vouloir supprimer ce commentaire?</p>
+                <p><a href="{{ comment.get_delete_url }}" title="Confirmer l'opération">Confirmer</a></p>
+            </div>
+            <script>
+                $(function() {
+                    $("#comment_dialog_delete_{{ comment.id }}").dialog({
+                        bgiframe: true,
+                        modal: true,
+                        autoOpen: false
+                    });
+                });
+            </script>
+
             <div class="comment"><a name="c{{ comment.id }}"></a>
                 <h4>
                     {% if comment.email %}
@@ -92,7 +106,10 @@
                     {% else %}
                         {{ comment.name }}
                     {% endif %}
-                le {{ comment.pub_date|date:"l d F Y à H:i" }}</h4>
+                    le {{ comment.pub_date|date:"l d F Y à H:i" }}
+                    <small>(<a href="javascript:;" onclick="$('#comment_dialog_delete_{{ comment.id }}').dialog('open');" 
+                        title="Supprimer ce commentaire ?">X</a>)</small>
+                </h4>
                 <div>{{ comment.comment }}</div>
             </div>
         {% endfor %}
