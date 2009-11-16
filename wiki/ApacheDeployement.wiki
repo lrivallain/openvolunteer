@@ -43,3 +43,7 @@ NameVirtualHost *:80
     </Location>
 </VirtualHost>
 }}}
+ # Reload apache configuration:
+{{{
+/etc/init.d/apache force-reload
+}}}
