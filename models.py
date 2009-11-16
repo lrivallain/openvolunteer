@@ -316,3 +316,7 @@ class Comment(models.Model):
 
     def get_absolute_url(self):
         return "%s#c%d" % (self.event.get_absolute_url(), self.id)
+
+    @models.permalink
+    def get_delete_url(self):
+        return (OPENVOLUNTEER_APP_PREFIX + 'views.event_comment_delete', (), {'comment_id': str(self.id)})

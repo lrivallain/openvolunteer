@@ -95,6 +95,8 @@ urlpatterns = patterns(OPENVOLUNTEER_APP_PREFIX + 'views',
     # COMMENT
     # add
     (r'^event/comment/add/(?P<event_id>\d+)/$', 'event_comment_add'),
+    # delete
+    (r'^event/comment/delete/(?P<comment_id>\d+)/$', 'event_comment_delete'),
 
 )
 

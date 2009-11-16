@@ -251,6 +251,17 @@ def event_comment_add(request, event_id):
     return redirect(comment.event)
 
 
+@login_required(redirect_field_name='next')
+def event_comment_delete(request, comment_id):
+    """
+    Delete current comment
+    """
+    comment = get_object_or_404(Comment, id=comment_id)
+    url = comment.event.get_absolute_url()
+    comment.delete()
+    return redirect(url)
+
+
 def handle_event_affiche(event, file):
     """
     Save uploaded file for event affiche
