@@ -1,0 +1,114 @@
+{% extends "openvolunteer/base.html" %}
+
+{% block title %}OpenVolunteer | Générateur de liste{% endblock %}
+
+{% block content %}
+    <form method="post" action="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/volunteer/list/" class="list-form center">
+        <table>
+            <tr>
+                <th>
+                    Filtrer sur le nom ou l'adresse:
+                </th>
+                <th>
+                    Séléctionner uniquement les bénévoles ayant complété:
+                </th>
+                <th>
+                    Autres filtres:
+                </th>
+            </tr>
+                <td>
+                    <input type="text" name="filter_q" value="" size="40">
+                </td>
+                <td>
+                    <ul>
+                        <li><input type="checkbox" name="filter_address">&nbsp; Une adresse</li>
+                        <li><input type="checkbox" name="filter_phone">&nbsp; Un téléphone fixe</li>
+                        <li><input type="checkbox" name="filter_mobile">&nbsp; Un téléphone mobile</li>
+                        <li><input type="checkbox" name="filter_email">&nbsp; Une adresse Email</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li><input type="radio" name="filter_old" value="on" checked>&nbsp; Inclure les mineurs</li>
+                        <li><input type="radio" name="filter_old" value="off">&nbsp; Uniquement les majeurs</li>
+                        <li><input type="checkbox" name="filter_ca">&nbsp; Uniquement les membres du CA</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" class="center">
+                    <input class="submit" type="submit" value="Générer la liste">
+                </td>
+            </tr>
+        </table>
+    </form>
+    {% if volunteers %}
+        <div class="search-results">
+            <table>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Email</th>
+                    <th>Téléphone fixe</th>
+                    <th>Mobile</th>
+                    <th>Date de naissance</th>
+                    <th>Inscription</th>
+                    <th>CA ?</th>
+                </tr>
+                {% for result in volunteers %}
+                    <tr>
+                        <td>{{ result.name }}</td>
+                        <td>{{ result.firstname }}</td>
+                        <td>
+                            {% if result.email %}
+                                {{ result.email }}&nbsp;
+                                <a href="mailto:{{ result.email }}" title="Envoyer un email">
+                                    <img src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/icons/email.png" alt="mail" class="icon">
+                                </a>
+                            {% endif %}
+                        </td>
+                        <td>{{ result.phone_home }}</td>
+                        <td>{{ result.phone_mobile }}</td>
+                        <td>{{ result.birthday|date:"d F Y" }}</td>
+                        <td>{{ result.inscription_date|date:"d F Y" }}</td>
+                        <td style="text-align:center;">
+                            {% if result.ca_member %}
+                                <img src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/icons/yes.png" alt="oui" class="icon">
+                            {% else %}
+                                <img src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/icons/no.png" alt="non" class="icon">
+                            {% endif %}
+                        </td>
+                        <td class="more">
+                            <a href="{{ result.get_absolute_url }}"
+                               title="Consulter la fiche détaillée de {{ result }}">
+                               Fiche détaillée
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block navigation %}
+    <ul>
+        {% if volunteers %}
+            <li>
+                <a href="mailto:{% for result in volunteers %}{% if result.email %}{{ result.email }},{% endif %}{% endfor %}"
+                   title="Envoyer un mail aux personnes de cette liste">
+                    Envoyer un mail aux personnes de cette liste
+                </a>
+            </li>
+            <li>
+                <a href='{{ settings.OPENVOLUNTEER_MEDIA_URL }}/csv/volunteer_list.csv' title="Télécharger la liste générée">
+                    Télécharger la liste générée
+                </a>
+            </li>
+        {% endif %}
+        <li><a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/volunteer/" title="">Chercher un bénévole</a></li>
+        <li><a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/event/" title="">Chercher un événement</a></li>
+        <li><a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/answer/" title="">Chercher une réponse de participation</a></li>
+        <li><a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/job/" title="">Accéder à la liste des "postes"</a></li>
+    </ul>
+{% endblock %}

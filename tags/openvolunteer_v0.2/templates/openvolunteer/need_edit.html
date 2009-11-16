@@ -1,0 +1,37 @@
+{% extends "openvolunteer/base.html" %}
+
+{% block title %}OpenVolunteer | Édition d'une fiche{% endblock %}
+
+{% block content %}
+    <form method="POST" action="." class="edit-form center">
+        <table class="centered">
+            <tr>
+                <th>Événement</th>
+                <td>{{ need.event }}</td>
+            </tr>
+            <tr>
+                <th>Poste</th>
+                <td class="required">
+                    <select id="id_job" name="job">
+                        {{ sel_opts|safe }}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Nombre de bénévoles</th>
+                <td class="required">
+                    <input type="text" id="id_number" name="number"
+                           size="3" maxlength="3" value='{% if need.number %}{{ need.number }}{% endif %}'>
+                </td>
+            </tr>
+        </table>
+        <p class="required">* Les champs marqués en <span>rouge</span> sont obligatoires.</p>
+        <input type="submit" value="Enregistrer">
+    </form>
+{% endblock %}
+
+{% block navigation %}
+    <ul>
+        <li><a href="{{ need.event.get_absolute_url }}" title="">Revenir à la fiche de l'événement</a></li>
+    </ul>
+{% endblock %}

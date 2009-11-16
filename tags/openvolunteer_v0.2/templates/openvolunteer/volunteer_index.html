@@ -1,0 +1,95 @@
+{% extends "openvolunteer/base.html" %}
+
+{% block title %}OpenVolunteer | Chercher un(des) bénévole(s){% endblock %}
+
+{% block content %}
+    <div>
+        <form method="get" action="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/volunteer/?">
+            <fieldset>
+                <input type="text" name="q" size="40" maxlength="255" value="{{ terms }}">
+                <input class="submit" type="submit" value="Rechercher"><br>
+                <span>Les recherches peuvent être effectuées sur le <u>nom</u>, le <u>prénom</u> où les <u>coordonées</u> des bénévoles.</span>
+            </fieldset>
+        </form>
+    </div>
+    <div class="search-results">
+        {% if results %}
+            <table>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Email</th>
+                    <th>Téléphone fixe</th>
+                    <th>Mobile</th>
+                    <th>CA ?</th>
+                </tr>
+                {% for result in results %}
+                    <tr>
+                        <td>{{ result.name }}</td>
+                        <td>{{ result.firstname }}</td>
+                        <td>
+                            {% if result.email %}
+                                {{ result.email }}&nbsp;
+                                <a href="mailto:{{ result.email }}" title="Envoyer un email">
+                                    <img src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/icons/email.png" alt="mail" class="icon">
+                                </a>
+                            {% endif %}
+                        </td>
+                        <td>{{ result.phone_home }}</td>
+                        <td>{{ result.phone_mobile }}</td>
+                        <td style="text-align:center;">
+                            {% if result.ca_member %}
+                                <img src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/icons/yes.png" alt="oui" class="icon">
+                            {% else %}
+                                <img src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/icons/no.png" alt="non" class="icon">
+                            {% endif %}
+                        </td>
+                        <td class="more">
+                            <a href="{{ result.get_absolute_url }}"
+                               title="Consulter la fiche détaillée de {{ result }}">
+                               Fiche détaillée
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <div class="search-error">
+                {% if terms %}
+                    <p>Le(s) terme(s) de recherche spécifié(s) – {{ terms }} – ne correspond(ent) à aucun document.</p>
+                    <p>Suggestions :
+                        <ul>
+                            <li>Vérifiez l’orthographe des termes de recherche.</li>
+                            <li>Essayez d'autres mots.</li>
+                            <li>Utilisez des mots plus généraux.</li>
+                        </ul>
+                    </p>
+                {% else %}
+                    <h3>Chercher parmis les bénévoles.</h3>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block navigation %}
+    <ul>
+        <li>
+            <a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/volunteer/add/" title="Ajouter un bénévole">
+                Ajouter un bénévole
+            </a>
+        </li>
+        <li>
+            <a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/volunteer/list/" title="Générer une liste">
+                Générer une liste
+            </a>
+        </li>
+        {% if results %}
+            <li>
+                <a href='/media{{ OPENVOLUNTEER_APP_NAME }}/csv/volunteer_list.csv' title="Télécharger la liste générée">
+                    Télécharger la liste générée
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+{% endblock %}

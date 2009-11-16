@@ -1,0 +1,77 @@
+{% extends "openvolunteer/base.html" %}
+
+{% block title %}OpenVolunteer | Liste des postes{% endblock %}
+
+{% block content %}
+    <div class="search-results">
+        <table>
+            <tr>
+                <th>Poste</th>
+                <th>Responsable</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+            {% for job in jobs %}
+            <tr>
+                <td class="center"><a name="job-{{ job.id }}"><h3>{{ job.title }}</h3></a></td>
+                <td>
+                    <ul>
+                        {% for b in job.boss.all %}
+                            <li>
+                                <a href="{{ b.get_absolute_url }}" title="Consulter la fiche de ce bénévole">
+                                    {{ b }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>{{ job.description }}</td>
+                <td class="center">
+                    <div id="dialog_conf_delete{{ job.id }}" title="Supprimer cette fiche?" style="text-align:center;">
+                        <p>Êtes vous sûr de vouloir supprimer cette fiche de poste?</p>
+                        <p><a href="{{ job.get_delete_url }}" title="Confirmer l'opération">Confirmer</a></p>
+                    </div>
+                    <script>
+                        $(function() {
+                            $("#dialog_conf_delete{{ job.id }}").dialog({
+                                bgiframe: true,
+                                modal: true,
+                                autoOpen: false
+                            });
+                        });
+                    </script>
+                    <a href="{{ job.get_edit_url }}" title="Modifier la fiche de ce poste">
+                        Modifier
+                    </a> |
+                    <a href="javascript:;" onclick="$('#dialog_conf_delete{{ job.id }}').dialog('open')"
+                       title="Supprimer la fiche de ce poste">
+                        Supprimer
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+        <script type="text/javascript">
+            function displayBoxContent(id){
+                box = document.getElementById(id);
+                if (box.style.visibility == 'hidden'){
+                    box.style.visibility = 'visible';
+                } else {
+                    box.style.visibility = 'hidden';
+                }
+            }
+            {% if selected_job %}
+                {% for job in jobs %}
+                    document.getElementById('{{ job.stripped_title }}').style.visibility = 'hidden';
+                {% endfor %}
+                displayBoxContent('{{ selected_job.stripped_title }}');
+            {% endif %}
+        </script>
+{% endblock %}
+
+{% block navigation %}
+    <ul>
+        <li><a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/job/add/" title="">Ajouter un poste</a></li>
+    </ul>
+{% endblock %}

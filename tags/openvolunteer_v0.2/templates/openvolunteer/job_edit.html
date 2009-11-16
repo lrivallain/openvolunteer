@@ -1,0 +1,43 @@
+{% extends "openvolunteer/base.html" %}
+
+{% block title %}OpenVolunteer | Édition d'une fiche{% endblock %}
+
+{% block content %}
+    <form method="POST" action="." class="edit-form center">
+        <table class="centered">
+            <tr>
+                <th>Titre</th>
+                <td class="required">
+                    <input type="text" id="id_title" name="title"
+                           maxlength="100" value='{{ job.title }}'>
+                </td>
+            </tr>
+            <tr>
+                <th>Responsable(s)</th>
+                <td>
+                    <select multiple="multiple" id="id_boss" name="boss">
+                        {{ sel_opts|safe }}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <textarea id="id_description" name="description">{{ job.description }}</textarea>
+                </td>
+            </tr>
+        </table>
+        <p class="required">* Les champs marqués en <span>rouge</span> sont obligatoires.</p>
+        <input type="submit" value="Enregistrer">
+    </form>
+{% endblock %}
+
+{% block navigation %}
+    <ul>
+        {% if job %}
+            <li><a href="{{ job.get_absolute_url }}" title="">Revenir à la liste des postes.</a></li>
+        {% else %}
+            <li><a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/job/" title="">Revenir à la liste des postes</a></li>
+        {% endif %}
+    </ul>
+{% endblock %}

@@ -1,0 +1,36 @@
+.legend {
+    margin-top:15px;
+    text-align: left;
+}
+
+.legend_positive, .legend-negative, .legend-maybe {
+    clear:both;
+}
+
+.legend-positive div, .legend-negative div, .legend-maybe div {
+    border: 1px solid #AAAAAA;
+    width:35px;
+    height:20px;
+    float:left;
+    margin-bottom:3px;
+}
+
+.legend-positive div {
+    background-color:#E0FFB8;
+}
+
+.legend-negative div {
+    background-color:#FFCFB2;
+}
+
+.legend-maybe div {
+    background-color:#FFFA8F;
+}
+
+.answser-event {
+    text-align:center;
+}
+
+.answser-event h2 {
+    margin-bottom:5px;
+}

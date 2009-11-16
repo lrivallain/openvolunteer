@@ -1,0 +1,191 @@
+@import "base.css";
+@import "index.css";
+@import "volunteer.css";
+@import "event.css";
+@import "answer.css";
+@import "answer.css";
+@import "forms.css";
+
+/*
+ * GLOBAL STYLE INITIALISATION
+ */
+
+.openvolunteer {
+    color:#000000;
+    font-family:sans-serif;
+    font-size:small;
+    font-size-adjust:none;
+    font-stretch:normal;
+    font-style:normal;
+    font-variant:normal;
+    font-weight:normal;
+    line-height:normal;
+    margin:0px;
+    padding:0px;
+}
+
+/*
+ * GENERAL HTML TAGS STYLES
+ */
+
+.openvolunteer a {
+    text-decoration:none;
+    color:#234F32;
+}
+
+.openvolunteer a:hover {
+    text-decoration:underline;
+    background:#E0FFB8;
+}
+
+.openvolunteer h2 {
+    color:#999999;
+}
+
+.openvolunteer h3 {
+    text-align:left;
+    color:#999999;
+}
+
+.openvolunteer fieldset {
+    border:none;
+    text-align:center;
+    font-size:0.8em;
+}
+
+.openvolunteer input[type=text] {
+    border:1px solid #234F32;
+}
+
+.openvolunteer textarea {
+    border:1px solid #234F32;
+}
+
+.openvolunteer select {
+    border:1px solid #234F32;
+}
+
+.openvolunteer input[type=submit], .openvolunteer input[type=button] {
+    border:1px solid #234F32;
+    border-bottom:2px solid #234F32;
+    border-right:2px solid #234F32;
+    color:#234F32;
+    background:#DDDDDD;
+}
+
+.openvolunteer input[type=button] {
+    border-right:2px solid #234F32;
+    border-bottom:2px solid #234F32;
+}
+
+.openvolunteer input[type=submit]:active, .openvolunteer input[type=button]:active {
+    border:1px solid #234F32;
+    margin-top:1px;
+}
+
+.openvolunteer input[type=checkbox] {
+    border:1px solid #234F32;
+    color:#234F32;
+    background:#DDDDDD;
+}
+
+.openvolunteer input[type=submit]:hover, .openvolunteer input[type=button]:hover {
+    background:#E0FFB8;
+}
+
+/*
+ * CSS SHORTCUTS
+ */
+
+.openvolunteer .center {
+    text-align:center;
+}
+
+.openvolunteer .centered {
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.openvolunteer .disabled {
+    background-color:#DDDDDD;
+    border:1px solid #AEAEAE;
+}
+
+.openvolunteer .required input, .openvolunteer .required select, .openvolunteer .required textarea {
+    border:1px solid #CC0000;
+}
+
+.openvolunteer .required span {
+    color:#CC0000;
+}
+
+.openvolunteer .success {
+    color:#666666;
+}
+
+.openvolunteer .error {
+    color:#CC0000;
+}
+
+/*
+ * SEARCH RESULTS DISPLAY IN TABLE
+ */
+
+.openvolunteer .search-results {
+    text-align:center;
+    padding:10px;
+}
+
+.openvolunteer .search-results table {
+    text-align:left;
+    width:100%;
+    border-collapse:collapse;
+}
+
+.openvolunteer .search-results th {
+    border: 1px solid #AAAAAA;
+    text-align:center;
+    background:#DDDDDD;
+}
+
+.openvolunteer .search-results td {
+    border-bottom: 1px solid #AAAAAA;
+}
+
+.openvolunteer .search-results .more {
+    font-size:0.8em;
+    text-align:right;
+    padding-right:5px;
+}
+
+.openvolunteer .search-results .yes td {
+    background:#E0FFB8;
+}
+
+.openvolunteer .search-results .no td {
+    background:#FFCFB2;
+    text-decoration: line-through;
+}
+
+.openvolunteer .search-results .maybe td {
+    background-color:#FFFA8F;
+}
+
+.openvolunteer .search-results .icon {
+    width:16px;
+    border:none;
+}
+
+/*
+ * OPERATIONS RESULT
+ */
+
+.openvolunteer .result {
+    text-align:center;
+    font-size:1.4em;
+    font-weight:bold;
+}
+
+.openvolunteer .result  a {
+    font-size:0.8em;
+}

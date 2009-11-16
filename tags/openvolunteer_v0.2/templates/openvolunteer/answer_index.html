@@ -1,0 +1,155 @@
+{% extends "openvolunteer/base.html" %}
+
+{% block title %}OpenVolunteer | Chercher une(des) réponse(s){% endblock %}
+
+{% block content %}
+    <div>
+        <form method="get" action="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/answer/">
+            <fieldset>
+                <p>
+                    <select name="e">
+                        {% for event in events %}
+                            <option value="{{ event.id }}">{{ event.title }} ({{ event.date|date:"d F Y" }})</option>
+                        {% endfor %}
+                    </select><br>
+                <p>
+                    <input type="hidden" name="v" value="">
+                    <input class="submit" type="submit" value="Rechercher">
+                </p>
+            </fieldset>
+        </form>
+    </div>
+    <div class="search-results">
+        {% if event %}
+            <div class="answser-event">
+                <h2><a href="{{ event.get_absolute_url }}" title="{{ event.title }}">{{ event.title }}</a></h2>
+            ({{ event.date|date:"l d F Y" }} | {{ event.place }})</p>
+            </div>
+        {% endif %}
+
+        {% if results %}
+        <h3>Liste des bénévoles contactés pour cet événement:</h3>
+        <table>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Téléphone fixe</th>
+                <th>Mobile</th>
+                <th>CA ?</th>
+                <th>Poste</th>
+            </tr>
+            {% for result in results %}
+                <tr class="{{ result.presence }}">
+                    <td>{{ result.volunteer.name }}</td>
+                    <td>{{ result.volunteer.firstname }}</td>
+                    <td>
+                        {% if result.volunteer.email %}
+                            {{ result.volunteer.email }}&nbsp;
+                            <a href="mailto:{{ result.volunteer.email }}" title="Envoyer un email">
+                                <img src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/icons/email.png" alt="mail" class="icon">
+                            </a>
+                        {% endif %}
+                    </td>
+                    <td>{{ result.volunteer.phone_home }}</td>
+                    <td>{{ result.volunteer.phone_mobile }}</td>
+                    <td style="text-align:center;">
+                        {% if result.volunteer.ca_member %}
+                            <img src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/icons/yes.png" alt="oui" class="icon">
+                        {% else %}
+                            <img src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/icons/no.png" alt="non" class="icon">
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if result.job %}
+                            <a href="{{ result.job.get_absolute_url }}" title="Afficher la fiche du poste">{{ result.job }}</a>
+                        {% endif %}
+                    </td>
+                    <td class="more">
+                        <div id="dialog_conf_delete{{ result.id }}" title="Supprimer cette fiche?" style="text-align:center;">
+                            <p>Êtes vous sûr de vouloir supprimer cette réponse?</p>
+                            <p><a href="{{ result.get_delete_url }}" title="Confirmer l'opération">Confirmer</a></p>
+                        </div>
+                        <script>
+                            $(function() {
+                                $("#dialog_conf_delete{{ result.id }}").dialog({
+                                    bgiframe: true,
+                                    modal: true,
+                                    autoOpen: false
+                                });
+                            });
+                        </script>
+                        <a href="{{ result.volunteer.get_absolute_url }}"
+                           title="Consulter la fiche détaillée de {{ result.volunteer }}">
+                           Bénévole
+                        </a> |
+                        <a href="{{ result.get_edit_url }}"
+                           title="Modifer cette réponse">
+                           Modifier
+                        </a> |
+                        <a href="javascript:;" onclick="$('#dialog_conf_delete{{ result.id }}').dialog('open');"
+                           title="Supprimer cette réponse">
+                           Supprimer
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        <div class="legend">
+            <div class="legend-positive"><div></div>&nbsp;: Réponses positives</div>
+            <div class="legend-negative"><div></div>&nbsp;: Réponses négatives</div>
+            <div class="legend-maybe"   ><div></div>&nbsp;: Réponses "Peut-être"</div>
+        </div>
+        {% else %}
+            <div class="search-error">
+                {% if terms %}
+                    <p>Le(s) terme(s) de recherche spécifié(s) – {{ terms }} – ne correspond(ent) à aucun document.</p>
+                    <p>Suggestions :
+                        <ul>
+                            <li>Vérifiez l’orthographe des termes de recherche.</li>
+                            <li>Essayez d'autres mots.</li>
+                            <li>Utilisez des mots plus généraux.</li>
+                        </ul>
+                    </p>
+                {% else %}
+                    <h3>Obtenir la liste de toutes les réponses (positives et négatives) pour un évènement.</h3>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block navigation %}
+    <ul>
+        <li>
+            <a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/event/" title="Accéder à la liste des événements">
+                Chercher un événement
+            </a>
+        </li>
+        {% if event %}
+            <li>
+                <a href="{{ event.get_answer_add_url }}" title="Ajouter une réponse">
+                    Ajouter une réponse
+                </a>
+            </li>
+            <li>
+                <a href="{{ event.get_absolute_url }}"
+                   title="Modifier les informations de {{ volunter }}">
+                   Voir la fiche de l'événement
+                </a>
+            </li>
+            <li>
+                <a href="{{ event.get_positives_answer_url }}"
+                   title="Obtenir la liste des bénévoles présents à cet événement">
+                   Obtenir la liste des bénévoles présents à cet événement
+                </a>
+            </li>
+            <li>
+                <a href="{{ event.get_unknown_answer_url }}"
+                   title="Obtenir la liste des bénévoles non contactés pour cet événement">
+                   Obtenir la liste des bénévoles non contactés pour cet événement
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+{% endblock %}

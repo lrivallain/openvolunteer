@@ -1,0 +1,25 @@
+{% extends "openvolunteer/base.html" %}
+
+{% block title %}OpenVolunteer | Résultat de l'opération{% endblock %}
+
+{% block content %}
+    <div class="result">
+        <h3>Résultat de l'opération</h3>
+        <p class="{{ status }}">
+            {{ message|safe }}
+            {% ifequal status "error" %}
+                <br><a href="javascript: history.go(-1)">Revenir en arrière</a>
+            {% endifequal %}
+        </p>
+
+    </div>
+{% endblock %}
+
+{% block navigation %}
+    <ul>
+        <li><a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/volunteer"  title="Chercher un bénévole" >Chercher un bénévole </a></li>
+        <li><a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/event/"     title="Chercher un événement">Chercher un événement</a></li>
+        <li><a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/answer/"    title="Chercher une réponse" >Chercher une réponse </a></li>
+        <li><a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/job/"       title="Liste des postes"     >Liste des postes     </a></li>
+    </ul>
+{% endblock %}

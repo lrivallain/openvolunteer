@@ -1,0 +1,112 @@
+.openvolunteer .event {
+    padding:10px;
+}
+
+.openvolunteer .event .photo {
+    float:left;
+}
+
+.openvolunteer .event .photo img {
+    z-index:9;
+    width:150px;
+    padding:7px;
+    background:#F3F3F3;
+    border:1px solid #DDDDDD;
+    -moz-border-radius:3px;
+}
+
+.openvolunteer .event .photo img:hover {
+    border:1px solid #234F32;
+    opacity:0.8;
+}
+
+.openvolunteer .event .details {
+    position:relative;
+    margin-left:200px;
+    top:1px;
+}
+
+.openvolunteer .event-edit {
+    position:relative;
+    top:1px;
+}
+
+.openvolunteer .event .details table, .openvolunteer .event-edit table {
+    text-align:left;
+    /*width:100%;*/
+    border-collapse:collapse;
+}
+
+.openvolunteer .event .details th, .openvolunteer .event-edit th {
+    border: 1px solid #AAAAAA;
+    text-align:right;
+    padding-right:10px;
+    width:154px;
+    background:#DDDDDD;
+}
+
+.openvolunteer .event .details td, .openvolunteer .event-edit td {
+    border-bottom: 1px solid #AAAAAA;
+    padding-left:10px;
+    padding-right:10px;
+}
+
+.openvolunteer .event .details textarea, .openvolunteer .event-edit textarea {
+    width:100%;
+    padding:1px;
+    text-align:left;
+    height:100px;
+}
+
+.openvolunteer .needs table {
+    width:600px !important  ;
+    text-align:center !important;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.openvolunteer .dlbutton  {
+    margin-top:30px;
+}
+
+.openvolunteer .dlbutton input[type=button] {
+    padding:5px;
+    -moz-border-radius:10px;
+    font-weight:bold;
+    font-size:1.2em;
+    cursor:pointer;
+}
+
+.openvolunteer .comment {
+    margin-left:30px;
+}
+
+.openvolunteer .comment-form {
+    text-align:center;
+}
+
+.openvolunteer .comment-form input[type="text"] {
+    width:200px;
+}
+
+.openvolunteer .comment-form textarea {
+    height:200px;
+    width:350px;
+}
+
+.openvolunteer .comment-form table {
+    border-collapse:collapse;
+    text-align:left;
+}
+
+.openvolunteer .comment-form th {
+    border: 1px solid #AAAAAA;
+    text-align:center;
+    background:#DDDDDD;
+    padding:5px;
+}
+
+.openvolunteer .comment-form td {
+    border-bottom: 1px solid #AAAAAA;
+    padding:5px;
+}
