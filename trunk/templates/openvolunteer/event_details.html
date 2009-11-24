@@ -26,6 +26,13 @@
             </table>
         </div>
         <div class="dlbutton center">
+            <p>
+                <a href="/openvolunteer/event/charters/{{ event.id }}/name/" 
+                   title="Télécharger la charte des bénévoles présents à cet événement en .PDF">
+                    Télécharger la charte des bénévoles présents à cet événement en .PDF (ordonnées par noms)</a>
+            </p>
+        </div>
+        <div class="dlbutton center">
             <input type="button"
                    onclick="window.location.href='{{ settings.OPENVOLUNTEER_WEB_ROOT }}/event/csv/{{ event.id }}'"
                    title="Télécharger la liste des bénévoles présents à cet événement en .CSV"
@@ -68,6 +75,9 @@
                                     });
                                 });
                             </script>
+                            <a href="mailto:{% for answer in need.get_positives_answers %}{% if answer.volunteer.email %}{{ answer.volunteer.email }},{% endif %}{% endfor %}" title="Envoyer un mail aux personnes à ce poste">
+                                <img src="/openvolunteer/files/icons/email.png" alt="mail" class="icon">
+                            </a> |
                             <a href="{{ need.get_edit_url }}" title="Modifier les valeurs de ce besoin">
                                 Modifier
                             </a> |
