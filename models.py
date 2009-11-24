@@ -294,6 +294,9 @@ class Need(models.Model):
             return True
         else:
             return False
+    def get_positives_answers(self):
+        answers = Answer.objects.filter(event=self.event,presence="yes", job=self.job).all()
+        return answers
 
 
 class Comment(models.Model):
