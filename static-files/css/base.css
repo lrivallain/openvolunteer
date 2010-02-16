@@ -17,7 +17,7 @@
     -moz-border-radius-topright:10px;
 }
 
-.openvolunteer .shortcuts {
+.openvolunteer .shortcuts ul {
     background:#DDDDDD;
     width:150px;
     position:absolute;
@@ -29,12 +29,9 @@
     -moz-border-radius-bottomleft:10px;
     -moz-border-radius-topleft:10px;
     text-align:center;
-}
-
-.openvolunteer .shortcuts ul {
     font-size:9pt;
     list-style:none;
-    padding:0px;
+    padding:0px 5px 10px 5px;
 }
 
 .openvolunteer .shortcuts li {
