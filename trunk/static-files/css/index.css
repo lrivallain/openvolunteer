@@ -20,6 +20,10 @@
     font-size:1.2em;
 }
 
+.openvolunteer .index {
+    margin-right:-151px;
+}
+
 .openvolunteer .content {
     clear:both;
     margin-top:70px;
