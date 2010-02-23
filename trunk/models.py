@@ -259,7 +259,7 @@ class Answer(models.Model):
 
     @models.permalink
     def get_delete_url(self):
-        return (OPENVOLUNTEER_APP_PREFIX + 'views.event_answer_edit', (), {'answer_id': str(self.id)})
+        return (OPENVOLUNTEER_APP_PREFIX + 'views.event_answer_delete', (), {'answer_id': str(self.id)})
 
 
 class Need(models.Model):
