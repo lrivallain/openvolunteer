@@ -222,7 +222,8 @@ def event_csv(request, event_id):
                              answer.volunteer.phone_home,
                              answer.volunteer.phone_mobile,
                              birthday,
-                             answer.job)
+                             answer.job,
+                             answer.comments)
                         ])
     return response
 
