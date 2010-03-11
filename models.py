@@ -220,6 +220,10 @@ class Job(models.Model):
         return "%s/job/#job-%d" % (OPENVOLUNTEER_WEB_ROOT, self.id)
 
     @models.permalink
+    def get_list_url(self):
+        return (OPENVOLUNTEER_APP_PREFIX + 'views.volunteer_byjob', (), {'job_id': str(self.id)})
+
+    @models.permalink
     def get_edit_url(self):
         return (OPENVOLUNTEER_APP_PREFIX + 'views.job_edit', (), {'job_id': str(self.id)})
 

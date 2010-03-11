@@ -45,6 +45,8 @@ urlpatterns = patterns(OPENVOLUNTEER_APP_PREFIX + 'views',
     (r'^volunteer/edit/(?P<volunteer_id>\d+)/$', 'volunteer_edit'),
     # lists generator
     (r'^volunteer/list/$','list_volunteer_index'),
+    # lists generator by previous job
+    (r'^volunteer/by-job/(?P<job_id>\d+)/$','volunteer_byjob'),
 
     # EVENTS
     # search
