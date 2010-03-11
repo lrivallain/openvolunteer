@@ -238,7 +238,9 @@ def list_volunteer_index(request):
     Display a form to generate a filtered list of volunteers
     """
     if request.method == 'GET':
-        return render_to_response('openvolunteer/list_volunteer_form.html',{},context_instance=RequestContext(request))
+        return render_to_response('openvolunteer/list_volunteer_form.html',
+                                  {},
+                                  context_instance=RequestContext(request))
     elif request.method == 'POST':
         volunteers = Volunteer.objects.all()
         if request.REQUEST["filter_q"]:
@@ -355,3 +357,22 @@ def handle_volunteer_avatar(volunteer, file):
     filename = file.name
     volunteer.avatar.save(filename, file, save=True)
     return volunteer
+
+
+@login_required(redirect_field_name='next')
+def volunteer_byjob(request, job_id):
+    job = get_object_or_404(Job, id=job_id)
+    volunteers = []
+    limit = datetime.date.today()
+    limit = limit.replace(limit.year - OPENVOLUNTEER_JOB_DELAY)
+
+    answers = Answer.objects.filter(job=job, presence="yes").all()
+    for answer in answers:
+        if answer.event.date > limit:
+            volunteers.append(answer.volunteer)
+
+    if volunteers:
+        list_volunteer_csv(volunteers)
+    return render_to_response('openvolunteer/volunteer_byjob.html',
+                              {'volunteers': volunteers, 'job': job, 'limit': limit},
+                              context_instance=RequestContext(request))

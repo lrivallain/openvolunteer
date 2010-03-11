@@ -1,0 +1,82 @@
+{% extends "openvolunteer/base.html" %}
+
+{% block title %}OpenVolunteer | Chercher les bénévoles ayant occupé ce poste: {{job}} depuis le {{ limit|date:"d F Y" }}{% endblock %}
+
+{% block content %}
+    <div class="search-results">
+        {% if volunteers %}
+            <table>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Email</th>
+                    <th>Téléphone fixe</th>
+                    <th>Mobile</th>
+                    <th>CA ?</th>
+                </tr>
+                {% for volunteer in volunteers %}
+                    <tr>
+                        <td>{{ volunteer.name }}</td>
+                        <td>{{ volunteer.firstname }}</td>
+                        <td>
+                            {% if volunteer.email %}
+                                {{ volunteer.email }}&nbsp;
+                                <a href="mailto:{{ volunteer.email }}" title="Envoyer un email">
+                                    <img src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/icons/email.png" alt="mail" class="icon">
+                                </a>
+                            {% endif %}
+                        </td>
+                        <td>{{ volunteer.phone_home }}</td>
+                        <td>{{ volunteer.phone_mobile }}</td>
+                        <td style="text-align:center;">
+                            {% if volunteer.ca_member %}
+                                <img src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/icons/yes.png" alt="oui" class="icon">
+                            {% else %}
+                                <img src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/icons/no.png" alt="non" class="icon">
+                            {% endif %}
+                        </td>
+                        <td class="more">
+                            <a href="{{ volunteer.get_absolute_url }}"
+                               title="Consulter la fiche détaillée de {{ result }}">
+                               Fiche détaillée
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <div class="search-error">
+                <p>Aucune réponse positive n'a été trouvée pour ce poste ({{ job }}) depuis le {{ limit|date:"d F Y" }}.</p>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block navigation %}
+    <ul>
+        {% if volunteers %}
+            <li>
+                <a href='{{ settings.OPENVOLUNTEER_MEDIA_URL }}/csv/volunteer_list.csv' title="Télécharger la liste générée">
+                    Télécharger la liste générée
+                </a>
+            </li>
+        {% endif %}
+        <li>
+            <a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/job/" title="Liste des postes">
+                Liste des postes
+            </a>
+        </li>
+        <li>
+            <a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/volunteer/" title="Chercher un bénévole">
+                Chercher un bénévole
+            </a>
+        </li>
+        {% if results %}
+            <li>
+                <a href='/media{{ OPENVOLUNTEER_APP_NAME }}/csv/volunteer_list.csv' title="Télécharger la liste générée">
+                    Télécharger la liste générée
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+{% endblock %}
