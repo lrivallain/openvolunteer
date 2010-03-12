@@ -50,6 +50,7 @@ class Job()
     class Meta
     def __unicode__()
     def get_absolute_url()
+    def get_list_url()
     def get_edit_url()
     def get_delete_url()
 }}}
