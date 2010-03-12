@@ -80,6 +80,29 @@
                 </tr>
             </table>
         </div>
+        {%if jobs %}
+            <div class="jobs center">
+                <h2>Cette personne a déjà été bénévole !</h2>
+                <table class="centered">
+                    <tr>
+                        <th>Evènement</th>
+                        <th>Date</th>
+                        <th>Poste</th>
+                    </tr>
+                    {% for job in jobs %}
+                        <tr>
+                            <td>
+                                <a href="{{ job.event.get_absolute_url }}" title="Accéder à la fiche de cet événement">
+                                    {{ job.event }}
+                                </a>
+                            </td>
+                            <td>{{ job.event.date|date:"d F Y" }}</td>
+                            <td>{{ job.job }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        {% endif %}
     </div>
     {% if volunteer.phone_home %}
         <div id="dialog_qr_home" title="Téléphone fixe de {{volunteer.firstname}} {{volunteer.name}} :" style="text-align:center;">

@@ -79,8 +79,19 @@ def volunteer_details(request, volunteer_id):
     Display volunteer details and link to modify them
     """
     volunteer = get_object_or_404(Volunteer, id=volunteer_id)
+
+    jobs = []
+    limit = datetime.date.today()
+    limit = limit.replace(limit.year - OPENVOLUNTEER_JOB_DELAY)
+
+    answers = Answer.objects.filter(volunteer=volunteer, presence="yes").all()
+    for answer in answers:
+        if answer.event.date > limit:
+            if answer not in jobs:
+                jobs.append(answer)
     return render_to_response('openvolunteer/volunteer_details.html',
-                              {'volunteer': volunteer},
+                              {'volunteer': volunteer,
+                               'jobs': jobs},
                               context_instance=RequestContext(request))
 
 
