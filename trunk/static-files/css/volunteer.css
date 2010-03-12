@@ -31,7 +31,7 @@
     top:1px;
 }
 
-.openvolunteer .volunteer .details table, .openvolunteer .volunteer-edit table {
+.openvolunteer .volunteer .details table, .openvolunteer .volunteer-edit table, .openvolunteer .volunteer .jobs table {
     text-align:left;
     /*width:100%;*/
     border-collapse:collapse;
@@ -45,7 +45,7 @@
     background:#DDDDDD;
 }
 
-.openvolunteer .volunteer .details td, .openvolunteer .volunteer-edit td {
+.openvolunteer .volunteer .details td, .openvolunteer .volunteer-edit td, .openvolunteer .volunteer .jobs td {
     border-bottom: 1px solid #AAAAAA;
     padding-left:10px;
     padding-right:10px;
@@ -56,6 +56,13 @@
     padding:1px;
     text-align:left;
     height:100px;
+}
+
+.openvolunteer .volunteer .jobs th {
+    border: 1px solid #AAAAAA;
+    padding-right:10px;
+    padding-left:10px;
+    background:#DDDDDD;
 }
 
 /*
