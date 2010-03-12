@@ -26,13 +26,13 @@
 #                       Main settings for OV app                              #
 ###############################################################################
 # Django project name
-OPENVOLUNTEER_PROJ_NAME   = "demo"
+OPENVOLUNTEER_PROJ_NAME   = "ovsvn"
 
 # This application name (no change is needed in most cases)
 OPENVOLUNTEER_APP_NAME    = "openvolunteer"
 
 # Path (from root) where the project is stored on system
-OPENVOLUNTEER_PROJ_ROOT   = "/home/pampryl/working/demo"
+OPENVOLUNTEER_PROJ_ROOT   = "/home/pampryl/in.svn/ovsvn"
 
 # Time to look back for searching volunteers for a job (default = 1 year)
 OPENVOLUNTEER_JOB_DELAY   = 1

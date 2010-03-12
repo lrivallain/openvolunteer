@@ -369,7 +369,8 @@ def volunteer_byjob(request, job_id):
     answers = Answer.objects.filter(job=job, presence="yes").all()
     for answer in answers:
         if answer.event.date > limit:
-            volunteers.append(answer.volunteer)
+            if answer.volunteer not in volunteers:
+                volunteers.append(answer.volunteer)
 
     if volunteers:
         list_volunteer_csv(volunteers)
