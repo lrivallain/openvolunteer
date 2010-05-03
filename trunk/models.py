@@ -253,6 +253,8 @@ class Answer(models.Model):
     comments = models.TextField(blank=True,help_text='Commentaires')
     date = models.DateField(help_text='Date de la réponse',null=True,blank=True,auto_now=True)
     last_request = models.DateField(help_text='Dernière relance',null=True,blank=True)
+    updating_vol_info = models.BooleanField(help_text='Fiche bénévole envoyée?',blank=True)
+    updated_vol_info = models.BooleanField(help_text='Fiche bénévole retournée?',blank=True)
 
     class Meta:
         ordering = ('event','volunteer')

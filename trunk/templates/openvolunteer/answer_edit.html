@@ -59,6 +59,45 @@
                 </td>
             </tr>
             <tr>
+                <th>Fiche bénévole envoyée?</th>
+                <td>
+                    <input type="checkbox" id="id_updating_vol_info" name="updating_vol_info"
+                           {% if answer.updating_vol_info %}checked{% endif %}
+                           onclick="uncheck(this);">
+                <td>
+            </tr>
+            <tr>
+                <th>Fiche bénévole retournée?</th>
+                <td>
+                    <script type="text/javascript">
+                        iter = 1;
+                        function autoCheck(elt){
+                            if (elt.checked) {
+                                elt2 = document.getElementById('id_updating_vol_info');
+                                if (iter == 1) {
+                                    var info = document.createElement('span');
+                                    info.id = 'info';
+                                    info.innerHTML += "<i>Coché automatiquement !</i>";
+                                    elt2.parentNode.appendChild(info);
+                                    iter++;
+                                }
+                                document.getElementById('info').style.display = 'inline';
+                                elt2.checked = true;
+                            }
+                        }
+
+                        function uncheck(elt){
+                            if(!elt.checked) {
+                                document.getElementById('info').style.display = 'none';
+                            }
+                        }
+                    </script>
+                    <input type="checkbox" id="id_updated_vol_info" name="updated_vol_info"
+                           {% if answer.updated_vol_info %}checked{% endif %}
+                           onclick="autoCheck(this);">
+                <td>
+            </tr>
+            <tr>
                 <th>Commentaires</th>
                 <td colspan="3">
                     <textarea id="id_comments" name="comments">{{ answer.comments }}</textarea>

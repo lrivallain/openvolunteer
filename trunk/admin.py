@@ -79,7 +79,7 @@ class AnswerAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ('Qui? Où? Quand?', {'fields': ('event','volunteer','job')}),
-        ('Contacts', {'fields': ('presence','last_request')}),
+        ('Contacts', {'fields': ('presence','last_request','updating_vol_info','updated_vol_info')}),
         ('Divers', {'fields': ('comments',)}),
     )
     list_display = ('event','volunteer','presence','job')

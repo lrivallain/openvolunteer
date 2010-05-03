@@ -36,7 +36,7 @@
                 <th>Email</th>
                 <th>Téléphone fixe</th>
                 <th>Mobile</th>
-                <th>CA ?</th>
+                <th>Mis à jour?</th>
                 <th>Poste</th>
             </tr>
             {% for result in results %}
@@ -54,7 +54,7 @@
                     <td>{{ result.volunteer.phone_home }}</td>
                     <td>{{ result.volunteer.phone_mobile }}</td>
                     <td style="text-align:center;">
-                        {% if result.volunteer.ca_member %}
+                        {% if result.updated_vol_info and result.updating_vol_info %}
                             <img src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/icons/yes.png" alt="oui" class="icon">
                         {% else %}
                             <img src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/icons/no.png" alt="non" class="icon">
