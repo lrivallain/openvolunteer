@@ -240,6 +240,16 @@ def answer_add_or_edit(request, form, answer):
                                             int(request.REQUEST['lastrequest_month']),
                                             int(request.REQUEST['lastrequest_day']))
     else: answer.last_request = None
+    try:
+        if (request.REQUEST['updating_vol_info']):
+            answer.updating_vol_info = True
+        else: volunteer.updating_vol_info = False
+    except: answer.updating_vol_info = False
+    try:
+        if (request.REQUEST['updated_vol_info']):
+            answer.updated_vol_info = True
+        else: answer.updated_vol_info = False
+    except: answer.updated_vol_info = False
     if (request.REQUEST['comments'] != ''):
         answer.comments = form.cleaned_data['comments']
     else: answer.comments = ''
