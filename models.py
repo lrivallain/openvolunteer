@@ -290,7 +290,7 @@ class Need(models.Model):
 
     @models.permalink
     def get_delete_url(self):
-        return (OPENVOLUNTEER_APP_PREFIX + 'views.event_need_edit', (), {'need_id': str(self.id)})
+        return (OPENVOLUNTEER_APP_PREFIX + 'views.event_need_delete', (), {'need_id': str(self.id)})
 
     def get_completed_nb(self):
         return len(Answer.objects.filter(event=self.event,job=self.job,presence="yes").all())
