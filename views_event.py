@@ -272,4 +272,3 @@ def handle_event_affiche(event, file):
     event.affiche.save(filename, file, save=True)
     return event
 
-from chartersgen import *
