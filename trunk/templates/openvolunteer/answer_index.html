@@ -6,16 +6,15 @@
     <div>
         <form method="get" action="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/answer/">
             <fieldset>
-                <p>
-                    <select name="e">
+                <div>
+                    <select name="q">
                         {% for event in events %}
                             <option value="{{ event.id }}">{{ event.title }} ({{ event.date|date:"d F Y" }})</option>
                         {% endfor %}
-                    </select><br>
-                <p>
+                    </select>
                     <input type="hidden" name="v" value="">
                     <input class="submit" type="submit" value="Rechercher">
-                </p>
+                </div>
             </fieldset>
         </form>
     </div>
