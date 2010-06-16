@@ -206,7 +206,7 @@ def event_csv(request, event_id):
 
     writer = csv.writer(response)
     writer.writerow(['Nom', 'Prenom', 'Email', 'Numero de telephone',
-                     'Numero de mobile', 'Date de Naissance', 'Poste'])
+                     'Numero de mobile', 'Adresse', 'Date de Naissance', 'Poste'])
 
     for answer in answers :
         if answer.volunteer.birthday :
@@ -221,6 +221,7 @@ def event_csv(request, event_id):
                              answer.volunteer.email,
                              answer.volunteer.phone_home,
                              answer.volunteer.phone_mobile,
+                             answer.volunteer.address,
                              birthday,
                              answer.job,
                              answer.comments)
@@ -271,3 +272,4 @@ def handle_event_affiche(event, file):
     event.affiche.save(filename, file, save=True)
     return event
 
+from chartersgen import *

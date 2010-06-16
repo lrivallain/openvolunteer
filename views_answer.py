@@ -40,7 +40,7 @@ def answer_index(request):
     """
     try:
         query_volunteer = request.GET["v"]
-        query_event = request.GET["e"]
+        query_event = request.GET["q"]
         # if search request is empty or only contains a space, return
         #   specific error
         if query_event == "" or query_event == " ":

@@ -183,7 +183,7 @@ class Event(models.Model):
         return (OPENVOLUNTEER_APP_PREFIX + 'views.event_answer_add', (), {'event_id': str(self.id)})
 
     def get_answer_url(self):
-        return "%s/answer/?v=&e=%d" % (OPENVOLUNTEER_WEB_ROOT, self.id)
+        return "%s/answer/?v=&q=%d" % (OPENVOLUNTEER_WEB_ROOT, self.id)
 
     @models.permalink
     def get_positives_answer_url(self):

@@ -6,38 +6,42 @@
     <div class="index center">
         <h2>Bienvenue sur OpenVolunteer, dédié à la gestion événementielle des bénévoles.</h2>
 
-        <h3>Raccourcis</h3>
-        <ul>
-            <li>
-                <a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/volunteer" title="Chercher un bénévole">
-                    Chercher un bénévole
-                </a> / 
-                <a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/volunteer/add" title="Ajouter un bénévole">
-                    Ajouter un bénévole
-                </a>
-            </li>
-            <li>
-                <a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/event/" title="Chercher un événement">
-                    Chercher un événement
-                </a> /
-                <a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/event/add" title="Ajouter un événement">
-                    Ajouter un événement
-                </a>
-            </li>
-            <li>
-                <a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/answer/" title="Chercher une réponse">
-                    Chercher une réponse
-                </a>
-            </li>
-            <li>
-                <a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/job/" title="Liste des postes">
-                    Liste des postes
-                </a> /
-                <a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/job/add" title="Ajouter un poste">
-                    Ajouter un poste
-                </a>
-            </li>
-        </ul>
+        <script type="text/javascript">
+            function changeActionTo(path) {
+                form = document.getElementById('indexForm');
+                form.action = path;
+            }
+        </script>
+
+        <div>
+            <form method="get" id="indexForm" action="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/volunteer/?">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td colspan=2>
+                                <div>
+                                    <input type="text" name="q" size="40" maxlength="255" value="{{ terms }}">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    <span>
+                                        <input onclick="changeActionTo('{{ settings.OPENVOLUNTEER_WEB_ROOT }}/volunteer/?')" 
+                                               type="submit" value="Bénévoles" name="btnVol">
+                                    </span>
+                                    <span>
+                                        <input onclick="changeActionTo('{{ settings.OPENVOLUNTEER_WEB_ROOT }}/event/?')"
+                                               type="submit" value="Événement" name="btnEvt">
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
     </div>
 {% endblock %}
 
