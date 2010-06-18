@@ -204,3 +204,39 @@
 .openvolunteer .result  a {
     font-size:0.8em;
 }
+
+/*
+ * MENU FOR TOOGLE COLUMNS DISPLAY
+ */
+
+.openvolunteer .toogleColsList {
+    list-style:none;
+    text-align:left;
+    margin-left:50px;
+}
+
+.openvolunteer .toogleColsList li {
+    margin-bottom:3px;
+    padding-left:23px;
+    cursor:pointer;
+    text-decoration:none;
+    color:#234F32;
+}
+
+.openvolunteer .toogleColsList li:hover {
+    text-decoration:underline;
+    background-color:#E0FFB8;
+}
+
+.openvolunteer .toogleColsList .displayed {
+    background-image:url('/openvolunteer/files/icons/yes.png');
+    background-repeat:no-repeat;
+    background-position:0px 2px;
+}
+
+.openvolunteer .toogleColsList .hidden {
+    background-image:url('/openvolunteer/files/icons/no.png');
+    background-repeat:no-repeat;
+    background-position:0px 2px;
+}
+

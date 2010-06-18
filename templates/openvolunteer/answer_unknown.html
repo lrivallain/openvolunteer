@@ -10,13 +10,19 @@
     <div class="search-results">
         {% if volunteers %}
             <h3>Liste des bénévoles non contactés pour cet événement:</h3>
-            <table>
+            <table id="resultsTable">
                 <tr>
                     <th>Nom</th>
                     <th>Prénom</th>
                     <th>Email</th>
                     <th>Téléphone fixe</th>
                     <th>Mobile</th>
+                    <th>Adresse</th>
+                    <th>Date de naissance</th>
+                    <th>Lieu de naissance</th>
+                    <th>Numéro de sécu</th>
+                    <th>Première inscription</th>
+                    <th>CA ?</th>
                     <th>Mis à jour?</th>
                 </tr>
                 {% for volunteer in volunteers %}
@@ -33,8 +39,24 @@
                         </td>
                         <td>{{ volunteer.phone_home }}</td>
                         <td>{{ volunteer.phone_mobile }}</td>
+                        <td>{{ volunteer.address }}</td>
+                        <td>{{ volunteer.birthday|date:"d F Y"  }}</td>
+                        <td>{{ volunteer.birth_place }}</td>
+                        <td>
+                            {% if volunteer.social_security_number %}
+                                {{ volunteer.social_security_number }}
+                            {% endif %}
+                        </td>
+                        <td>{{ volunteer.inscription_date|date:"d F Y" }}</td>
                         <td style="text-align:center;">
-                            {% if result.updated_vol_info and result.updating_vol_info %}
+                            {% if volunteer.ca_member %}
+                                <img src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/icons/yes.png" alt="oui" class="icon">
+                            {% else %}
+                                <img src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/icons/no.png" alt="non" class="icon">
+                            {% endif %}
+                        </td>
+                        <td style="text-align:center;">
+                            {% if volunteer.updated_vol_info and volunteer.updating_vol_info %}
                                 <img src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/icons/yes.png" alt="oui" class="icon">
                             {% else %}
                                 <img src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/icons/no.png" alt="non" class="icon">
@@ -53,6 +75,36 @@
                     </tr>
                 {% endfor %}
             </table>
+            <div id="dialog_cols_mgt" title="Afficher ou cacher des colonnes" style="text-align:center;">
+                <ul id="toogleColsList" class="toogleColsList"></ul>
+            </div>
+            <script src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/jquery/js/jquery.cookie.js"></script>
+            <script src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/jquery/js/jquery.columnmanager.js"></script>
+            <script type="text/javascript">
+                $(function() {
+                    $('#resultsTable').columnManager({
+                        onClass: 'displayed',
+                        offClass: 'hidden',
+                        listTargetID:'toogleColsList',
+                        saveState: true,
+                        colsHidden: [4, 6, 7, 8, 9, 10, 11],
+                        show: function(c) {
+                            $(c).fadeIn(1000);
+                        },
+                        hide: function(c){
+                            $(c).fadeOut(1000);
+                        }
+                    });
+
+                    $("#dialog_cols_mgt").dialog({
+                        bgiframe: true,
+                        draggable: true,
+                        width:400,
+                        modal: true,
+                        autoOpen: false
+                    });
+                });
+            </script>
         {% endif %}
     </div>
 {% endblock %}
@@ -82,5 +134,10 @@
                Obtenir la liste des bénévoles présents à cet événement
             </a>
         </li>
+        {% if volunteers %}
+            <li>
+                <a href="javascript:;" onclick="$('#dialog_cols_mgt').dialog('open');">Afficher ou cacher les colonnes</a>
+            </li>
+        {% endif %}
     </ul>
 {% endblock %}

@@ -3,6 +3,24 @@
 {% block title %}OpenVolunteer | Chercher une(des) réponse(s){% endblock %}
 
 {% block content %}
+    <div id="ans_dialog_delete" title="Supprimer cette fiche?" style="text-align:center;display:none;">
+        <p>Êtes vous sûr de vouloir supprimer cette réponse?</p>
+        <p><a id="dellink" href="" title="Confirmer l'opération">Confirmer</a></p>
+    </div>
+    <script>
+        $(function() {
+            $("#ans_dialog_delete").dialog({
+                bgiframe: true,
+                modal: true,
+                autoOpen: false
+            });
+        });
+
+        function showDelPopup(url) {
+            document.getElementById('dellink').href = url;
+            $('#ans_dialog_delete').dialog('open');
+        }
+    </script>
     <div>
         <form method="get" action="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/answer/">
             <fieldset>
@@ -28,13 +46,19 @@
 
         {% if results %}
         <h3>Liste des bénévoles contactés pour cet événement:</h3>
-        <table>
+        <table id="resultsTable">
             <tr>
                 <th>Nom</th>
                 <th>Prénom</th>
                 <th>Email</th>
                 <th>Téléphone fixe</th>
                 <th>Mobile</th>
+                <th>Adresse</th>
+                <th>Date de naissance</th>
+                <th>Lieu de naissance</th>
+                <th>Numéro de sécu</th>
+                <th>Première inscription</th>
+                <th>CA ?</th>
                 <th>Mis à jour?</th>
                 <th>Poste</th>
             </tr>
@@ -52,6 +76,22 @@
                     </td>
                     <td>{{ result.volunteer.phone_home }}</td>
                     <td>{{ result.volunteer.phone_mobile }}</td>
+                    <td>{{ result.answer.volunteer.address }}</td>
+                    <td>{{ result.volunteer.birthday|date:"d F Y"  }}</td>
+                    <td>{{ result.volunteer.birth_place }}</td>
+                    <td>
+                        {% if result.volunteer.social_security_number %}
+                            {{ result.volunteer.social_security_number }}
+                        {% endif %}
+                    </td>
+                    <td>{{ result.volunteer.inscription_date|date:"d F Y" }}</td>
+                    <td style="text-align:center;">
+                        {% if result.volunteer.ca_member %}
+                            <img src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/icons/yes.png" alt="oui" class="icon">
+                        {% else %}
+                            <img src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/icons/no.png" alt="non" class="icon">
+                        {% endif %}
+                    </td>
                     <td style="text-align:center;">
                         {% if result.updated_vol_info and result.updating_vol_info %}
                             <img src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/icons/yes.png" alt="oui" class="icon">
@@ -65,19 +105,6 @@
                         {% endif %}
                     </td>
                     <td class="more">
-                        <div id="dialog_conf_delete{{ result.id }}" title="Supprimer cette fiche?" style="text-align:center;">
-                            <p>Êtes vous sûr de vouloir supprimer cette réponse?</p>
-                            <p><a href="{{ result.get_delete_url }}" title="Confirmer l'opération">Confirmer</a></p>
-                        </div>
-                        <script>
-                            $(function() {
-                                $("#dialog_conf_delete{{ result.id }}").dialog({
-                                    bgiframe: true,
-                                    modal: true,
-                                    autoOpen: false
-                                });
-                            });
-                        </script>
                         <a href="{{ result.volunteer.get_absolute_url }}"
                            title="Consulter la fiche détaillée de {{ result.volunteer }}">
                            Bénévole
@@ -86,7 +113,7 @@
                            title="Modifer cette réponse">
                            Modifier
                         </a> |
-                        <a href="javascript:;" onclick="$('#dialog_conf_delete{{ result.id }}').dialog('open');"
+                        <a href="javascript:;" onclick="showDelPopup('{{ result.get_delete_url }}');"
                            title="Supprimer cette réponse">
                            Supprimer
                         </a>
@@ -94,6 +121,36 @@
                 </tr>
             {% endfor %}
         </table>
+        <div id="dialog_cols_mgt" title="Afficher ou cacher des colonnes" style="text-align:center;">
+            <ul id="toogleColsList" class="toogleColsList"></ul>
+        </div>
+        <script src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/jquery/js/jquery.cookie.js"></script>
+        <script src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/jquery/js/jquery.columnmanager.js"></script>
+        <script type="text/javascript">
+            $(function() {
+                $('#resultsTable').columnManager({
+                    onClass: 'displayed',
+                    offClass: 'hidden',
+                    listTargetID:'toogleColsList',
+                    saveState: true,
+                    colsHidden: [4, 6, 7, 8, 9, 10, 11],
+                    show: function(c) {
+                        $(c).fadeIn(1000);
+                    },
+                    hide: function(c){
+                        $(c).fadeOut(1000);
+                    }
+                });
+
+                $("#dialog_cols_mgt").dialog({
+                    bgiframe: true,
+                    draggable: true,
+                    width:400,
+                    modal: true,
+                    autoOpen: false
+                });
+            });
+        </script>
         <div class="legend">
             <div class="legend-positive"><div></div>&nbsp;: Réponses positives</div>
             <div class="legend-negative"><div></div>&nbsp;: Réponses négatives</div>
@@ -148,6 +205,11 @@
                    title="Obtenir la liste des bénévoles non contactés pour cet événement">
                    Obtenir la liste des bénévoles non contactés pour cet événement
                 </a>
+            </li>
+        {% endif %}
+        {% if results %}
+            <li>
+                <a href="javascript:;" onclick="$('#dialog_cols_mgt').dialog('open');">Afficher ou cacher les colonnes</a>
             </li>
         {% endif %}
     </ul>

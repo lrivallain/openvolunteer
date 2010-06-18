@@ -14,15 +14,22 @@
     </div>
     <div class="search-results">
         {% if results %}
-            <table>
-                <tr>
-                    <th>Nom</th>
-                    <th>Prénom</th>
-                    <th>Email</th>
-                    <th>Téléphone fixe</th>
-                    <th>Mobile</th>
-                    <th>CA ?</th>
-                </tr>
+            <table id="resultsTable">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Email</th>
+                        <th>Téléphone fixe</th>
+                        <th>Mobile</th>
+                        <th>Adresse</th>
+                        <th>Date de naissance</th> 
+                        <th>Lieu de naissance</th>
+                        <th>Numéro de sécu</th>
+                        <th>Première inscription</th>
+                        <th>CA ?</th>
+                    </tr>
+                </thead><tbody>
                 {% for result in results %}
                     <tr>
                         <td>{{ result.name }}</td>
@@ -37,6 +44,15 @@
                         </td>
                         <td>{{ result.phone_home }}</td>
                         <td>{{ result.phone_mobile }}</td>
+                        <td>{{ result.address }}</td>
+                        <td>{{ result.birthday|date:"d F Y"  }}</td>
+                        <td>{{ result.birth_place }}</td>
+                        <td>
+                            {% if result.social_security_number %}
+                                {{ result.social_security_number }}
+                            {% endif %}
+                        </td>
+                        <td>{{ result.inscription_date|date:"d F Y" }}</td>
                         <td style="text-align:center;">
                             {% if result.ca_member %}
                                 <img src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/icons/yes.png" alt="oui" class="icon">
@@ -51,8 +67,39 @@
                             </a>
                         </td>
                     </tr>
+                </tbody>
                 {% endfor %}
             </table>
+            <div id="dialog_cols_mgt" title="Afficher ou cacher des colonnes" style="text-align:center;">
+                <ul id="toogleColsList" class="toogleColsList"></ul>
+            </div>
+            <script src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/jquery/js/jquery.cookie.js"></script>
+            <script src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/jquery/js/jquery.columnmanager.js"></script>
+            <script type="text/javascript">
+                $(function() {
+                    $('#resultsTable').columnManager({
+                        onClass: 'displayed',
+                        offClass: 'hidden',
+                        listTargetID:'toogleColsList',
+                        saveState: true,
+                        colsHidden: [6, 7, 8, 9, 10],
+                        show: function(c) {
+                            $(c).fadeIn(1000);
+                        },
+                        hide: function(c){
+                            $(c).fadeOut(1000);
+                        }
+                    });
+
+                    $("#dialog_cols_mgt").dialog({
+                        bgiframe: true,
+                        draggable: true,
+                        width:400,
+                        modal: true,
+                        autoOpen: false
+                    });
+                });
+            </script>
         {% else %}
             <div class="search-error">
                 {% if terms %}
@@ -89,6 +136,9 @@
                 <a href='/media{{ OPENVOLUNTEER_APP_NAME }}/csv/volunteer_list.csv' title="Télécharger la liste générée">
                     Télécharger la liste générée
                 </a>
+            </li>
+            <li>
+                <a href="javascript:;" onclick="$('#dialog_cols_mgt').dialog('open');">Afficher ou cacher les colonnes</a>
             </li>
         {% endif %}
     </ul>

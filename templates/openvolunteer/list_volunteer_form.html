@@ -44,15 +44,18 @@
     </form>
     {% if volunteers %}
         <div class="search-results">
-            <table>
+            <table id="resultsTable">
                 <tr>
                     <th>Nom</th>
                     <th>Prénom</th>
                     <th>Email</th>
                     <th>Téléphone fixe</th>
                     <th>Mobile</th>
+                    <th>Adresse</th>
                     <th>Date de naissance</th>
-                    <th>Inscription</th>
+                    <th>Lieu de naissance</th>
+                    <th>Numéro de sécu</th>
+                    <th>Première inscription</th>
                     <th>CA ?</th>
                 </tr>
                 {% for result in volunteers %}
@@ -69,7 +72,14 @@
                         </td>
                         <td>{{ result.phone_home }}</td>
                         <td>{{ result.phone_mobile }}</td>
-                        <td>{{ result.birthday|date:"d F Y" }}</td>
+                        <td>{{ result.address }}</td>
+                        <td>{{ result.birthday|date:"d F Y"  }}</td>
+                        <td>{{ result.birth_place }}</td>
+                        <td>
+                            {% if result.social_security_number %}
+                                {{ result.social_security_number }}
+                            {% endif %}
+                        </td>
                         <td>{{ result.inscription_date|date:"d F Y" }}</td>
                         <td style="text-align:center;">
                             {% if result.ca_member %}
@@ -87,6 +97,36 @@
                     </tr>
                 {% endfor %}
             </table>
+            <div id="dialog_cols_mgt" title="Afficher ou cacher des colonnes" style="text-align:center;">
+                <ul id="toogleColsList" class="toogleColsList"></ul>
+            </div>
+            <script src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/jquery/js/jquery.cookie.js"></script>
+            <script src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/jquery/js/jquery.columnmanager.js"></script>
+            <script type="text/javascript">
+                $(function() {
+                    $('#resultsTable').columnManager({
+                        onClass: 'displayed',
+                        offClass: 'hidden',
+                        listTargetID:'toogleColsList',
+                        saveState: true,
+                        colsHidden: [4, 6, 7, 8, 9, 10, 11],
+                        show: function(c) {
+                            $(c).fadeIn(1000);
+                        },
+                        hide: function(c){
+                            $(c).fadeOut(1000);
+                        }
+                    });
+
+                    $("#dialog_cols_mgt").dialog({
+                        bgiframe: true,
+                        draggable: true,
+                        width:400,
+                        modal: true,
+                        autoOpen: false
+                    });
+                });
+            </script>
         </div>
     {% endif %}
 {% endblock %}
@@ -104,6 +144,9 @@
                 <a href='{{ settings.OPENVOLUNTEER_MEDIA_URL }}/csv/volunteer_list.csv' title="Télécharger la liste générée">
                     Télécharger la liste générée
                 </a>
+            </li>
+            <li>
+                <a href="javascript:;" onclick="$('#dialog_cols_mgt').dialog('open');">Afficher ou cacher les colonnes</a>
             </li>
         {% endif %}
         <li><a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/volunteer/" title="">Chercher un bénévole</a></li>
