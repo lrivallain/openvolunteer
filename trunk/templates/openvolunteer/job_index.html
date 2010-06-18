@@ -3,13 +3,30 @@
 {% block title %}OpenVolunteer | Liste des postes{% endblock %}
 
 {% block content %}
+    <div id="job_dialog_delete" title="Supprimer cette fiche?" style="text-align:center;">
+        <p>Êtes vous sûr de vouloir supprimer cette fiche de poste?</p>
+        <p><a id="jobdellink" href="#" title="Confirmer l'opération">Confirmer</a></p>
+    </div>
+    <script>
+        $(function() {
+            $("#job_dialog_delete").dialog({
+                bgiframe: true,
+                modal: true,
+                autoOpen: false
+            });
+        });
+
+        function showJobDelPopup(url) {
+            document.getElementById('jobdellink').href = url;
+            $('#job_dialog_delete').dialog('open');
+        }
+    </script>
     <div class="search-results">
         <table>
             <tr>
                 <th>Poste</th>
                 <th>Responsable</th>
                 <th>Description</th>
-                <th>Actions</th>
             </tr>
             {% for job in jobs %}
             <tr>
@@ -25,28 +42,15 @@
                         {% endfor %}
                     </ul>
                 </td>
-                <td>{{ job.description }}</td>
-                <td class="center">
-                    <div id="dialog_conf_delete{{ job.id }}" title="Supprimer cette fiche?" style="text-align:center;">
-                        <p>Êtes vous sûr de vouloir supprimer cette fiche de poste?</p>
-                        <p><a href="{{ job.get_delete_url }}" title="Confirmer l'opération">Confirmer</a></p>
-                    </div>
-                    <script>
-                        $(function() {
-                            $("#dialog_conf_delete{{ job.id }}").dialog({
-                                bgiframe: true,
-                                modal: true,
-                                autoOpen: false
-                            });
-                        });
-                    </script>
-                    <a href="{{ job.get_list_url }}" title=Lister les bénévoles ayant été à ce poste depuis un an">
-                        Liste des bénévoles
+                <td<small>{{ job.description }}</small></td>
+                <td class="more">
+                    <a href="{{ job.get_list_url }}" title="Lister les bénévoles ayant été à ce poste depuis un an">
+                        Bénévoles
                     </a> |
                     <a href="{{ job.get_edit_url }}" title="Modifier la fiche de ce poste">
                         Modifier
                     </a> |
-                    <a href="javascript:;" onclick="$('#dialog_conf_delete{{ job.id }}').dialog('open')"
+                    <a href="javascript:;" onclick="showJobDelPopup('{{ job.get_delete_url }}')";
                        title="Supprimer la fiche de ce poste">
                         Supprimer
                     </a>
@@ -75,6 +79,6 @@
 
 {% block navigation %}
     <ul>
-        <li><a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/job/add/" title="">Ajouter un poste</a></li>
+        <li><a href="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/job/add/" title="Ajouter un poste">Ajouter un poste</a></li>
     </ul>
 {% endblock %}

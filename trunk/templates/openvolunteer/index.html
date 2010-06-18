@@ -5,14 +5,6 @@
 {% block content %}
     <div class="index center">
         <h2>Bienvenue sur OpenVolunteer, dédié à la gestion événementielle des bénévoles.</h2>
-
-        <script type="text/javascript">
-            function changeActionTo(path) {
-                form = document.getElementById('indexForm');
-                form.action = path;
-            }
-        </script>
-
         <div>
             <form method="get" id="indexForm" action="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/volunteer/?">
                 <table>
@@ -43,5 +35,11 @@
             </form>
         </div>
     </div>
+    <script type="text/javascript">
+        function changeActionTo(path) {
+            form = document.getElementById('indexForm');
+            form.action = path;
+        }
+    </script>
 {% endblock %}
 

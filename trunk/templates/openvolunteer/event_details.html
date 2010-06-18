@@ -3,6 +3,24 @@
 {% block title %}OpenVolunteer | Fiche détaillée d'un événement{% endblock %}
 
 {% block content %}
+    <div id="need_dialog_delete" title="Supprimer ce besoin?" style="text-align:center;display:none;">
+        <p>Êtes vous sûr de vouloir supprimer ce besoin?</p>
+        <p><a id="needdellink" href="#" title="Confirmer l'opération">Confirmer</a></p>
+    </div>
+    <script>
+        $(function() {
+            $("#need_dialog_delete").dialog({
+                bgiframe: true,
+                modal: true,
+                autoOpen: false
+            });
+        });
+
+        function showNeedDelPopup(url) {
+            document.getElementById('needdellink').href = url;
+            $('#need_dialog_delete').dialog('open');
+        }
+    </script>
     <div class="event">
         <div class="photo">
             {%  if event.affiche %}
@@ -24,13 +42,6 @@
                     <td>{{ event.place }}</td>
                 </tr>
             </table>
-        </div>
-        <div class="dlbutton center">
-            <p>
-                <a href="/openvolunteer/event/charters/{{ event.id }}/name/" 
-                   title="Télécharger la charte des bénévoles présents à cet événement en .PDF">
-                    Télécharger la charte des bénévoles présents à cet événement en .PDF (ordonnées par noms)</a>
-            </p>
         </div>
         <div class="dlbutton center">
             <input type="button"
@@ -62,26 +73,13 @@
                             {% endif %}
                         </td>
                         <td class="more">
-                            <div id="dialog_conf_delete2{{ need.id }}" title="Supprimer cette fiche?" style="text-align:center;">
-                                <p>Êtes vous sûr de vouloir supprimer ce besoin?</p>
-                                <p><a href="{{ need.get_delete_url }}" title="Confirmer l'opération">Confirmer</a></p>
-                            </div>
-                            <script>
-                                $(function() {
-                                    $("#dialog_conf_delete2{{ need.id }}").dialog({
-                                        bgiframe: true,
-                                        modal: true,
-                                        autoOpen: false
-                                    });
-                                });
-                            </script>
                             <a href="mailto:{% for answer in need.get_positives_answers %}{% if answer.volunteer.email %}{{ answer.volunteer.email }},{% endif %}{% endfor %}" title="Envoyer un mail aux personnes à ce poste">
                                 <img src="/openvolunteer/files/icons/email.png" alt="mail" class="icon">
                             </a> |
                             <a href="{{ need.get_edit_url }}" title="Modifier les valeurs de ce besoin">
                                 Modifier
                             </a> |
-                            <a href="javascript:;" onclick="$('#dialog_conf_delete2{{ need.id }}').dialog('open');"
+                            <a href="javascript:;" onclick="showNeedDelPopup('{{ need.get_delete_url }}');"
                                title="Supprimer ce besoin">
                                 Supprimer
                             </a>
@@ -93,22 +91,26 @@
     {% endif %}
     {% if comments %}
         <h3 style="margin-left:60px;">Liste des commentaires</h3>
+        <div id="comment_dialog_delete" title="Supprimer ce commentaire?" style="text-align:center;">
+            <p>Êtes vous sûr de vouloir supprimer ce commentaire?</p>
+            <p><a id="commentdellink" href="#" title="Confirmer l'opération">Confirmer</a></p>
+        </div>
+        <script>
+            $(function() {
+                $("#comment_dialog_delete").dialog({
+                    bgiframe: true,
+                    modal: true,
+                    autoOpen: false
+                });
+            });
+
+            function showCommentDelPopup(url) {
+                document.getElementById('commentdellink').href = url;
+                $('#comment_dialog_delete').dialog('open');
+            }
+        </script>
         <div class="comment"><a name="comments"></a>
        {% for comment in comments %}
-            <div id="comment_dialog_delete_{{ comment.id }}" title="Supprimer ce commentaire?" style="text-align:center;">
-                <p>Êtes vous sûr de vouloir supprimer ce commentaire?</p>
-                <p><a href="{{ comment.get_delete_url }}" title="Confirmer l'opération">Confirmer</a></p>
-            </div>
-            <script>
-                $(function() {
-                    $("#comment_dialog_delete_{{ comment.id }}").dialog({
-                        bgiframe: true,
-                        modal: true,
-                        autoOpen: false
-                    });
-                });
-            </script>
-
             <div class="comment"><a name="c{{ comment.id }}"></a>
                 <h4>
                     {% if comment.email %}
@@ -117,7 +119,7 @@
                         {{ comment.name }}
                     {% endif %}
                     le {{ comment.pub_date|date:"l d F Y à H:i" }}
-                    <small>(<a href="javascript:;" onclick="$('#comment_dialog_delete_{{ comment.id }}').dialog('open');" 
+                    <small>(<a href="javascript:;" onclick="showCommentDelPopup('{{ comment.get_delete_url }}');" 
                         title="Supprimer ce commentaire ?">X</a>)</small>
                 </h4>
                 <div>{{ comment.comment }}</div>
