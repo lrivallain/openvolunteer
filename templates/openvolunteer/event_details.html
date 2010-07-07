@@ -128,7 +128,7 @@
         </div>
     {% endif %}
     <h3 style="margin-left:60px;">Ajouter un commentaire</h3>
-    <form method="post" action="{{ event.get_comment_add_url }}" class="comment-form center">
+    <form method="post" action="{{ event.get_comment_add_url }}" class="comment-form center">{% csrf_token %}
         <table class="centered">
             <tr>
                 <th>Nom et prénom (ou pseudo)</th>

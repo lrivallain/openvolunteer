@@ -31,6 +31,7 @@ from django.template import RequestContext, defaultfilters
 from django.http import HttpResponse
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_protect
 
 import datetime
 import csv
@@ -76,6 +77,7 @@ def event_index(request):
                               context_instance=RequestContext(request))
 
 
+@csrf_protect
 @login_required(redirect_field_name='next')
 def event_details(request, event_id):
     """
@@ -101,6 +103,7 @@ def event_delete(request, event_id):
     return redirect(OPENVOLUNTEER_WEB_ROOT + '/event/')
 
 
+@csrf_protect
 @login_required(redirect_field_name='next')
 def event_edit(request, event_id):
     """
@@ -133,6 +136,7 @@ def event_edit(request, event_id):
                                   context_instance=RequestContext(request))
 
 
+@csrf_protect
 @login_required(redirect_field_name='next')
 def event_add(request):
     """
@@ -206,7 +210,7 @@ def event_csv(request, event_id):
 
     writer = csv.writer(response)
     writer.writerow(['Nom', 'Prenom', 'Email', 'Numero de telephone',
-                     'Numero de mobile', 'Adresse', 'Date de Naissance', 'Poste'])
+                     'Numero de mobile', 'Adresse', 'Date de Naissance', 'Securite Sociale', 'Poste'])
 
     for answer in answers :
         if answer.volunteer.birthday :
@@ -223,6 +227,7 @@ def event_csv(request, event_id):
                              answer.volunteer.phone_mobile,
                              answer.volunteer.address,
                              birthday,
+                             answer.volunteer.social_security_number,
                              answer.job,
                              answer.comments)
                         ])

@@ -32,6 +32,7 @@ from django.template import RequestContext
 from django.http import HttpResponse
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_protect
 
 import datetime
 import csv
@@ -130,6 +131,7 @@ def volunteer_delete(request, volunteer_id):
     return redirect(OPENVOLUNTEER_WEB_ROOT + '/volunteer/')
 
 
+@csrf_protect
 @login_required(redirect_field_name='next')
 def volunteer_edit(request, volunteer_id):
     """
@@ -160,6 +162,7 @@ def volunteer_edit(request, volunteer_id):
                                   context_instance=RequestContext(request))
 
 
+@csrf_protect
 @login_required(redirect_field_name='next')
 def volunteer_add(request):
     """
@@ -243,6 +246,7 @@ def volunteer_add_or_edit(request, form, volunteer):
     return volunteer
 
 
+@csrf_protect
 @login_required(redirect_field_name='next')
 def list_volunteer_index(request):
     """

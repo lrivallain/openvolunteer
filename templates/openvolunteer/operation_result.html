@@ -7,9 +7,9 @@
         <h3>Résultat de l'opération</h3>
         <p class="{{ status }}">
             {{ message|safe }}
-            {% ifequal status "error" %}
+            {% if status == "error" %}
                 <br><a href="javascript: history.go(-1)">Revenir en arrière</a>
-            {% endifequal %}
+            {% endif %}
         </p>
 
     </div>
