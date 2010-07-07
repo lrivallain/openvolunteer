@@ -3,7 +3,7 @@
 {% block title %}OpenVolunteer | Édition d'une fiche{% endblock %}
 
 {% block content %}
-    <form method="POST" action="." class="edit-form center" enctype="multipart/form-data">
+    <form method="post" action="." class="edit-form center" enctype="multipart/form-data">{% csrf_token %}
         <table class="centered">
             <tr>
                 <th>Nom</th>

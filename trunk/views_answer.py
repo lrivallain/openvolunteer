@@ -29,6 +29,7 @@ from errors import *
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_protect
 
 import datetime
 
@@ -125,6 +126,7 @@ def event_answer_delete(request, answer_id):
     return redirect(url)
 
 
+@csrf_protect
 @login_required(redirect_field_name='next')
 def event_answer_add(request, event_id, volunteer_id=None):
     """
@@ -175,6 +177,7 @@ def event_answer_add(request, event_id, volunteer_id=None):
                                   context_instance=RequestContext(request))
 
 
+@csrf_protect
 @login_required(redirect_field_name='next')
 def event_answer_edit(request, answer_id):
     """

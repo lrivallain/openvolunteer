@@ -23,7 +23,6 @@
     ---------------------------------------------------------------------------
 """
 from ovsettings import *
-from bigint import BigIntegerField
 
 from django.db import models
 from django.conf import settings
@@ -76,7 +75,7 @@ class Volunteer(models.Model):
     address = models.TextField(blank=True, null=True, help_text='Adresse')
     birthday = models.DateField(null=True, blank=True, help_text='Date de naissance (utiliser le calendrier)')
     birth_place = models.CharField(max_length=100, help_text='Lieu de naissance', blank=True, null=True)
-    social_security_number = BigIntegerField(help_text='Numéro de sécurité sociale (15 chiffres)', blank=True, null=True)
+    social_security_number = models.BigIntegerField(help_text='Numéro de sécurité sociale (15 chiffres)', blank=True, null=True)
     avatar = models.FileField(upload_to=avatar_upload,blank=True,help_text='Photo d\'identité')
     inscription_date = models.DateField(null=True, blank=True, auto_now_add=True,
                                         help_text='Date de la première inscription dans ce fichier.')

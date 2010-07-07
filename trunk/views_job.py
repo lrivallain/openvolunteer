@@ -29,6 +29,7 @@ from errors import *
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_protect
 
 
 @login_required(redirect_field_name='next')
@@ -52,6 +53,7 @@ def job_delete(request, job_id):
     return redirect(OPENVOLUNTEER_WEB_ROOT + '/job/')
 
 
+@csrf_protect
 @login_required(redirect_field_name='next')
 def job_edit(request, job_id):
     """
@@ -94,6 +96,7 @@ def job_edit(request, job_id):
                               context_instance=RequestContext(request))
 
 
+@csrf_protect
 @login_required(redirect_field_name='next')
 def job_add(request):
     """

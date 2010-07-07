@@ -3,7 +3,7 @@
 {% block title %}OpenVolunteer | Générateur de liste{% endblock %}
 
 {% block content %}
-    <form method="post" action="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/volunteer/list/" class="list-form center">
+    <form method="post" action="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/volunteer/list/" class="list-form center">{% csrf_token %}
         <table>
             <tr>
                 <th>
