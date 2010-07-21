@@ -276,4 +276,3 @@ def handle_event_affiche(event, file):
     filename = file.name
     event.affiche.save(filename, file, save=True)
     return event
-

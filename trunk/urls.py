@@ -70,7 +70,7 @@ urlpatterns = patterns(OPENVOLUNTEER_APP_PREFIX + 'views',
     #edit
     (r'^event/need/edit/(?P<need_id>\d+)/$', 'event_need_edit'),
 
-    # ANSWERS views and search tool
+    # ANSWERS
     # search and view (all answer for an event)
     (r'^answer/$','answer_index'),
     # view (ok and unknow)
@@ -100,7 +100,10 @@ urlpatterns = patterns(OPENVOLUNTEER_APP_PREFIX + 'views',
     # delete
     (r'^event/comment/delete/(?P<comment_id>\d+)/$', 'event_comment_delete'),
 
-)
+    # API
+    (r'^api/volunteer/get/$','api_volunteer_get'),
+#    (r'^api/event/get/$','api_event_get'),
+}
 
 urlpatterns += patterns('',
     # Provide access to css files
