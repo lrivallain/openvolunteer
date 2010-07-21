@@ -17,7 +17,7 @@
         });
 
         function showNeedDelPopup(url) {
-            document.getElementById('needdellink').href = url;
+            $('#needdellink').attr('href', url);
             $('#need_dialog_delete').dialog('open');
         }
     </script>
@@ -105,7 +105,7 @@
             });
 
             function showCommentDelPopup(url) {
-                document.getElementById('commentdellink').href = url;
+                $('#commentdellink').attr('href', url);
                 $('#comment_dialog_delete').dialog('open');
             }
         </script>

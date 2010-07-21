@@ -27,6 +27,7 @@ from views_event import *
 from views_answer import *
 from views_job import *
 from views_need import *
+from views_api import *
 
 from django.shortcuts import render_to_response
 from django.template import RequestContext

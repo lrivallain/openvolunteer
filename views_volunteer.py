@@ -55,15 +55,19 @@ def volunteer_index(request):
         else:
             search_terms = query.split(' ')
             # get all volunteers
-            volunteers = Volunteer.objects.all()
+            volunteers = Volunteer.objects.all().order_by('name')
             for term in search_terms:
                 # search volunteers corresponding to search term
                 volunteers = volunteers.filter(Q(name__icontains = term)|
                                                Q(firstname__icontains = term)|
                                                Q(email__icontains = term)|
                                                Q(phone_home__icontains = term)|
-                                               Q(phone_mobile__icontains = term)).all().order_by('name')
-            if volunteers:
+                                               Q(phone_mobile__icontains = term))
+            # if only one result, goes to volunteer details page
+            if (len(volunteers) == 1):
+                return volunteer_details(request, volunteers[0].id)
+            # in other cases, we generate csv file for export
+            else:
                 list_volunteer_csv(volunteers)
     # If there is no 'q' value, return empty results
     except:

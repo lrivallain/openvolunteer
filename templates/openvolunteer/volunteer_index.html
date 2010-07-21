@@ -6,11 +6,49 @@
     <div>
         <form method="get" action="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/volunteer/?">
             <fieldset>
-                <input type="text" name="q" size="40" maxlength="255" value="{{ terms }}">
+                <input type="text" id="q" name="q" size="40" maxlength="255" value="{{ terms }}">
                 <input class="submit" type="submit" value="Rechercher"><br>
                 <span>Les recherches peuvent être effectuées sur le <u>nom</u>, le <u>prénom</u> où les <u>coordonées</u> des bénévoles.</span>
             </fieldset>
         </form>
+        <script type="text/javascript"
+            src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/jquery/plugins/jquery.autocomplete.js">
+        </script>
+        <script type="text/javascript">
+            // Specify the url for autocompletion in search input
+            url = "{{ settings.OPENVOLUNTEER_WEB_ROOT }}/api/volunteer/get/";
+
+            $('#q').autocomplete(url, {
+                dataType: 'json',
+                // Start search
+                minChars: 3,
+                // Max items by request
+                max: 10,
+                // Delay before starting search
+                delay: 500,
+                // Select or not the first suggestion on tag or return press
+                selectFirst: false,
+                // Prevent or not the cache
+                preventCache: false,
+                // What to display in suggestion list
+                formatItem: function(data, i, n, value) {
+                    return value;
+                },
+                // What to display and get from json result
+                parse: function(data) {
+                    var tab = new Array();
+                    for (var i = 0; i < data.length; i++) {
+                        var res = data[i].fields.firstname + ' ' + data[i].fields.name;
+                        var value = data[i].fields.firstname + ' ' + data[i].fields.name;
+                        tab[tab.length] = { data: data[i], value: value, result: res };
+                    }
+                    return tab;
+                }
+            });
+
+            // Auto put the focus in search input
+            $('#q').focus();
+        </script>
     </div>
     <div class="search-results">
         {% if results %}
@@ -73,8 +111,8 @@
             <div id="dialog_cols_mgt" title="Afficher ou cacher des colonnes" style="text-align:center;">
                 <ul id="toogleColsList" class="toogleColsList"></ul>
             </div>
-            <script src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/jquery/js/jquery.cookie.js"></script>
-            <script src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/jquery/js/jquery.columnmanager.js"></script>
+            <script src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/jquery/plugins/jquery.cookie.js"></script>
+            <script src="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/files/jquery/plugins/jquery.columnmanager.js"></script>
             <script type="text/javascript">
                 $(function() {
                     $('#resultsTable').columnManager({

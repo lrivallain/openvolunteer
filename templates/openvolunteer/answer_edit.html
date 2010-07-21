@@ -42,9 +42,9 @@
                 <script type="text/javascript">
                     function autoToday() {
                         var d=new Date();
-                        document.getElementById('id_last_request_day').value = d.getDate();
-                        document.getElementById('id_last_request_month').value = d.getMonth() + 1;
-                        document.getElementById('id_last_request_year').value = d.getFullYear();
+                        $('#id_last_request_day').attr('value', d.getDate());
+                        $('#id_last_request_month').attr('value', d.getMonth() + 1);
+                        $('#id_last_request_year').attr('value', d.getFullYear());
                     }
                 </script>
                 <td>
@@ -73,22 +73,21 @@
                         iter = 1;
                         function autoCheck(elt){
                             if (elt.checked) {
-                                elt2 = document.getElementById('id_updating_vol_info');
                                 if (iter == 1) {
                                     var info = document.createElement('span');
                                     info.id = 'info';
                                     info.innerHTML += "<i>Coché automatiquement !</i>";
-                                    elt2.parentNode.appendChild(info);
+                                    $('#id_updating_vol_info').attr('parentNode').appendChild(info);
                                     iter++;
                                 }
-                                document.getElementById('info').style.display = 'inline';
-                                elt2.checked = true;
+                                $('#info').css('display', 'inline');
+                                $('#id_updating_vol_info').attr('checked', true);
                             }
                         }
 
                         function uncheck(elt){
                             if(!elt.checked) {
-                                document.getElementById('info').style.display = 'none';
+                                $('#info').css('display', 'none');
                             }
                         }
                     </script>
