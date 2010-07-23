@@ -39,34 +39,34 @@ def answer_index(request):
     """
     Display answers search form or results
     """
+    allowed_sorting = ['volunteer__name','volunteer__firstname',
+                       'volunteer__email','volunteer__phone_home',
+                       'volunteer__phone_mobile','volunteer__address',
+                       'volunteer__birth_place','volunteer__birthday',
+                       'volunteer__social_security_number','volunteer__ca_member',
+                       'job','presence']
+    events = Event.objects.all()
     try:
-        query_volunteer = request.GET["v"]
         query_event = request.GET["q"]
         # if search request is empty or only contains a space, return
         #   specific error
         if query_event == "" or query_event == " ":
-            events = Event.objects.all()
             return render_to_response('openvolunteer/answer_index.html',
                                       {'results': [],'events': events, 'terms': ""},
                                       context_instance=RequestContext(request))
+        sort = get_sorting_parameters(request, 'volunteer__name', allowed_sorting)
         event = Event.objects.get(id=query_event)
-        answers = Answer.objects.filter(event=event).all()
-
-        # if volunteer fied is not empty, filter the result to get
-        #   only correspondant volunteers.
-        if query_volunteer != "" and query_volunteer != " ":
-            # to do... so do nothing for the moment
-            query_volunteer = ""
+        answers = Answer.objects.filter(event=event).all().order_by(sort['sort'])
+        if sort['order'] == 'desc':
+            answers = answers.reverse()
 
     # If there is no 'v' or 'e' value, return empty results
     except:
         event = ""
         answers = []
-        query_volunteer = ""
-    events = Event.objects.all()
     return render_to_response('openvolunteer/answer_index.html',
                               {'results': answers,'events': events,
-                               'event': event, 'terms': query_volunteer},
+                               'event': event},
                               context_instance=RequestContext(request))
 
 
@@ -75,6 +75,11 @@ def answer_tocontact(request, event_id):
     """
     Display not contacted volunteers for an event
     """
+    allowed_sorting = ['name','firstname',
+                       'email','phone_home',
+                       'phone_mobile','address',
+                       'birth_place','birthday',
+                       'social_security_number','ca_member']
     event = get_object_or_404(Event, id=event_id)
     try:
         volunteers = []
@@ -84,7 +89,10 @@ def answer_tocontact(request, event_id):
         for answer in answers:
             volunteers.append(answer.volunteer)
 
-        all_volunteers = Volunteer.objects.all()
+        sort = get_sorting_parameters(request, 'name', allowed_sorting)
+        all_volunteers = Volunteer.objects.all().order_by(sort['sort'])
+        if sort['order'] == 'desc':
+            all_volunteers = all_volunteers.reverse()
         for volunteer in all_volunteers:
             if volunteer not in volunteers:
                 not_contacted.append(volunteer)
@@ -102,10 +110,19 @@ def answer_positives(request, event_id):
     """
     Display volunteers for an event with positive answer
     """
+    allowed_sorting = ['volunteer__name','volunteer__firstname',
+                       'volunteer__email','volunteer__phone_home',
+                       'volunteer__phone_mobile','volunteer__address',
+                       'volunteer__birth_place','volunteer__birthday',
+                       'volunteer__social_security_number','volunteer__ca_member',
+                       'job','presence']
     event = get_object_or_404(Event, id=event_id)
 
     try:
-        answers = Answer.objects.filter(event=event,presence="yes").all().order_by('job')
+        sort = get_sorting_parameters(request, 'volunteer__name', allowed_sorting)
+        answers = Answer.objects.filter(event=event,presence="yes").all().order_by(sort['sort'])
+        if sort['order'] == 'desc':
+            answers = answers.reverse()
     except:
         event = ""
         answers = ""
@@ -258,3 +275,17 @@ def answer_add_or_edit(request, form, answer):
     else: answer.comments = ''
     answer.save()
     return answer
+
+
+def get_sorting_parameters(request, default_sort, allowed_sorting):
+    try:
+        query_sort = request.GET["sort"]
+        if query_sort not in allowed_sorting:
+            query_sort = default_sort
+    except:
+        query_sort = default_sort
+    try:
+        query_order = request.GET["order"]
+    except:
+        query_order = 'asc'
+    return {'sort': query_sort, 'order': query_order}

@@ -7,7 +7,7 @@
         <p>Êtes vous sûr de vouloir supprimer cette réponse?</p>
         <p><a id="dellink" href="" title="Confirmer l'opération">Confirmer</a></p>
     </div>
-    <script>
+    <script type="text/javascript">
         $(function() {
             $("#ans_dialog_delete").dialog({
                 bgiframe: true,
@@ -20,6 +20,49 @@
             $('#dellink').attr('href', url);
             $('#ans_dialog_delete').dialog('open');
         }
+
+        window.onload = function () {
+            $('#col_name').attr('href',         sortingHref('volunteer__name', '#col_name'));
+            $('#col_firstname').attr('href',    sortingHref('volunteer__firstname', '#col_firstname'));
+            $('#col_email').attr('href',        sortingHref('volunteer__email', '#col_email'));
+            $('#col_phonehome').attr('href',    sortingHref('volunteer__phone_home', '#col_phonehome'));
+            $('#col_phonemobile').attr('href',  sortingHref('volunteer__phone_mobile', '#col_phonemobile'));
+            $('#col_camember').attr('href',     sortingHref('volunteer__ca_member', '#col_camember'));
+            $('#col_job').attr('href',          sortingHref('volunteer__job', '#col_job'));
+        }
+
+        function sortingHref(col, id) {
+            q = get_param_val('q');
+            current_order = get_param_val('order');
+            current_sort = get_param_val('sort');
+            if (current_sort == col){
+                sort = current_sort;
+                if (current_order == 'desc'){
+                    order = 'asc';
+                } else {
+                    current_order = 'asc';
+                    order = 'desc';
+                }
+                $(id).attr('class', current_order);
+                return './?q=' + q + '&sort=' + sort  + '&order=' + order;
+            } else {
+                sort = col;
+                order = 'asc';
+                $(id).attr('class', 'sort');
+                return './?q=' + q + '&sort=' + sort  + '&order=' + order;
+            }
+        }
+
+        function get_param_val(name) {
+            name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+            var regexS = "[\\?&]"+name+"=([^&#]*)";
+            var regex = new RegExp( regexS );
+            var results = regex.exec( window.location.href );
+            if(results == null )
+                return "";
+            else
+                return results[1];
+        }
     </script>
     <div>
         <form method="get" action="{{ settings.OPENVOLUNTEER_WEB_ROOT }}/answer/">
@@ -30,7 +73,6 @@
                             <option value="{{ event.id }}">{{ event.title }} ({{ event.date|date:"d F Y" }})</option>
                         {% endfor %}
                     </select>
-                    <input type="hidden" name="v" value="">
                     <input class="submit" type="submit" value="Rechercher">
                 </div>
             </fieldset>
@@ -48,19 +90,19 @@
         <h3>Liste des bénévoles contactés pour cet événement:</h3>
         <table id="resultsTable">
             <tr>
-                <th>Nom</th>
-                <th>Prénom</th>
-                <th>Email</th>
-                <th>Téléphone fixe</th>
-                <th>Mobile</th>
+                <th><a id="col_name"             href="" title="Trier par Nom"           >&nbsp;</a>Nom</th>
+                <th><a id="col_firstname"        href="" title="Trier par Prénom"        >&nbsp;</a>Prénom</th>
+                <th><a id="col_email"            href="" title="Trier par Email"         >&nbsp;</a>Email</th>
+                <th><a id="col_phonehome"        href="" title="Trier par Téléphone fixe">&nbsp;</a>Téléphone fixe</th>
+                <th><a id="col_phonemobile"      href="" title="Trier par Mobile"        >&nbsp;</a>Mobile</th>
                 <th>Adresse</th>
                 <th>Date de naissance</th>
                 <th>Lieu de naissance</th>
                 <th>Numéro de sécu</th>
                 <th>Première inscription</th>
-                <th>CA ?</th>
+                <th><a id="col_camember"       href="" title="Trier par CA"             >&nbsp;</a>CA ?</th>
                 <th>Mis à jour?</th>
-                <th>Poste</th>
+                <th><a id="col_job"             href="" title="Trier par Poste"          >&nbsp;</a>Poste</th>
             </tr>
             {% for result in results %}
                 <tr class="{{ result.presence }}">
