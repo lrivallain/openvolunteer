@@ -56,9 +56,7 @@ def answer_index(request):
                                       context_instance=RequestContext(request))
         sort = get_sorting_parameters(request, 'volunteer__name', allowed_sorting)
         event = Event.objects.get(id=query_event)
-        answers = Answer.objects.filter(event=event).all().order_by(sort['sort'])
-        if sort['order'] == 'desc':
-            answers = answers.reverse()
+        answers = Answer.objects.filter(event=event).all().order_by(sort)
 
     # If there is no 'v' or 'e' value, return empty results
     except:
@@ -90,9 +88,7 @@ def answer_tocontact(request, event_id):
             volunteers.append(answer.volunteer)
 
         sort = get_sorting_parameters(request, 'name', allowed_sorting)
-        all_volunteers = Volunteer.objects.all().order_by(sort['sort'])
-        if sort['order'] == 'desc':
-            all_volunteers = all_volunteers.reverse()
+        all_volunteers = Volunteer.objects.all().order_by(sort)
         for volunteer in all_volunteers:
             if volunteer not in volunteers:
                 not_contacted.append(volunteer)
@@ -120,9 +116,7 @@ def answer_positives(request, event_id):
 
     try:
         sort = get_sorting_parameters(request, 'volunteer__name', allowed_sorting)
-        answers = Answer.objects.filter(event=event,presence="yes").all().order_by(sort['sort'])
-        if sort['order'] == 'desc':
-            answers = answers.reverse()
+        answers = Answer.objects.filter(event=event,presence="yes").all().order_by(sort)
     except:
         event = ""
         answers = ""
@@ -288,4 +282,6 @@ def get_sorting_parameters(request, default_sort, allowed_sorting):
         query_order = request.GET["order"]
     except:
         query_order = 'asc'
-    return {'sort': query_sort, 'order': query_order}
+    if query_order == 'desc':
+        query_sort = '-%s' % query_sort
+    return query_sort
