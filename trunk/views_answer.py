@@ -25,6 +25,7 @@
 from models import *
 from forms import *
 from errors import *
+from global_functions import get_sorting_parameters
 
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
@@ -56,7 +57,7 @@ def answer_index(request):
                                       context_instance=RequestContext(request))
         sort = get_sorting_parameters(request, 'volunteer__name', allowed_sorting)
         event = Event.objects.get(id=query_event)
-        answers = Answer.objects.filter(event=event).all().order_by(sort)
+        answers = Answer.objects.filter(event=event).order_by(sort)
 
     # If there is no 'v' or 'e' value, return empty results
     except:
@@ -83,12 +84,12 @@ def answer_tocontact(request, event_id):
         volunteers = []
         not_contacted = []
 
-        answers = Answer.objects.filter(event=event).all()
+        answers = Answer.objects.filter(event=event)
         for answer in answers:
             volunteers.append(answer.volunteer)
 
         sort = get_sorting_parameters(request, 'name', allowed_sorting)
-        all_volunteers = Volunteer.objects.all().order_by(sort)
+        all_volunteers = Volunteer.objects.order_by(sort)
         for volunteer in all_volunteers:
             if volunteer not in volunteers:
                 not_contacted.append(volunteer)
@@ -116,7 +117,7 @@ def answer_positives(request, event_id):
 
     try:
         sort = get_sorting_parameters(request, 'volunteer__name', allowed_sorting)
-        answers = Answer.objects.filter(event=event,presence="yes").all().order_by(sort)
+        answers = Answer.objects.filter(event=event,presence="yes").order_by(sort)
     except:
         event = ""
         answers = ""
@@ -270,18 +271,3 @@ def answer_add_or_edit(request, form, answer):
     answer.save()
     return answer
 
-
-def get_sorting_parameters(request, default_sort, allowed_sorting):
-    try:
-        query_sort = request.GET["sort"]
-        if query_sort not in allowed_sorting:
-            query_sort = default_sort
-    except:
-        query_sort = default_sort
-    try:
-        query_order = request.GET["order"]
-    except:
-        query_order = 'asc'
-    if query_order == 'desc':
-        query_sort = '-%s' % query_sort
-    return query_sort

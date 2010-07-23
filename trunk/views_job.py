@@ -37,7 +37,7 @@ def job_index(request):
     """
     Display index for job informations
     """
-    jobs = Job.objects.exclude(title="none").all()
+    jobs = Job.objects.exclude(title="none")
     return render_to_response('openvolunteer/job_index.html',
                               {'jobs': jobs},
                               context_instance=RequestContext(request))

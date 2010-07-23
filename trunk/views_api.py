@@ -21,7 +21,7 @@ def api_volunteer_get(request):
         else:
             search_terms = query.split(' ')
             # get all volunteers
-            volunteers = Volunteer.objects.all().order_by('name')
+            volunteers = Volunteer.objects.order_by('name')
             for term in search_terms:
                 # search volunteers corresponding to search term
                 volunteers = volunteers.filter(Q(name__icontains = term)|
@@ -54,7 +54,7 @@ def api_event_get(request):
         else:
             search_terms=query.split(' ')
             # get all events
-            events = Event.objects.all().order_by('date')
+            events = Event.objects.order_by('date')
             for term in search_terms:
                 # search events corresponding to search term
                 try:

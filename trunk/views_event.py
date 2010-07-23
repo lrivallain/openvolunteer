@@ -42,7 +42,7 @@ def event_index(request):
     """
     Display a search form (and a list of events)
     """
-    events = Event.objects.all().order_by('-date')[:10]
+    events = Event.objects.order_by('-date')[:10]
     try:
         query = request.GET["q"]
         # if search request is empty or only contains a space, return
@@ -63,11 +63,11 @@ def event_index(request):
                                              Q(date__year = int(term)) |
                                              Q(date__month = int(term))|
                                              Q(date__day = int(term))  |
-                                             Q(place__icontains = term)).all().order_by('date')
+                                             Q(place__icontains = term)).order_by('date')
                 except:
                     # if error when using date filter:
                     results = results.filter(Q(title__icontains = term)|
-                                             Q(place__icontains = term)).all().order_by('date')
+                                             Q(place__icontains = term)).order_by('date')
     # If there is no 'q' value, return empty results
     except:
         results = []
@@ -84,8 +84,8 @@ def event_details(request, event_id):
     Display event details and link to modify them
     """
     event = get_object_or_404(Event, id=event_id)
-    needs = Need.objects.filter(event=event).all()
-    comments = Comment.objects.filter(event=event).all()
+    needs = Need.objects.filter(event=event)
+    comments = Comment.objects.filter(event=event)
     return render_to_response('openvolunteer/event_details.html',
                               {'event': event,
                                'needs': needs,
@@ -203,7 +203,7 @@ def event_add_or_edit(request, form, event):
 def event_csv(request, event_id):
     """Export volunteers for an event into CSV file"""
     event = get_object_or_404(Event, id=event_id)
-    answers = Answer.objects.filter(event=event,presence="yes").all().order_by('job')
+    answers = Answer.objects.filter(event=event,presence="yes").order_by('job')
 
     response = HttpResponse(mimetype='text/csv')
     response['Content-Disposition'] = 'attachment; filename=%s.csv' % event.stripped_title

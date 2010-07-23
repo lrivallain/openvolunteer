@@ -55,7 +55,7 @@ def volunteer_index(request):
         else:
             search_terms = query.split(' ')
             # get all volunteers
-            volunteers = Volunteer.objects.all().order_by('name')
+            volunteers = Volunteer.objects.order_by('name')
             for term in search_terms:
                 # search volunteers corresponding to search term
                 volunteers = volunteers.filter(Q(name__icontains = term)|
@@ -89,7 +89,7 @@ def volunteer_details(request, volunteer_id):
     limit = datetime.date.today()
     limit = limit.replace(limit.year - OPENVOLUNTEER_JOB_DELAY)
 
-    answers = Answer.objects.filter(volunteer=volunteer, presence="yes").all()
+    answers = Answer.objects.filter(volunteer=volunteer, presence="yes")
     for answer in answers:
         if answer.event.date > limit:
             if answer not in jobs:
@@ -302,7 +302,7 @@ def list_volunteer_index(request):
                 print term
                 # search volunteers corresponding to search term
                 volunteers = volunteers.filter(Q(name__icontains = term)|
-                                               Q(firstname__icontains = term)).all()
+                                               Q(firstname__icontains = term))
         except: pass
         if volunteers:
             list_volunteer_csv(volunteers)
@@ -385,7 +385,7 @@ def volunteer_byjob(request, job_id):
     limit = datetime.date.today()
     limit = limit.replace(limit.year - OPENVOLUNTEER_JOB_DELAY)
 
-    answers = Answer.objects.filter(job=job, presence="yes").all()
+    answers = Answer.objects.filter(job=job, presence="yes")
     for answer in answers:
         if answer.event.date > limit:
             if answer.volunteer not in volunteers:

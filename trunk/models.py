@@ -292,7 +292,7 @@ class Need(models.Model):
         return (OPENVOLUNTEER_APP_PREFIX + 'views.event_need_delete', (), {'need_id': str(self.id)})
 
     def get_completed_nb(self):
-        return len(Answer.objects.filter(event=self.event,job=self.job,presence="yes").all())
+        return len(Answer.objects.filter(event=self.event,job=self.job,presence="yes"))
 
     def get_completed_status(self):
         if (self.get_completed_nb() >= int(self.number)):
@@ -300,7 +300,7 @@ class Need(models.Model):
         else:
             return False
     def get_positives_answers(self):
-        answers = Answer.objects.filter(event=self.event,presence="yes", job=self.job).all()
+        answers = Answer.objects.filter(event=self.event,presence="yes", job=self.job)
         return answers
 
 
