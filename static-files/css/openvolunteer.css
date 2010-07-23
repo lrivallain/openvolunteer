@@ -240,3 +240,43 @@
     background-position:0px 2px;
 }
 
+/*
+ * SORTING ICONS
+ */
+
+.openvolunteer .sort {
+    background-image:url('/openvolunteer/files/icons/sort.png');
+    background-repeat:no-repeat;
+    padding-left:15px;
+}
+
+.openvolunteer .sort:hover {
+    background-image:url('/openvolunteer/files/icons/sort.png');
+}
+
+.openvolunteer .asc {
+    background-image:url('/openvolunteer/files/icons/asc.png');
+    background-repeat:no-repeat;
+    padding-left:15px;
+}
+
+.openvolunteer .asc:hover {
+    background-image:url('/openvolunteer/files/icons/asc.png');
+}
+
+.openvolunteer .desc {
+    background-image:url('/openvolunteer/files/icons/desc.png');
+    background-repeat:no-repeat;
+    padding-left:15px;
+}
+
+.openvolunteer .desc:hover {
+    background-image:url('/openvolunteer/files/icons/desc.png');
+}
+
+.openvolunteer .sort:hover, .openvolunteer .asc:hover, .openvolunteer .desc:hover {
+    background-repeat:no-repeat;
+    padding-left:15px;
+    background-color:#DDDDDD;
+    text-decoration:none;
+}
