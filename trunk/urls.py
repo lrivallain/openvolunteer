@@ -103,7 +103,7 @@ urlpatterns = patterns(OPENVOLUNTEER_APP_PREFIX + 'views',
     # API
     (r'^api/volunteer/get/$','api_volunteer_get'),
 #    (r'^api/event/get/$','api_event_get'),
-}
+)
 
 urlpatterns += patterns('',
     # Provide access to css files
