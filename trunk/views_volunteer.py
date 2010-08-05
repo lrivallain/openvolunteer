@@ -326,16 +326,9 @@ def list_volunteer_csv(volunteers):
         os.remove(filename)
 
     writer = csv.writer(open(filename, 'w'))
-    writer.writerow([unicode(s).encode('utf-8') for s in (
-                        u'Nom',
-                        u'Prénom',
-                        u'Email',
-                        u'Numéro de téléphone',
-                        u'Numéro de mobile',
-                        u'Date de Naissance',
-                        u'Inscription',
-                        u'Membre du CA')
-                    ])
+    writer.writerow(['Nom', 'Prénom', 'Email', 'Numéro de téléphone',
+                     'Numéro de mobile', 'Date de Naissance', 'Inscription',
+                     'Membre du CA'])
 
     for volunteer in volunteers:
         if volunteer.birthday:
