@@ -258,6 +258,9 @@ class Answer(models.Model):
     class Meta:
         ordering = ('event','volunteer')
 
+    def get_all_schedules(self):
+        return Schedule.objects.filter(answer=self)
+
     @models.permalink
     def get_edit_url(self):
         return (OPENVOLUNTEER_APP_PREFIX + 'views.event_answer_edit', (), {'answer_id': str(self.id)})
@@ -328,3 +331,19 @@ class Comment(models.Model):
     @models.permalink
     def get_delete_url(self):
         return (OPENVOLUNTEER_APP_PREFIX + 'views.event_comment_delete', (), {'comment_id': str(self.id)})
+
+class Schedule(models.Model):
+    """
+    Save schedule info for answers
+    """
+    id = models.AutoField(primary_key=True)
+    answer = models.ForeignKey(Answer,help_text='Réponse')
+    start = models.DateTimeField()
+    end = models.DateTimeField()
+
+    class Meta:
+        ordering = ('start','end')
+
+    @models.permalink
+    def get_delete_url(self):
+         return (OPENVOLUNTEER_APP_PREFIX + 'views.schedule_delete', (), {'schedule_id': str(self.id)})

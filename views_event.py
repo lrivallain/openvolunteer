@@ -209,8 +209,9 @@ def event_csv(request, event_id):
     response['Content-Disposition'] = 'attachment; filename=%s.csv' % event.stripped_title
 
     writer = csv.writer(response)
-    writer.writerow(['Nom', 'Prenom', 'Email', 'Numero de telephone',
-                     'Numero de mobile', 'Adresse', 'Date de Naissance', 'Securite Sociale', 'Poste'])
+    writer.writerow(['Nom', 'Prénom', 'Email', 'Numéro de téléphone',
+                     'Numéro de mobile', 'Adresse', 'Date de Naissance',
+                     'Sécurite Sociale', 'Poste'])
 
     for answer in answers :
         if answer.volunteer.birthday :
@@ -219,18 +220,22 @@ def event_csv(request, event_id):
                                     answer.volunteer.birthday.year)
         else:
            birthday = ""
-        writer.writerow([unicode(s).encode("cp1252") for s in (
-                             answer.volunteer.name,
-                             answer.volunteer.firstname,
-                             answer.volunteer.email,
-                             answer.volunteer.phone_home,
-                             answer.volunteer.phone_mobile,
-                             answer.volunteer.address,
-                             birthday,
-                             answer.volunteer.social_security_number,
-                             answer.job,
-                             answer.comments)
-                        ])
+        schedules = ''
+        for schedule in answer.get_all_schedules():
+            start = schedule.start.strftime("%H:%M")
+            end = schedule.end.strftime("%H:%M")
+            schedules += "de %s a %s, " % (start, end)
+        writer.writerow([answer.volunteer.name,
+                         answer.volunteer.firstname,
+                         answer.volunteer.email,
+                         answer.volunteer.phone_home,
+                         answer.volunteer.phone_mobile,
+                         answer.volunteer.address,
+                         birthday,
+                         answer.volunteer.social_security_number,
+                         answer.job,
+                         answer.comments,
+                         schedules])
     return response
 
 

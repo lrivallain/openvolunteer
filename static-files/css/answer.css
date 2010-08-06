@@ -34,3 +34,25 @@
 .answser-event h2 {
     margin-bottom:5px;
 }
+
+.schedules {
+    text-align:right;
+}
+
+.schedules ul {
+    list-style-type: none;
+    padding:0px;
+}
+
+.schedules li {
+    margin-bottom:5px;
+}
+
+.openvolunteer .edit-form .schedules input[type="text"] {
+    padding-right:0px;
+}
+
+.openvolunteer .edit-form .schedules .bad {
+    background-color:#CC0000;
+    color:#FFFFFF;
+}

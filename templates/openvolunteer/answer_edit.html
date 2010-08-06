@@ -64,7 +64,7 @@
                     <input type="checkbox" id="id_updating_vol_info" name="updating_vol_info"
                            {% if answer.updating_vol_info %}checked{% endif %}
                            onclick="uncheck(this);">
-                <td>
+                </td>
             </tr>
             <tr>
                 <th>Fiche bénévole retournée?</th>
@@ -94,12 +94,89 @@
                     <input type="checkbox" id="id_updated_vol_info" name="updated_vol_info"
                            {% if answer.updated_vol_info %}checked{% endif %}
                            onclick="autoCheck(this);">
-                <td>
+                </td>
             </tr>
             <tr>
                 <th>Commentaires</th>
-                <td colspan="3">
+                <td>
                     <textarea id="id_comments" name="comments">{{ answer.comments }}</textarea>
+                </td>
+            </tr>
+            <script type="text/javascript">
+                function next(elt, type, nextElt) {
+                    var testval = check(elt, type);
+                    if (elt.textLength >= elt.maxLength) {
+                        if (nextElt && testval == 'good') {
+                            document.getElementsByName(nextElt)[0].focus();
+                        }
+                    }
+                }
+
+                var me = '';
+
+                function check(elt, type) {
+                    var val = parseInt(elt.value);
+                    var min = 0;
+                    if (type == 'hour') {
+                        var max = 24;
+                    } if (type == 'min') {
+                        var max = 60;
+                    } if (val < 0 || val > max || (isNaN(val) && elt.value != '')) {
+                        elt.className = 'bad';
+                        return 'bad';
+                    } else {
+                        elt.className = '';
+                        return 'good';
+                    }
+                }
+
+                function deleteSchedule(elt) {
+                    elt.parentNode.style.display = 'none';
+                    var i = 0;
+                    while (i < (elt.parentNode.getElementsByTagName('input').length - 1)) {
+                        elt.parentNode.getElementsByTagName('input')[i].value = '';
+                        i++;
+                    }
+                }
+
+                function add_schedule_inputs() {
+                    var ul = document.getElementById('schedules').getElementsByTagName('ul')[0];
+                    var i = ul.children.length + 1;
+
+                    var li = document.createElement('li');
+                    li.innerHTML =  "(<a href=\"javascript:;\" onclick=\"deleteSchedule(this);\">x</a>) "
+                    li.innerHTML += "Horaire n°<span class=\"schedule\">" + i + "</span>: de";
+                    li.innerHTML += "<input type=\"text\" name=\"schedule_" + i + "_start_hour\" maxlength=\"2\" size=\"2\" onkeyup=\"next(this, 'hour', 'schedule_" + i + "_start_min');\">H";
+                    li.innerHTML += "<input type=\"text\" name=\"schedule_" + i + "_start_min\" maxlength=\"2\" size=\"2\" onkeyup=\"next(this, 'min', 'schedule_" + i + "_end_hour');\"> <br>à ";
+                    li.innerHTML += "<input type=\"text\" name=\"schedule_" + i + "_end_hour\" maxlength=\"2\" size=\"2\" onkeyup=\"next(this, 'hour', 'schedule_" + i + "_end_min');\">H";
+                    li.innerHTML += "<input type=\"text\" name=\"schedule_" + i + "_end_min\" maxlength=\"2\" size=\"2\" onkeyup=\"next(this, 'min');\">"
+                    li.innerHTML += "<input type=\"hidden\" name=\"schedule_" + i + "_id\" hidden=\"hidden\">";
+
+                    ul.appendChild(li);
+                    document.getElementsByName('schedulesLength')[0].value = ul.children.length;
+                    li.getElementsByTagName('input')[0].focus();
+                    return li
+                }
+            </script>
+            <tr>
+                <th>
+                    <a href="javascript:;" onclick="add_schedule_inputs();" title="Ajouter un horaire de disponibilité">+ horaire</a>
+                </th>
+                <td>
+                    <div class="schedules" id="schedules">
+                        <ul class="hidden"></ul>
+                        <input type="hidden" name="schedulesLength" hidden="hidden">
+                    </div>
+                    <script type="text/javascript">
+                        {% for schedule in answer.get_all_schedules %}
+                            li = add_schedule_inputs();
+                            li.getElementsByTagName('input')[0].value = '{{ schedule.start|time:"H" }}';
+                            li.getElementsByTagName('input')[1].value = '{{ schedule.start|time:"i" }}';
+                            li.getElementsByTagName('input')[2].value = '{{ schedule.end|time:"H" }}';
+                            li.getElementsByTagName('input')[3].value = '{{ schedule.end|time:"i" }}';
+                            li.getElementsByTagName('input')[4].value = '{{ schedule.id }}';
+                        {% endfor %}
+                    </script>
                 </td>
             </tr>
         </table>

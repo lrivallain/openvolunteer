@@ -255,6 +255,7 @@ def answer_add_or_edit(request, form, answer):
                                             int(request.REQUEST['lastrequest_month']),
                                             int(request.REQUEST['lastrequest_day']))
     else: answer.last_request = None
+
     try:
         if (request.REQUEST['updating_vol_info']):
             answer.updating_vol_info = True
@@ -269,5 +270,68 @@ def answer_add_or_edit(request, form, answer):
         answer.comments = form.cleaned_data['comments']
     else: answer.comments = ''
     answer.save()
-    return answer
 
+    # Scheduling managment
+    i = 1
+    while ((i <= int(request.REQUEST['schedulesLength'])) and (i != 0)):
+        start_hour_str = 'schedule_%d_start_hour' % i
+        start_min_str  = 'schedule_%d_start_min'  % i
+        end_hour_str   = 'schedule_%d_end_hour'   % i
+        end_min_str    = 'schedule_%d_end_min'    % i
+        schedule_id    = 'schedule_%d_id'         % i
+
+        if ((request.REQUEST[start_hour_str] != '') and
+            (request.REQUEST[end_hour_str] != '')):
+
+            start_hour = int(request.REQUEST[start_hour_str])
+            end_hour = int(request.REQUEST[end_hour_str])
+
+            if (request.REQUEST[start_min_str] == ''):
+                start_min = 0
+            else:
+                start_min = int(request.REQUEST[start_min_str])
+
+            if (request.REQUEST[end_min_str] == ''):
+                end_min = 0
+            else:
+                end_min = int(request.REQUEST[end_min_str])
+
+            if (start_hour > end_hour) or ((start_hour == end_hour) and start_min >= end_min):
+                # invalid range time
+                raise
+
+            if ((start_hour >= 0) and (start_hour < 24) and
+                (start_min >= 0) and (start_min < 60) and
+                (end_hour >= 0) and (end_hour < 24) and
+                (end_min >= 0) and (end_min < 60)):
+
+                if (request.REQUEST[schedule_id] != ''):
+                    # test if schedule object ever exist
+                    schedule =  Schedule(id=request.REQUEST[schedule_id])
+                else:
+                    # create new schedule object
+                    schedule = Schedule()
+
+                schedule.answer = answer
+                schedule.start = datetime.datetime(answer.event.date.year,
+                                                   answer.event.date.month,
+                                                   answer.event.date.day,
+                                                   start_hour,
+                                                   start_min)
+
+                schedule.end = datetime.datetime(answer.event.date.year,
+                                                 answer.event.date.month,
+                                                 answer.event.date.day,
+                                                 end_hour,
+                                                 end_min)
+                schedule.save()
+            else: # invalid time
+                raise
+            i = i+1
+        else:
+            if (request.REQUEST[schedule_id] != ''):
+                schedule =  Schedule(id=request.REQUEST[schedule_id])
+                schedule.delete();
+            i = 0
+    # End of scheduling managment
+    return answer
