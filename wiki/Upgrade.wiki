@@ -1,5 +1,5 @@
+#summary How-to upgrade from previous releases
 #labels Phase-Deploy
-#HowTo upgrade from a previous version of OpenVolunteer to lastest one:
 
 = From stable release (0.2) to trunk =
   # copy for backup needs the folder of openvolunteer previous release
