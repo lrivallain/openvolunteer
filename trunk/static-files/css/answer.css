@@ -3,6 +3,25 @@
     text-align: left;
 }
 
+.openvolunteer .answer .photo {
+    float:left;
+}
+
+.openvolunteer .answer .photo img {
+    z-index:9;
+    width:150px;
+    padding:7px;
+    background:#F3F3F3;
+    border:1px solid #DDDDDD;
+    -moz-border-radius:3px;
+}
+
+.openvolunteer .answer .photo img:hover {
+    border:1px solid #234F32;
+    opacity:0.8;
+}
+
+
 .legend_positive, .legend-negative, .legend-maybe {
     clear:both;
 }
