@@ -3,7 +3,20 @@
 {% block title %}OpenVolunteer | Édition d'une fiche{% endblock %}
 
 {% block content %}
-    <form method="post" action="." class="edit-form center">{% csrf_token %}
+    <div class="answer">
+        <div class="photo">
+            {% if answer.volunteer.avatar %}
+                <div><img src="{{ answer.volunteer.get_photo_url }}" alt="Photo de {{ answer.volunteer }}"></div>
+            {% endif %}
+            {% if answer.event.affiche %}
+                <div><img src="{{ answer.event.get_affiche_url }}" alt="Affiche de {{ answer.event }}"></div>
+            {% endif %}
+        </div>
+    </div>
+    <form method="post" action="." class="edit-form center" 
+        {% if answer.volunteer.avatar or answer.event.affiche %} 
+            style="left:-83px;"
+        {% endif %}>{% csrf_token %}
         <table class="centered">
             <tr>
                 <th>Événement</th>
