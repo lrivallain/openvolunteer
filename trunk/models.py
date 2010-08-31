@@ -39,6 +39,25 @@ def avatar_upload(instance, filename):
 
     instance : (object) - current volunteer
     filename : (string) - the title of uploaded file to get extension
+
+    # Create a test volunteer
+    >>> i = Volunteer.objects.create(name='Smith',firstname='David')
+
+    # get complete filename
+    >>> cfn = avatar_upload(i, 'toto.jpg')
+    >>> print cfn.split('/')[len(cfn.split('/'))-1]
+    davidsmith.jpg
+
+    # get complete filename
+    >>> cfn = avatar_upload(i, 'toto.png')
+    >>> print cfn.split('/')[len(cfn.split('/'))-1]
+    davidsmith.png
+
+    >>> i.firstname = 'David Dude'
+    >>> cfn = avatar_upload(i, 'toto.png')
+    >>> print cfn.split('/')[len(cfn.split('/'))-1]
+    david-dudesmith.png
+
     """
     # slugify name and firstname to avoid unicode problem
     slug_firstname = defaultfilters.slugify(instance.firstname)
@@ -108,8 +127,8 @@ class Volunteer(models.Model):
         filename = self.avatar.path.split('/')[len(self.avatar.path.split('/'))-1]
         return "/media%s/avatars/%s" % (OPENVOLUNTEER_WEB_ROOT, filename)
 
-    def save(self):
-        super(Volunteer, self).save()
+    def save(self, *args, **kwargs):
+        super(Volunteer, self).save(*args, **kwargs)
         if self.avatar:
             im = Image.open(self.avatar.name)
             size = 300, 300
@@ -124,6 +143,21 @@ def affiche_upload(instance, filename):
 
     instance : (object) - current volunteer
     filename : (string) - the title of uploaded file to get extension
+
+    # Create a test volunteer
+    >>> from datetime import datetime
+    >>> i = Event.objects.create(title='My super Event', date=datetime.now())
+    >>> i.stripped_title = 'my-super-event'
+
+    # get complete filename
+    >>> cfn = affiche_upload(i, 'toto.jpg')
+    >>> print cfn.split('/')[len(cfn.split('/'))-1]
+    my-super-event.jpg
+
+    # get complete filename
+    >>> cfn = affiche_upload(i, 'toto.png')
+    >>> print cfn.split('/')[len(cfn.split('/'))-1]
+    my-super-event.png
     """
     # test if folder is available
     path  = settings.MEDIA_ROOT + OPENVOLUNTEER_APP_NAME + '/affiches/'
@@ -195,6 +229,14 @@ class Event(models.Model):
     def get_affiche_url(self):
         filename = self.affiche.path.split('/')[len(self.affiche.path.split('/'))-1]
         return "/media%s/affiches/%s" % (OPENVOLUNTEER_WEB_ROOT, filename)
+
+    def save(self, *args, **kwargs):
+        super(Event, self).save(*args, **kwargs)
+        if self.affiche:
+            im = Image.open(self.affiche.name)
+            size = 300, 300
+            im.thumbnail(size, Image.ANTIALIAS)
+            im.save(self.affiche.name)
 
 
 class Job(models.Model):
