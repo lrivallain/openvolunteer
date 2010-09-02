@@ -146,13 +146,13 @@
                 function deleteSchedule(elt) {
                     elt.parentNode.style.display = 'none';
                     var i = 0;
-                    while (i < (elt.parentNode.getElementsByTagName('input').length - 1)) {
+                    while (i < (elt.parentNode.getElementsByTagName('input').length - 2)) {
                         elt.parentNode.getElementsByTagName('input')[i].value = '';
                         i++;
                     }
                 }
 
-                function add_schedule_inputs() {
+                function add_schedule_inputs(action) {
                     var ul = document.getElementById('schedules').getElementsByTagName('ul')[0];
                     var i = ul.children.length + 1;
 
@@ -164,31 +164,39 @@
                     li.innerHTML += "<input type=\"text\" name=\"schedule_" + i + "_end_hour\" maxlength=\"2\" size=\"2\" onkeyup=\"next(this, 'hour', 'schedule_" + i + "_end_min');\">H";
                     li.innerHTML += "<input type=\"text\" name=\"schedule_" + i + "_end_min\" maxlength=\"2\" size=\"2\" onkeyup=\"next(this, 'min');\">"
                     li.innerHTML += "<input type=\"hidden\" name=\"schedule_" + i + "_id\" hidden=\"hidden\">";
+                    li.innerHTML += "<br><input type=\"checkbox\" name=\"schedule_" + i + "_next_day\">Jour suivant?";
 
                     ul.appendChild(li);
                     document.getElementsByName('schedulesLength')[0].value = ul.children.length;
-                    li.getElementsByTagName('input')[0].focus();
+                    if (action == 'new') {
+                        li.getElementsByTagName('input')[0].focus();
+                    }
                     return li
                 }
             </script>
             <tr>
                 <th>
-                    <a href="javascript:;" onclick="add_schedule_inputs();" title="Ajouter un horaire de disponibilité">+ horaire</a>
+                    <a href="javascript:;" onclick="add_schedule_inputs('new');" title="Ajouter un horaire de disponibilité">+ horaire</a>
                 </th>
                 <td>
                     <div class="schedules" id="schedules">
                         <ul class="hidden"></ul>
-                        <input type="hidden" name="schedulesLength" hidden="hidden">
+                        <input type="hidden" name="schedulesLength" hidden="hidden" value="0">
                     </div>
                     <script type="text/javascript">
                         {% for schedule in answer.get_all_schedules %}
-                            li = add_schedule_inputs();
+                            li = add_schedule_inputs('load');
                             li.getElementsByTagName('input')[0].value = '{{ schedule.start|time:"H" }}';
                             li.getElementsByTagName('input')[1].value = '{{ schedule.start|time:"i" }}';
                             li.getElementsByTagName('input')[2].value = '{{ schedule.end|time:"H" }}';
                             li.getElementsByTagName('input')[3].value = '{{ schedule.end|time:"i" }}';
                             li.getElementsByTagName('input')[4].value = '{{ schedule.id }}';
+                            {% if schedule.next_day %}
+                                li.getElementsByTagName('input')[5].checked = 'checked';
+                            {% endif %}
                         {% endfor %}
+                        var ul = document.getElementById('schedules').getElementsByTagName('ul')[0];
+                        document.getElementsByName('schedulesLength')[0].value = ul.children.length;
                     </script>
                 </td>
             </tr>

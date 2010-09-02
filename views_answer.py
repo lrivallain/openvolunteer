@@ -255,7 +255,6 @@ def answer_add_or_edit(request, form, answer):
                                             int(request.REQUEST['lastrequest_month']),
                                             int(request.REQUEST['lastrequest_day']))
     else: answer.last_request = None
-
     try:
         if (request.REQUEST['updating_vol_info']):
             answer.updating_vol_info = True
@@ -274,11 +273,12 @@ def answer_add_or_edit(request, form, answer):
     # Scheduling managment
     i = 1
     while ((i <= int(request.REQUEST['schedulesLength'])) and (i != 0)):
-        start_hour_str = 'schedule_%d_start_hour' % i
-        start_min_str  = 'schedule_%d_start_min'  % i
-        end_hour_str   = 'schedule_%d_end_hour'   % i
-        end_min_str    = 'schedule_%d_end_min'    % i
-        schedule_id    = 'schedule_%d_id'         % i
+        start_hour_str   = 'schedule_%d_start_hour' % i
+        start_min_str    = 'schedule_%d_start_min'  % i
+        end_hour_str     = 'schedule_%d_end_hour'   % i
+        end_min_str      = 'schedule_%d_end_min'    % i
+        schedule_nextday = 'schedule_%d_next_day'   % i
+        schedule_id      = 'schedule_%d_id'         % i
 
         if ((request.REQUEST[start_hour_str] != '') and
             (request.REQUEST[end_hour_str] != '')):
@@ -296,7 +296,7 @@ def answer_add_or_edit(request, form, answer):
             else:
                 end_min = int(request.REQUEST[end_min_str])
 
-            if (start_hour > end_hour) or ((start_hour == end_hour) and start_min >= end_min):
+            if ((start_hour == end_hour) and (start_min >= end_min)):
                 # invalid range time
                 raise
 
@@ -324,6 +324,13 @@ def answer_add_or_edit(request, form, answer):
                                                  answer.event.date.day,
                                                  end_hour,
                                                  end_min)
+                # next day scheduling ?
+                try:
+                    if (request.REQUEST[schedule_nextday]):
+                        schedule.next_day = True
+                    else: schedule.next_day = False
+                except: schedule.next_day = False
+
                 schedule.save()
             else: # invalid time
                 raise
