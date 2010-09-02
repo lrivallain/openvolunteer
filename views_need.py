@@ -181,8 +181,8 @@ def need_planning(request, need_id):
         schedules = answer.get_all_schedules()
         # if no schedules, draw a line with != color on 100%
         if not schedules:
-            start_hour = schedule.start.hour + start_minutes
-            end_hour = schedule.end.hour + end_minutes
+            start_hour = schedule.start.hour
+            end_hour = schedule.end.hour
             schedules_.append({
                 'x1': offset_x,
                 'x2': offset_x+((nb_hours-1)*100),
