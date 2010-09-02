@@ -64,11 +64,13 @@ urlpatterns = patterns(OPENVOLUNTEER_APP_PREFIX + 'views',
 
     # NEEDS
     # add
-    (r'^event/need/add/(?P<event_id>\d+)/$', 'event_need_add'),
+    (r'^need/add/(?P<event_id>\d+)/$', 'need_add'),
     # delete
-    (r'^event/need/delete/(?P<need_id>\d+)/$', 'event_need_delete'),
-    #edit
-    (r'^event/need/edit/(?P<need_id>\d+)/$', 'event_need_edit'),
+    (r'^need/delete/(?P<need_id>\d+)/$', 'need_delete'),
+    # edit
+    (r'^need/edit/(?P<need_id>\d+)/$', 'need_edit'),
+    # planning
+    (r'^need/planning/(?P<need_id>\d+)/$', 'need_planning'),
 
     # ANSWERS
     # search and view (all answer for an event)

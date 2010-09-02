@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    version="1.1"
+    width="{{ svg.width }}"
+    height="{{ svg.height }}">
+    <title>Planning pour le poste '{{ need.job }}' de '{{ need.event }}'</title>
+    <desc>This timeline is a representation of planning for '{{ need.job }}' during '{{ need.event }}'</desc>
+    <!-- title -->
+    <text x="{{ svg.offset_x }}" y="20" font-size="20">{{ need.job }} / {{ need.event }}</text>
+
+    <!-- timeline -->
+    <line
+        x1="{{ svg.offset_x }}" y1="{{ svg.offset_y }}"
+        x2="{{ timeline.x2 }}" y2="{{ svg.offset_y }}"
+        stroke="black"
+        stroke-width="4"
+        stroke-linecap="round" />
+
+    <path d="{{ timeline.d }}"
+        stroke="black"
+        stroke-width="4"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+
+    <!-- time labels -->
+    {% for i in legend %}
+        <text x="{{ i.x }}" y="{{ i.y }}">{{ i.text }}</text>
+        <line x1="{{ i.x }}" y1="60" 
+              x2="{{ i.x }}" y2="{{ svg.height }}" 
+              stroke="black" stroke-width="1" stroke-dasharray="10,5,3" />
+    {% endfor %}
+
+    <!-- positives answers -->
+    {% for answer in answers %}
+        <a xlink:href="{{ answer.answer.get_edit_url }}"
+           xlink:title="View or edit answer and scheduling of {{ answer.volunteer.firstname }} {{ answer.volunteer.name }}">
+            {% for schedule in answer.schedules %}
+                <line x1="{{ schedule.x1 }}" y1="{{ answer.y }}" 
+                      x2="{{ schedule.x2 }}" y2="{{ answer.y }}"
+                      stroke="{{ schedule.color}}" stroke-width="6" stroke-linecap="round" />
+            {% endfor %}
+            <text x="{{ answer.x }}" y="{{ answer.y }}">{{ answer.volunteer.firstname }} {{ answer.volunteer.name }}</text>
+        </a>
+    {% endfor %}
+</svg>
+

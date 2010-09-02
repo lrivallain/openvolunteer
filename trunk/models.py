@@ -329,12 +329,16 @@ class Need(models.Model):
         return u"%s %s" % (self.event, self.job)
 
     @models.permalink
+    def get_planning_url(self):
+        return (OPENVOLUNTEER_APP_PREFIX + 'views.need_planning', (), {'need_id': str(self.id)})
+
+    @models.permalink
     def get_edit_url(self):
-        return (OPENVOLUNTEER_APP_PREFIX + 'views.event_need_edit', (), {'need_id': str(self.id)})
+        return (OPENVOLUNTEER_APP_PREFIX + 'views.need_edit', (), {'need_id': str(self.id)})
 
     @models.permalink
     def get_delete_url(self):
-        return (OPENVOLUNTEER_APP_PREFIX + 'views.event_need_delete', (), {'need_id': str(self.id)})
+        return (OPENVOLUNTEER_APP_PREFIX + 'views.need_delete', (), {'need_id': str(self.id)})
 
     def get_completed_nb(self):
         return len(Answer.objects.filter(event=self.event,job=self.job,presence="yes"))
@@ -344,6 +348,7 @@ class Need(models.Model):
             return True
         else:
             return False
+
     def get_positives_answers(self):
         answers = Answer.objects.filter(event=self.event,presence="yes", job=self.job)
         return answers
@@ -382,9 +387,10 @@ class Schedule(models.Model):
     answer = models.ForeignKey(Answer,help_text='Réponse')
     start = models.DateTimeField()
     end = models.DateTimeField()
+    next_day = models.BooleanField(help_text='Jour suivant?',blank=True)
 
     class Meta:
-        ordering = ('start','end')
+        ordering = ('next_day', 'start','end')
 
     @models.permalink
     def get_delete_url(self):
