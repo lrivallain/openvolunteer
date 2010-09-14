@@ -369,8 +369,8 @@ class Comment(models.Model):
         ordering = ('pub_date',)
 
     def __unicode__(self):
-        return "%s on %s - %d/%d%d" % (self.name, self.event, self.pub_date.day,
-                                       self.pub_date.month, self.pub_date.year)
+        return "%s on %s - %0*d/%0*d%d" % (self.name, self.event, 2, self.pub_date.day,
+                                           2, self.pub_date.month, self.pub_date.year)
 
     def get_absolute_url(self):
         return "%s#c%d" % (self.event.get_absolute_url(), self.id)
