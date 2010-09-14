@@ -215,9 +215,9 @@ def event_csv(request, event_id):
 
     for answer in answers :
         if answer.volunteer.birthday :
-           birthday = "%d/%d/%d" % (answer.volunteer.birthday.day,
-                                    answer.volunteer.birthday.month,
-                                    answer.volunteer.birthday.year)
+           birthday = "%0*d/%0*d/%d" % (2, answer.volunteer.birthday.day,
+                                        2, answer.volunteer.birthday.month,
+                                        answer.volunteer.birthday.year)
         else:
            birthday = ""
         schedules = ''
@@ -225,7 +225,8 @@ def event_csv(request, event_id):
             start = schedule.start.strftime("%H:%M")
             end = schedule.end.strftime("%H:%M")
             schedules += "de %s a %s, " % (start, end)
-        writer.writerow([answer.volunteer.name,
+        writer.writerow([unicode(s).encode('utf-8') for s in (
+                         answer.volunteer.name,
                          answer.volunteer.firstname,
                          answer.volunteer.email,
                          answer.volunteer.phone_home,
@@ -235,7 +236,7 @@ def event_csv(request, event_id):
                          answer.volunteer.social_security_number,
                          answer.job,
                          answer.comments,
-                         schedules])
+                         schedules)])
     return response
 
 

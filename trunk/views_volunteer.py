@@ -332,16 +332,16 @@ def list_volunteer_csv(volunteers):
 
     for volunteer in volunteers:
         if volunteer.birthday:
-           birthday = "%d/%d/%d" % (volunteer.birthday.day,
-                                    volunteer.birthday.month,
-                                    volunteer.birthday.year)
+           birthday = "%0*d/%0*d/%d" % (2, volunteer.birthday.day,
+                                          2, volunteer.birthday.month,
+                                          volunteer.birthday.year)
         else:
            birthday = ""
 
         if volunteer.inscription_date:
-           inscription = "%d/%d/%d" % (volunteer.inscription_date.day,
-                                       volunteer.inscription_date.month,
-                                       volunteer.inscription_date.year)
+           inscription = "%0*d/%0*d/%d" % (2, volunteer.inscription_date.day,
+                                             2, volunteer.inscription_date.month,
+                                             volunteer.inscription_date.year)
         else:
            inscription = ""
 

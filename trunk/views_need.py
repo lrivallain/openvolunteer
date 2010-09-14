@@ -29,6 +29,7 @@ from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
+from django.http import Http404
 
 import datetime
 
@@ -127,18 +128,25 @@ def need_planning(request, need_id):
     ends = []
     for answer in answers:
         for schedule in answer.get_all_schedules():
-            if schedule.next_day:
-                starts.append(schedule.start.hour+24)
-                ends.append(schedule.end.hour+24)
-            elif (schedule.end.hour == 0):
-                starts.append(schedule.start.hour)
-                ends.append(schedule.end.hour+24)
-            else:
-                starts.append(schedule.start.hour)
-                ends.append(schedule.end.hour)
+            if schedule.start and schedule.end:
+                if schedule.next_day:
+                    starts.append(schedule.start.hour+24)
+                    ends.append(schedule.end.hour+24)
+                elif (schedule.end.hour == 0):
+                    starts.append(schedule.start.hour)
+                    ends.append(schedule.end.hour+24)
+                else:
+                    starts.append(schedule.start.hour)
+                    ends.append(schedule.end.hour)
 
-    min_h=min(starts)
-    max_h=max(ends)+1
+    if (len(starts) != 0) and (len(ends) != 0):
+        min_h=min(starts)
+        max_h=max(ends)+1
+        nb_hours=max_h-min_h
+    else:
+        min_h=8
+        max_h=25
+#        raise Http404
     nb_hours=max_h-min_h
 
     # arbitrary settings
@@ -181,8 +189,8 @@ def need_planning(request, need_id):
         schedules = answer.get_all_schedules()
         # if no schedules, draw a line with != color on 100%
         if not schedules:
-            start_hour = schedule.start.hour
-            end_hour = schedule.end.hour
+            start_hour = min_h
+            end_hour = max_h
             schedules_.append({
                 'x1': offset_x,
                 'x2': offset_x+((nb_hours-1)*100),
