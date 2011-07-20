@@ -64,7 +64,7 @@ urlpatterns = patterns(OPENVOLUNTEER_APP_PREFIX + 'views',
 
     # NEEDS
     # add
-    (r'^need/add/(?P<event_id>\d+)/$', 'need_add'),
+    (r'^need/add/(?P<event_id>\d+)/$', 'event_need_add'),
     # delete
     (r'^need/delete/(?P<need_id>\d+)/$', 'need_delete'),
     # edit
