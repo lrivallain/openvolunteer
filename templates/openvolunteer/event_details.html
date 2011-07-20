@@ -10,7 +10,8 @@
 
     <div id="need_dialog_planning" title="Planning" style="text-align:center;display:none;">
         <object type="image/svg+xml" data="" id="svg_planning">
-            Browser does not support SVG files!     3
+            <b>Votre navigateur ne supporte pas le format SVG ou il n'y a aucun moyen de générer<br>
+            un planning à partir des informations disponibles.</b>
         </object>
         <p><a id="svg_fullpage" href="#" title="Voir sur une pleine page" target="_blank">Pleine page</a></p>
     </div>
@@ -66,6 +67,18 @@
                     <td>{{ event.place }}</td>
                 </tr>
             </table>
+        </div>
+        <div class="dlbutton center">
+            <p>
+                <a href="/openvolunteer/event/charters/{{ event.id }}/job/"
+                   title="Télécharger la charte des bénévoles présents à cet événement en .PDF">
+                    Télécharger la charte des bénévoles présents à cet événement en .PDF (ordonnées par commissions)</a>
+            </p>
+            <p>
+                <a href="/openvolunteer/event/charters/{{ event.id }}/name/"
+                   title="Télécharger la charte des bénévoles présents à cet événement en .PDF">
+                    Télécharger la charte des bénévoles présents à cet événement en .PDF (ordonnées par noms)</a>
+            </p>
         </div>
         <div class="dlbutton center">
             <input type="button"

@@ -36,7 +36,7 @@ import datetime
 
 @csrf_protect
 @login_required(redirect_field_name='next')
-def need_add(request, event_id):
+def event_need_add(request, event_id):
     """
     Add a need for current event
     """
