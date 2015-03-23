@@ -1,0 +1,19 @@
+# New functions #
+  * Django v1.1 support
+  * Specific forms for content management
+  * Delete and add content function included in interface
+  * New welcome page (lighter)
+  * Comment thread for event details
+  * New installation tutorials according to the facilitations made in code
+  * Error management improved (404 and error codes)
+  * CSV export for event answers and volunteer lists
+  * Social security number and birth place indications added for volunteer data
+  * Three choices answers (yes/no/maybe)
+  * Mailling links
+  * New logo and icons
+
+# Fixed issues #
+  * Vcard charset issue with outlook
+  * Filtering of event on date
+  * CSS optimizations
+  * ...
